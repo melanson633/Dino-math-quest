@@ -7,51 +7,33 @@ import { BiomeUnlockScreen } from './screens/BiomeUnlockScreen';
 import { SettingsModal } from './components/SettingsModal';
 import { TopBar } from './components/TopBar';
 
-function GameContent() {
-  const { state } = useGame();
-
-  const renderScreen = () => {
-    switch (state.currentScreen) {
-      case 'home':
-        return <HomeScreen />;
-      case 'puzzle':
-        return <PuzzleScreen />;
-      case 'dinoden':
-        return <DinoDenScreen />;
-      case 'biome-unlock':
-        return <BiomeUnlockScreen />;
-      default:
-        return <HomeScreen />;
-    }
-  };
-
-  return (
-    <div className="w-full h-[100dvh] flex flex-col mx-auto max-w-[430px] bg-white relative overflow-hidden font-sans shadow-2xl">
-      {(state.currentScreen === 'home' || state.currentScreen === 'puzzle') && <TopBar />}
-      {renderScreen()}
-      {state.currentScreen === 'settings' && <SettingsModal onClose={() => {}} />} 
-      {/* Settings modal logic needs to be handled via currentScreen or an overlay state. Since the spec says it's an overlay accessible via gear icon, let's fix that. */}
-    </div>
-  );
-}
-
-// Wrapping it with a state to show overlay
 function AppRoot() {
-  const { state, goToScreen } = useGame();
-  
+  const { state, settingsOpen, closeSettings } = useGame();
+
+  const showTopBar = state.currentScreen === 'home' || state.currentScreen === 'puzzle';
+
   return (
-    <div className="bg-gray-100 min-h-[100dvh] w-full flex justify-center">
-      <div className="w-full h-[100dvh] flex flex-col max-w-[430px] bg-white relative overflow-hidden shadow-2xl">
-        {(state.currentScreen === 'home' || state.currentScreen === 'puzzle') && <TopBar />}
-        
+    <div className="bg-gray-800 min-h-[100dvh] w-full flex justify-center items-center">
+      {/* Game frame — no bg color so screens fill it end-to-end */}
+      <div className="w-full h-[100dvh] max-w-[430px] relative overflow-hidden shadow-2xl">
+
+        {/* Screens fill the full frame */}
         {state.currentScreen === 'home' && <HomeScreen />}
         {state.currentScreen === 'puzzle' && <PuzzleScreen />}
         {state.currentScreen === 'dinoden' && <DinoDenScreen />}
         {state.currentScreen === 'biome-unlock' && <BiomeUnlockScreen />}
-        
-        {state.currentScreen === 'settings' && (
-          <SettingsModal onClose={() => goToScreen('home')} />
+
+        {/* TopBar floats above the screen content */}
+        {showTopBar && (
+          <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none">
+            <div className="pointer-events-auto">
+              <TopBar />
+            </div>
+          </div>
         )}
+
+        {/* Settings overlay sits above everything */}
+        {settingsOpen && <SettingsModal onClose={closeSettings} />}
       </div>
     </div>
   );

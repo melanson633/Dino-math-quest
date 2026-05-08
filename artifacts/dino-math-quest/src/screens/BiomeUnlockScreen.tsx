@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { BIOMES } from '../lib/biomes';
@@ -6,63 +6,83 @@ import { DINOS } from '../lib/dinos';
 import { TriDino } from '../components/TriDino';
 
 export function BiomeUnlockScreen() {
-  const { state, goToScreen } = useGame();
+  const { state, goToScreen, newPuzzle } = useGame();
   const biome = BIOMES[state.currentBiome];
   const bossDino = DINOS.find(d => d.id === biome.bossDinoId);
 
+  const handleLetsGo = () => {
+    newPuzzle();
+    goToScreen('puzzle');
+  };
+
   return (
-    <div 
-      className="flex-1 flex flex-col items-center justify-center relative w-full h-full p-6 text-white overflow-hidden"
+    <div
+      className="flex-1 flex flex-col items-center justify-between relative w-full p-6 text-white overflow-hidden"
       style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
     >
-      {/* Confetti / Sparkles background */}
-      <div className="absolute inset-0 pointer-events-none flex flex-wrap gap-4 opacity-50 justify-center items-center">
-        {Array.from({ length: 20 }).map((_, i) => (
+      {/* Falling sparkles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 18 }).map((_, i) => (
           <motion.div
             key={i}
-            initial={{ y: -100, x: (Math.random() - 0.5) * 400, opacity: 0 }}
-            animate={{ y: window.innerHeight, opacity: [0, 1, 1, 0], rotate: Math.random() * 360 }}
-            transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 2 }}
-            className="text-3xl"
+            initial={{ y: -60, x: (i / 18) * 400 - 20, opacity: 0 }}
+            animate={{ y: 900, opacity: [0, 1, 1, 0], rotate: 360 * (i % 3 === 0 ? 1 : -1) }}
+            transition={{
+              duration: 2.5 + (i % 4) * 0.5,
+              repeat: Infinity,
+              delay: (i % 6) * 0.4,
+              ease: 'linear'
+            }}
+            className="absolute text-2xl"
           >
-            ✨
+            {['✨', '⭐', '🌟', '💫'][i % 4]}
           </motion.div>
         ))}
       </div>
 
+      {/* Header */}
       <motion.div
-        initial={{ scale: 0, rotate: -10 }}
+        initial={{ scale: 0, rotate: -8 }}
         animate={{ scale: 1, rotate: 0 }}
-        transition={{ type: 'spring', bounce: 0.5 }}
-        className="text-center z-10"
+        transition={{ type: 'spring', bounce: 0.55, duration: 0.7 }}
+        className="text-center z-10 mt-4"
       >
-        <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">New World Unlocked! 🎉</h1>
-        <h2 className="text-3xl font-bold text-yellow-300 drop-shadow-md mb-8">{biome.name}</h2>
-        
-        <div className="flex items-end justify-center gap-4 mb-12">
-          <TriDino isJumping={true} />
-          {bossDino && (
-            <motion.div
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-[8rem] drop-shadow-2xl"
-            >
-              {bossDino.emoji}
-            </motion.div>
-          )}
-        </div>
+        <h1 className="text-4xl font-bold drop-shadow-lg mb-2">New World Unlocked!</h1>
+        <h2 className="text-5xl font-bold text-yellow-300 drop-shadow-lg">{biome.name}! 🎉</h2>
       </motion.div>
 
-      <motion.button
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => goToScreen('puzzle')}
-        className="w-full max-w-sm h-24 rounded-full bg-white text-green-600 text-3xl font-bold shadow-xl border-4 border-white/50 active:bg-green-50 z-10"
+      {/* Dinos celebrating */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="flex items-end justify-center gap-6 z-10"
       >
-        Let's Go!
+        <TriDino isJumping={true} />
+        {bossDino && (
+          <motion.div
+            initial={{ x: 80, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.6, type: 'spring', bounce: 0.4 }}
+            className="flex flex-col items-center"
+          >
+            <span className="text-[6rem] drop-shadow-2xl">{bossDino.emoji}</span>
+            <span className="text-xl font-bold bg-black/20 px-3 py-1 rounded-full">{bossDino.name}!</span>
+          </motion.div>
+        )}
+      </motion.div>
+
+      {/* Let's Go button */}
+      <motion.button
+        data-testid="button-lets-go"
+        initial={{ y: 60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.9, type: 'spring', bounce: 0.4 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={handleLetsGo}
+        className="w-full max-w-sm h-24 rounded-full bg-white text-green-700 text-3xl font-bold shadow-2xl border-4 border-white/60 active:bg-green-50 z-10 mb-4"
+      >
+        Let's Go! 🚀
       </motion.button>
     </div>
   );

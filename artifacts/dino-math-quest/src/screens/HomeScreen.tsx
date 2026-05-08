@@ -9,30 +9,31 @@ export function HomeScreen() {
   const biome = BIOMES[state.currentBiome];
 
   return (
-    <div 
-      className="flex-1 flex flex-col items-center justify-center relative w-full h-full p-6 text-white"
+    <div
+      className="absolute inset-0 flex flex-col items-center justify-between w-full p-6 pt-24 text-white"
       style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
     >
-      <div className="absolute top-1/4 text-center">
-        {state.totalCorrect > 0 ? (
-          <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
-        ) : (
-          <h2 className="text-3xl font-bold mb-2">Let's Play!</h2>
-        )}
-        <p className="text-xl opacity-90">{biome.name} Biome</p>
+      {/* Biome badge */}
+      <div className="text-center">
+        <span className="bg-black/20 px-4 py-1 rounded-full text-lg font-semibold backdrop-blur">
+          {biome.name} Biome
+        </span>
       </div>
 
-      <div className="mt-8 mb-16">
+      {/* Tri the Triceratops — centered in available space */}
+      <div className="flex-1 flex items-center justify-center">
         <TriDino />
       </div>
 
+      {/* Start button */}
       <motion.button
-        whileHover={{ scale: 1.05 }}
+        data-testid="button-start-adventure"
+        whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.95 }}
         onClick={startGame}
-        className="w-full max-w-sm h-24 rounded-full bg-white text-green-600 text-3xl font-bold shadow-xl border-4 border-white/50 active:bg-green-50"
+        className="w-full max-w-sm h-24 rounded-full bg-white text-green-700 text-3xl font-bold shadow-2xl border-4 border-white/60 active:bg-green-50 mb-4"
       >
-        Start Adventure!
+        {state.totalCorrect > 0 ? 'Keep Playing! 🦕' : 'Start Adventure! 🦕'}
       </motion.button>
     </div>
   );

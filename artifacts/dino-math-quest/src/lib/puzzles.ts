@@ -2,15 +2,16 @@ export type PuzzleType = 'addition' | 'subtraction' | 'shapes';
 
 export interface PuzzleOption {
   id: string;
-  label: string | React.ReactNode;
+  label: string;
   isCorrect: boolean;
 }
 
 export interface Puzzle {
   type: PuzzleType;
   prompt: string;
-  display: React.ReactNode;
+  display: string;
   options: PuzzleOption[];
+  operands?: [number, number];
 }
 
 export function generatePuzzle(): Puzzle {
@@ -20,65 +21,115 @@ export function generatePuzzle(): Puzzle {
   return generateShapes();
 }
 
+function uniqueDistractors(correct: number, count: number): number[] {
+  const used = new Set([correct]);
+  const result: number[] = [];
+  const offsets = [1, 2, -1, -2, 3, -3];
+  for (const off of offsets) {
+    if (result.length >= count) break;
+    const candidate = correct + off;
+    if (candidate >= 0 && candidate <= 18 && !used.has(candidate)) {
+      used.add(candidate);
+      result.push(candidate);
+    }
+  }
+  return result;
+}
+
 function generateAddition(): Puzzle {
   const a = Math.floor(Math.random() * 10);
-  const b = Math.floor(Math.random() * 9); // sum max 18
+  const b = Math.floor(Math.random() * Math.min(10, 19 - a));
   const sum = a + b;
-  
-  const wrong1 = Math.max(0, sum + (Math.random() > 0.5 ? 1 : 2));
-  const wrong2 = Math.max(0, sum - (Math.random() > 0.5 ? 1 : 2));
-  
+  const distractors = uniqueDistractors(sum, 2);
   const options = shuffle([
-    { id: '1', label: sum.toString(), isCorrect: true },
-    { id: '2', label: wrong1 === sum ? (sum + 1).toString() : wrong1.toString(), isCorrect: false },
-    { id: '3', label: wrong2 === sum || wrong2 === wrong1 ? Math.max(0, sum - 1).toString() : wrong2.toString(), isCorrect: false }
+    { id: 'c', label: sum.toString(), isCorrect: true },
+    { id: 'w1', label: distractors[0].toString(), isCorrect: false },
+    { id: 'w2', label: distractors[1].toString(), isCorrect: false }
   ]);
-
   return {
     type: 'addition',
-    prompt: `Help Tri count!`,
+    prompt: 'Help Tri count!',
     display: `${a} + ${b} = ?`,
-    options
+    options,
+    operands: [a, b]
   };
 }
 
 function generateSubtraction(): Puzzle {
-  const a = Math.floor(Math.random() * 10) + 1; // 1 to 10
-  const b = Math.floor(Math.random() * (a + 1)); // 0 to a
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * (a + 1));
   const diff = a - b;
-
-  const wrong1 = diff + (Math.random() > 0.5 ? 1 : 2);
-  const wrong2 = Math.max(0, diff - (Math.random() > 0.5 ? 1 : 2));
-
+  const distractors = uniqueDistractors(diff, 2);
   const options = shuffle([
-    { id: '1', label: diff.toString(), isCorrect: true },
-    { id: '2', label: wrong1 === diff ? (diff + 1).toString() : wrong1.toString(), isCorrect: false },
-    { id: '3', label: wrong2 === diff || wrong2 === wrong1 ? Math.max(0, diff - 1).toString() : wrong2.toString(), isCorrect: false }
+    { id: 'c', label: diff.toString(), isCorrect: true },
+    { id: 'w1', label: distractors[0].toString(), isCorrect: false },
+    { id: 'w2', label: distractors[1].toString(), isCorrect: false }
   ]);
-
   return {
     type: 'subtraction',
-    prompt: `How many are left?`,
-    display: `${a} - ${b} = ?`,
+    prompt: 'How many are left?',
+    display: `${a} \u2212 ${b} = ?`,
+    options,
+    operands: [a, b]
+  };
+}
+
+const SHAPE_DEFS: { name: string; emoji: string }[] = [
+  { name: 'Circle',   emoji: '🔴' },
+  { name: 'Square',   emoji: '🟩' },
+  { name: 'Triangle', emoji: '🔺' },
+  { name: 'Star',     emoji: '⭐' },
+  { name: 'Heart',    emoji: '❤️' },
+  { name: 'Diamond',  emoji: '🔷' }
+];
+
+const PATTERN_PAIRS: [string, string][] = [
+  ['🦕', '🥚'],
+  ['🌿', '🌸'],
+  ['⭐', '🌙'],
+  ['🔵', '🔴'],
+  ['🐢', '🦋'],
+  ['🍎', '🍊']
+];
+
+function generateShapes(): Puzzle {
+  return Math.random() < 0.5 ? generateShapeRecognition() : generatePatternCompletion();
+}
+
+function generateShapeRecognition(): Puzzle {
+  const targetIdx = Math.floor(Math.random() * SHAPE_DEFS.length);
+  const target = SHAPE_DEFS[targetIdx];
+  const wrongIndices = shuffle(
+    SHAPE_DEFS.map((_, i) => i).filter(i => i !== targetIdx)
+  ).slice(0, 2);
+  const options = shuffle([
+    { id: 'c',  label: target.emoji, isCorrect: true },
+    { id: 'w1', label: SHAPE_DEFS[wrongIndices[0]].emoji, isCorrect: false },
+    { id: 'w2', label: SHAPE_DEFS[wrongIndices[1]].emoji, isCorrect: false }
+  ]);
+  return {
+    type: 'shapes',
+    prompt: `Tap the ${target.name}!`,
+    display: `Find it! 👀`,
     options
   };
 }
 
-function generateShapes(): Puzzle {
-  const shapes = ['🔴', '🟩', '🔺', '⭐', '❤️', '🔷'];
-  const shapeNames = ['Circle', 'Square', 'Triangle', 'Star', 'Heart', 'Diamond'];
-  const targetIndex = Math.floor(Math.random() * shapes.length);
-  
+function generatePatternCompletion(): Puzzle {
+  const pairIdx = Math.floor(Math.random() * PATTERN_PAIRS.length);
+  const [a, b] = PATTERN_PAIRS[pairIdx];
+  const wrongOptions = shuffle(
+    PATTERN_PAIRS.filter((_, i) => i !== pairIdx).map(p => p[Math.floor(Math.random() * 2)])
+  );
   const options = shuffle([
-    { id: '1', label: shapes[targetIndex], isCorrect: true },
-    { id: '2', label: shapes[(targetIndex + 1) % shapes.length], isCorrect: false },
-    { id: '3', label: shapes[(targetIndex + 2) % shapes.length], isCorrect: false }
+    { id: 'c',  label: b, isCorrect: true },
+    { id: 'w1', label: wrongOptions[0], isCorrect: false },
+    { id: 'w2', label: wrongOptions[1], isCorrect: false }
   ]);
-
   return {
     type: 'shapes',
-    prompt: `Tap the ${shapeNames[targetIndex]}!`,
-    display: `Find the shape!`,
+    prompt: 'What comes next?',
+    display: `${a}${b}${a}${b}${a}${b}${a}❓`,
     options
   };
 }

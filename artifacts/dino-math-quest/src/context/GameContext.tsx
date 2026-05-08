@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { playCorrect, playWrong, playUnlockBiome, playUnlockDino, setMuted, startBgMusic } from '../lib/audio';
 import { BIOMES } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
 import { generatePuzzle, Puzzle } from '../lib/puzzles';
 
-type ScreenType = 'home' | 'puzzle' | 'dinoden' | 'biome-unlock' | 'settings';
+export type ScreenType = 'home' | 'puzzle' | 'dinoden' | 'biome-unlock';
 
 interface GameState {
   currentBiome: 0 | 1 | 2 | 3;
@@ -25,6 +25,9 @@ const defaultState: GameState = {
 interface GameContextType {
   state: GameState;
   puzzle: Puzzle | null;
+  settingsOpen: boolean;
+  openSettings: () => void;
+  closeSettings: () => void;
   startGame: () => void;
   goToScreen: (screen: ScreenType) => void;
   answerPuzzle: (isCorrect: boolean) => void;
@@ -39,20 +42,47 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<GameState>(() => {
     const saved = localStorage.getItem('dino-math-quest-state');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        // Always land on home or puzzle when reopening — never on a transition screen
+        if (parsed.currentScreen === 'biome-unlock') {
+          parsed.currentScreen = 'puzzle';
+        }
+        return parsed;
+      } catch (e) {}
     }
     return defaultState;
   });
 
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
+  // Track previous biome/screen to avoid restarting music on every state change
+  const prevBiomeRef = useRef<number>(-1);
+  const prevScreenRef = useRef<string>('');
+
+  // Persist state
   useEffect(() => {
     localStorage.setItem('dino-math-quest-state', JSON.stringify(state));
+  }, [state]);
+
+  // Sync mute
+  useEffect(() => {
     setMuted(state.muteAudio);
-    if (state.currentScreen === 'puzzle' || state.currentScreen === 'home') {
+  }, [state.muteAudio]);
+
+  // Only restart background music when biome or relevant screen changes
+  useEffect(() => {
+    const isGameScreen = state.currentScreen === 'home' || state.currentScreen === 'puzzle' || state.currentScreen === 'biome-unlock';
+    const biomeChanged = prevBiomeRef.current !== state.currentBiome;
+    const screenChangedToGame = isGameScreen && prevScreenRef.current !== state.currentScreen;
+
+    if (isGameScreen && (biomeChanged || screenChangedToGame || prevBiomeRef.current === -1)) {
       startBgMusic(state.currentBiome);
     }
-  }, [state]);
+    prevBiomeRef.current = state.currentBiome;
+    prevScreenRef.current = state.currentScreen;
+  }, [state.currentBiome, state.currentScreen]);
 
   const newPuzzle = () => {
     setPuzzle(generatePuzzle());
@@ -67,12 +97,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setState(s => ({ ...s, currentScreen: screen }));
   };
 
+  const openSettings = () => setSettingsOpen(true);
+  const closeSettings = () => setSettingsOpen(false);
+
   const toggleMute = () => {
     setState(s => ({ ...s, muteAudio: !s.muteAudio }));
   };
 
   const resetGame = () => {
     setState(defaultState);
+    setPuzzle(null);
   };
 
   const answerPuzzle = (isCorrect: boolean) => {
@@ -81,43 +115,50 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     playCorrect();
-    
+
     setTimeout(() => {
-      const newTotal = state.totalCorrect + 1;
-      let newBiome = state.currentBiome;
-      let newScreen = 'puzzle' as ScreenType;
-      const newUnlocked = [...state.unlockedDinos];
+      setState(s => {
+        const newTotal = s.totalCorrect + 1;
+        let newBiome = s.currentBiome;
+        let newScreen: ScreenType = 'puzzle';
+        const newUnlocked = [...s.unlockedDinos];
 
-      // Check unlocks
-      const nextBiomeIndex = state.currentBiome + 1;
-      if (nextBiomeIndex < BIOMES.length && newTotal >= BIOMES[nextBiomeIndex].threshold) {
-        newBiome = nextBiomeIndex as any;
-        newScreen = 'biome-unlock';
-        playUnlockBiome();
-      }
+        // Check biome unlock
+        const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
+        if (nextBiomeIndex < BIOMES.length && newTotal >= BIOMES[nextBiomeIndex].threshold) {
+          newBiome = nextBiomeIndex;
+          newScreen = 'biome-unlock';
+          playUnlockBiome();
+        }
 
-      const newDino = DINOS.find(d => d.unlockAt === newTotal);
-      if (newDino && !newUnlocked.includes(newDino.id)) {
-        newUnlocked.push(newDino.id);
-        if (newScreen !== 'biome-unlock') playUnlockDino();
-      }
+        // Check dino unlock
+        const newDino = DINOS.find(d => d.unlockAt === newTotal);
+        if (newDino && !newUnlocked.includes(newDino.id)) {
+          newUnlocked.push(newDino.id);
+          if (newScreen !== 'biome-unlock') playUnlockDino();
+        }
 
-      setState(s => ({
-        ...s,
-        totalCorrect: newTotal,
-        currentBiome: newBiome,
-        unlockedDinos: newUnlocked,
-        currentScreen: newScreen
-      }));
+        return {
+          ...s,
+          totalCorrect: newTotal,
+          currentBiome: newBiome,
+          unlockedDinos: newUnlocked,
+          currentScreen: newScreen
+        };
+      });
 
-      if (newScreen === 'puzzle') {
-        newPuzzle();
-      }
-    }, 1000);
+      // Always queue a fresh puzzle — it will show when they reach the puzzle screen
+      newPuzzle();
+    }, 900);
   };
 
   return (
-    <GameContext.Provider value={{ state, puzzle, startGame, goToScreen, answerPuzzle, toggleMute, resetGame, newPuzzle }}>
+    <GameContext.Provider value={{
+      state, puzzle, settingsOpen,
+      openSettings, closeSettings,
+      startGame, goToScreen, answerPuzzle,
+      toggleMute, resetGame, newPuzzle
+    }}>
       {children}
     </GameContext.Provider>
   );
