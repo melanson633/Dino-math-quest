@@ -1,0 +1,174 @@
+# Dino Math Quest — Build Spec
+
+**Handoff target:** Replit Agent
+**Build in one shot.** Make sensible choices for anything not specified; do not ask follow-up questions.
+
+-----
+
+## 1. One-liner
+
+A mobile-first web app where a 6-year-old guides a friendly dinosaur companion through a prehistoric world, solving single-digit addition, subtraction, and shape/pattern puzzles to advance the quest, collect dino friends, and unlock new biomes.
+
+## 2. Primary user
+
+- **Age:** 6 years old
+- **Reading level:** Early — assume she can recognize numbers and short common words (“yes”, “go”, “next”), but cannot reliably read sentences. **Use icons + numbers + voice/sound cues over text wherever possible.**
+- **Device:** Adult’s phone, played handed-over while parent is distracted (kid’s cousin’s baseball game)
+- **Session shape:** Highly interruptible. May play 2 minutes, then 20. Must resume cleanly.
+
+## 3. Hard constraints (non-negotiable)
+
+1. **Mobile-first, portrait orientation.** Designed for phones. Desktop is a nice-to-have, not required.
+1. **No login, no signup, no email.** Tap and play. First screen is “Start Adventure.”
+1. **Touch targets ≥ 64px.** Six-year-old fingers, parent’s phone.
+1. **Offline-capable after first load.** Ballparks have terrible Wi-Fi. Use a service worker / PWA shell so once loaded, gameplay works without network.
+1. **Progress persists locally** (localStorage). If the phone locks or the tab closes mid-quest, she resumes exactly where she left off when reopened.
+1. **No failure states.** Wrong answers are encouraging (“Try again, you got this!” + gentle sound), never punitive. No “Game Over” screen, no losing collected items, no timers that end runs.
+1. **No external accounts, ads, in-app purchases, links out, or social features.** Self-contained.
+1. **Audio:** Sound effects and background music ON by default, with a clearly visible **mute toggle** (speaker icon, top-right corner) that persists across sessions.
+
+## 4. Core game loop
+
+### Story frame
+
+A friendly **Triceratops named “Tri”** is the player’s guide. Together they’re exploring a prehistoric world to find and befriend other lost dinosaurs. Each math puzzle is framed in-world as a way to help a dino, cross terrain, or unlock a path.
+
+### Loop (per puzzle)
+
+1. **Story moment** (1 illustrated screen, ≤ 1 sentence of text + voice narration): “Help Tri count the eggs in the nest!”
+1. **Puzzle screen:** the math problem, presented visually (see §5)
+1. **Answer:** tap one of 3 large answer buttons
+1. **Feedback:**
+- Correct → celebration animation (Tri jumps, sparkle SFX, ~1 sec) → next puzzle or story beat
+- Wrong → gentle “boop” SFX, the wrong answer dims, encouragement shows, kid tries again. **No penalty, no count of wrongs shown.**
+1. Every **5 correct answers** → unlock a new dino friend (collected in a “Dino Den” gallery she can browse from the home screen)
+1. Every **15 correct answers** → unlock a new biome
+
+### Biomes (4 total, unlocked sequentially)
+
+1. **Jungle** (start) — green, friendly, leafy
+1. **Beach / Shoreline** — sand, waves, sea creatures
+1. **Volcano** — orange/red, glowing, dramatic
+1. **Ice Cave** — blue/white, sparkly, cool palette
+
+Each biome has its own background art, ambient music variation, and a unique “boss dino” friend you befriend at the end (a T-Rex in the volcano, a Plesiosaurus on the beach, a Woolly Mammoth-style ice dino in the cave, etc.).
+
+## 5. Math content modules
+
+All problems use single-digit operands (0–9). Mix all three modules randomly within a biome, weighted ~40% addition, ~40% subtraction, ~20% shapes/patterns.
+
+### 5a. Addition (single digit)
+
+- Format: `3 + 4 = ?`
+- Render with **visual tokens** alongside the numerals: e.g., 3 dino eggs + 4 dino eggs, kid sees both the equation and the eggs.
+- 3 multiple-choice answers. Correct answer + 2 distractors within ±2 of correct. Never negative, never above 18.
+
+### 5b. Subtraction (single digit)
+
+- Format: `7 − 2 = ?`
+- Same visual-token treatment (e.g., “7 leaves on the tree, 2 fall off — how many left?”)
+- Result always ≥ 0. 3 multiple-choice answers, distractors within ±2.
+
+### 5c. Shapes & patterns
+
+Two sub-types, alternated:
+
+- **Shape recognition:** “Tap the triangle” / “Tap the circle” — show 3–4 shapes, she taps the named one. Shapes: circle, square, triangle, star, heart, diamond, oval, rectangle.
+- **Pattern completion:** show a 4-item visual pattern (e.g., 🦕🥚🦕🥚🦕🥚🦕❓), she picks what comes next from 3 choices.
+
+### Difficulty
+
+Static difficulty is fine — do **not** build adaptive difficulty. Six-year-olds want consistency and the joy of getting things right.
+
+## 6. Visual / UX
+
+- **Art style:** bright, friendly, cartoon — think Sago Mini or Khan Academy Kids. Rounded shapes, saturated colors, expressive dino faces. **No realistic / scary dinosaurs.**
+- **Palette:** warm, high-contrast, kid-friendly. Each biome shifts the palette.
+- **Typography:** large, rounded sans-serif (e.g., Fredoka, Baloo 2, or Quicksand from Google Fonts). Numbers should be huge — at least 48pt on the puzzle screen.
+- **Animations:** plenty of micro-animations on Tri (idle blink, tail wag, jump on correct answer). Use CSS animations or Framer Motion. Keep them snappy (≤ 1 sec).
+- **Layout:**
+  - Top bar: mute toggle (right), “Dino Den” gallery icon (left), tiny progress dots in center showing position in current biome
+  - Main area: puzzle / story illustration
+  - Bottom: 3 answer buttons (or shape choices), full width, generously spaced
+
+## 7. Audio
+
+Use **Howler.js** or the Web Audio API. Bundle audio assets locally (do not stream).
+
+- **Background music:** soft, looping, biome-specific instrumental track (one per biome). Royalty-free is fine — Pixabay Music or Incompetech. Keep volume moderate.
+- **SFX:**
+  - Correct answer: cheerful sparkle / chime
+  - Wrong answer: gentle low “boop” — sympathetic, not buzzer-like
+  - Dino friend unlocked: triumphant fanfare (~1.5 sec)
+  - Biome unlocked: bigger fanfare + dino roar (friendly, not scary)
+  - Tap feedback: light pop on every button tap
+- **Voice narration:** if feasible, narrate each story moment and puzzle prompt with TTS-generated audio (kid-friendly voice). If not feasible in initial build, skip — text + visuals carry it.
+- **Mute toggle:** mutes everything (music + SFX). State persists in localStorage.
+
+## 8. Tech stack (recommended)
+
+- **Framework:** React (Vite) — single-page app
+- **Styling:** Tailwind CSS
+- **Animation:** Framer Motion or CSS keyframes
+- **Audio:** Howler.js
+- **State:** React state + localStorage for persistence (no backend)
+- **PWA:** add a service worker + manifest so it installs to home screen and works offline
+- **Hosting:** whatever Replit serves by default is fine
+
+No backend. No database. No analytics. No auth.
+
+## 9. State & persistence
+
+Persist to localStorage on every state change:
+
+- Current biome
+- Total correct answers (drives unlock progress)
+- Set of unlocked dinos (for the Dino Den gallery)
+- Mute preference
+
+On app load, hydrate from localStorage. If no saved state, start fresh in the Jungle.
+
+Add a small **“Reset Adventure”** button buried in a settings modal (gear icon) so the parent can wipe progress if needed. Confirm with a modal before wiping.
+
+## 10. Screens (minimal set)
+
+1. **Home / Start screen** — Big “Start Adventure” button, Tri waving, current biome shown if returning, Dino Den icon, settings gear
+1. **Puzzle screen** — story prompt → puzzle → feedback (all in one flow)
+1. **Dino Den gallery** — grid of unlocked dinos, locked ones shown as silhouettes with “?”. Tap an unlocked dino to hear its name and a fun fact (1 sentence).
+1. **Biome unlock celebration** — full-screen animation when a new biome is unlocked, with the new boss dino revealed.
+1. **Settings modal** — mute toggle, reset button.
+
+## 11. Out of scope (do NOT build)
+
+- Multiple user profiles
+- Difficulty selector / settings
+- Time-based challenges or scoring
+- Leaderboards
+- Sharing / social
+- Multiplayer
+- Any text-input fields
+- Login of any kind
+- Tutorials / onboarding screens (the game is self-evident)
+- Multi-digit math, multiplication, division, fractions
+- Backend / database / API
+
+## 12. Acceptance criteria (“done” looks like)
+
+- [ ] Loads on a phone in portrait, fills the screen, no zooming required
+- [ ] First-time user can tap “Start” and immediately solve a puzzle
+- [ ] Correct/wrong feedback works as specified, with audio
+- [ ] After 5 correct answers, a new dino unlocks with celebration
+- [ ] After 15 correct answers, the second biome (Beach) unlocks
+- [ ] All 4 biomes are reachable through normal play
+- [ ] Mute toggle silences all audio and persists across reloads
+- [ ] Closing the browser mid-puzzle and reopening resumes at the same place
+- [ ] Works offline after first load (test: load, turn on airplane mode, reload — still plays)
+- [ ] No console errors
+- [ ] No external network calls during gameplay
+
+## 13. Stretch goals (only if everything above is done)
+
+- Voice narration via TTS for prompts
+- A “drawing mode” mini-game between biomes (trace the dino)
+- Haptic feedback on correct answers (navigator.vibrate)
+- Add-to-home-screen prompt on iOS/Android

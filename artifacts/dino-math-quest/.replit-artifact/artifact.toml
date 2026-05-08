@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Dino Math Quest"
+version = "1.0.0"
+id = "artifacts/dino-math-quest"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25918
+
+[services.development]
+run = "pnpm --filter @workspace/dino-math-quest run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dino-math-quest", "run", "build" ]
+publicDir = "artifacts/dino-math-quest/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25918"
+BASE_PATH = "/"
