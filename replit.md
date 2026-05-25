@@ -1,45 +1,29 @@
-# [Project name]
+# Dino Quest Replit Import Notes
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+This project was imported from Replit/GitHub, but local development should follow the repo-owned guidance in `AGENTS.md`.
 
-## Run & Operate
+## Current Local App
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Charlotte-facing app: `artifacts/dino-math-quest`
+- Package: `@workspace/dino-math-quest`
+- Package manager: `pnpm`
+- Local dev command, from the repo root in PowerShell:
+  - `$env:PORT='25918'; $env:BASE_PATH='/'; pnpm --filter @workspace/dino-math-quest run dev`
+- Portable dev command for Replit or local shells:
+  - `pnpm run dev:dino`
+- Replit deployment commands:
+  - Build: `pnpm run build:replit`
+  - Run/preview: `pnpm run preview:dino`
 
-## Stack
+## Validation
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Full typecheck: `pnpm run typecheck`
+- Full build: `pnpm run build`
+- Replit-compatible build: `pnpm run build:replit`
+- Primary browser target: tablet/iPad portrait, with mobile portrait as a quick secondary check.
 
-## Where things live
+## Notes For Future Agents
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
-
-## Architecture decisions
-
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
-
-## Product
-
-_Describe the high-level user-facing capabilities of this app once they exist._
-
-## User preferences
-
-_Populate as you build — explicit user instructions worth remembering across sessions._
-
-## Gotchas
-
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Do not treat the API server as the primary product surface unless the task explicitly asks for API, DB, or generated-client work.
+- Use `docs/product-blueprint.md` for product direction, `docs/team-roster.md` for role coordination, and `tasks/dino-island-build-task-list.md` for approved build order.
+- Keep Replit-era comments in generated or imported UI files unless they create real confusion; this file is only the local orientation layer.

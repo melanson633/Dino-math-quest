@@ -5,10 +5,20 @@
   "type": "module",
   "scripts": {
     "hello": "tsx ./src/hello.ts",
+    "dino:child-playtest": "tsx ./src/qa/dinoChildPlaytest.ts",
+    "dino:ipad-server": "tsx ./src/qa/ipadPlaytestServer.ts",
+    "elevenlabs:audio": "tsx ./src/audio/elevenlabsGenerator.ts",
+    "elevenlabs:review": "tsx ./src/audio/elevenlabsGenerator.ts --dry-run --review-report",
+    "symphony": "tsx ./src/symphony/cli.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "playwright-core": "^1.60.0",
     "tsx": "catalog:"
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.49.1",
+    "yaml": "2.8.2"
   }
 }

@@ -1,8 +1,11 @@
 modules = ["nodejs-24"]
+run = "pnpm run dev:dino"
 
 [deployment]
 router = "application"
 deploymentTarget = "autoscale"
+build = "pnpm run build:replit"
+run = "pnpm run preview:dino"
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
