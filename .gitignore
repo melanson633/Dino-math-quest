@@ -28,6 +28,9 @@ node_modules
 !.vscode/extensions.json
 
 # misc
+/.env
+/.env.*
+!/.env.example
 /.sass-cache
 /connect.lock
 /coverage
@@ -47,3 +50,17 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+.dino-dev.pid
+/dino-dev.*.log
+
+# Symphony local orchestration workspaces
+.symphony/
+/.symphony-*.log
+
+# Family likeness source/staging files stay local unless explicitly approved
+private-family-source/
+
+# Local-only dev artifacts
+/*.png
+/tmp/
+artifacts/**/test-results/
