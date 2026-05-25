@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export function TriDino({ isJumping = false }: { isJumping?: boolean }) {
+export function TriDino({ isJumping = false, className = 'h-48 w-48' }: { isJumping?: boolean; className?: string }) {
   return (
     <motion.div
       animate={isJumping ? { y: [-20, -60, 0], rotate: [0, -10, 10, 0] } : { y: [0, -10, 0] }}
       transition={isJumping ? { duration: 0.5 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
-      className="relative w-48 h-48 mx-auto"
+      className={`relative mx-auto ${className}`}
     >
       <div className="absolute inset-0 bg-green-500 rounded-3xl rounded-tl-[64px] rounded-br-[64px] shadow-lg border-4 border-green-700">
         {/* Face */}
