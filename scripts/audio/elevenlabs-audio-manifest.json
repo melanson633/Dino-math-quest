@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Parent-reviewed source manifest for static Dino Island audio assets.",
+    "Set approved_for_generation true only after the text/prompt and voice choice are approved.",
+    "Set approved_for_gameplay true only after listening to the generated file."
+  ],
+  "defaults": {
+    "tts_model_id": "eleven_multilingual_v2",
+    "sound_model_id": "eleven_text_to_sound_v2",
+    "music_model_id": "music_v1",
+    "output_format": "mp3_44100_128",
+    "voice_id_env": "ELEVENLABS_DINO_VOICE_ID"
+  },
+  "items": [
+    {
+      "id": "tri-great-counting",
+      "kind": "tts",
+      "text": "Great counting, Charlotte.",
+      "output_file": "tri-great-counting.mp3",
+      "use": "Correct Math Quest answer",
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "tri-one-more-try",
+      "kind": "tts",
+      "text": "Good try. One more dino try.",
+      "output_file": "tri-one-more-try.mp3",
+      "use": "Gentle retry",
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "tri-new-friend",
+      "kind": "tts",
+      "text": "A new dino friend is here.",
+      "output_file": "tri-new-friend.mp3",
+      "use": "Dino reward screen",
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "tri-say-it-with-me",
+      "kind": "tts",
+      "text": "Say it with me. La, la, lion.",
+      "output_file": "tri-say-it-with-me.mp3",
+      "use": "Speech prompt",
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "dino-soft-stomp",
+      "kind": "sound_effect",
+      "text": "Soft playful baby dinosaur stomp, warm and gentle, not scary.",
+      "output_file": "dino-soft-stomp.mp3",
+      "use": "Music or speech beat cue",
+      "duration_seconds": 1,
+      "prompt_influence": 0.35,
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "sparkle-short",
+      "kind": "sound_effect",
+      "text": "Short warm sparkle chime for a preschool learning game.",
+      "output_file": "sparkle-short.mp3",
+      "use": "Reward cue",
+      "duration_seconds": 1,
+      "prompt_influence": 0.4,
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "count-with-tri-song",
+      "kind": "music",
+      "prompt": "A calm, cheerful preschool counting song for a dinosaur island game. Gentle hand-clap rhythm, warm marimba and ukulele, simple call-and-response energy, no vocals, no busy drums, Montessori calm with a little Sesame Street fun.",
+      "output_file": "count-with-tri-song.mp3",
+      "use": "Short Math Quest counting celebration music bed",
+      "duration_seconds": 8,
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "wow-word-song",
+      "kind": "music",
+      "prompt": "A gentle preschool word-practice music cue for W sounds. Warm xylophone, soft claps, simple two-beat pauses for repeat-after-me moments, encouraging and playful, no vocals, not overstimulating.",
+      "output_file": "wow-word-song.mp3",
+      "use": "Optional Say It rhythm support for W focus moments",
+      "duration_seconds": 7,
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    },
+    {
+      "id": "lion-light-song",
+      "kind": "music",
+      "prompt": "A soft preschool word-practice music cue for L sounds. Light bells, gentle clap breaks, clear rhythmic space for la-la-lion repetition, positive and calm, no vocals, no startling sounds.",
+      "output_file": "lion-light-song.mp3",
+      "use": "Optional Say It rhythm support for L focus moments",
+      "duration_seconds": 7,
+      "approved_for_generation": false,
+      "approved_for_gameplay": false
+    }
+  ]
+}

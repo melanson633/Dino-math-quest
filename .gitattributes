@@ -1,0 +1,16 @@
+# Normalize line endings on commit; check out matching the host's convention.
+* text=auto eol=lf
+
+# Treat known binaries as binary so diffs don't get noisy.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.m4a binary
+*.pdf binary
+*.zip binary
