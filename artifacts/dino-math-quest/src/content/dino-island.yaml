@@ -1,0 +1,460 @@
+version: 1
+theme:
+  name: Dino Island
+  styleMix:
+    montessoriCalm: 65
+    sesameStreetFun: 35
+  primarySurface: tabletPortrait
+companions:
+  - id: none
+    name: Just Charlotte
+    shortLabel: Solo
+    role: Charlotte explores by herself.
+    color: "#fef3c7"
+    homeVariants:
+      - id: solo-ready
+        label: Ready to explore
+        asset: null
+        weight: 100
+    actionVariants:
+      math:
+        - id: solo-math
+          label: Charlotte counts with Tri.
+          asset: null
+          weight: 100
+      spelling:
+        - id: solo-spelling
+          label: Charlotte builds words with Dino.
+          asset: null
+          weight: 100
+      speech:
+        - id: solo-speech
+          label: Dino listens for Charlotte's brave try.
+          asset: null
+          weight: 100
+      music:
+        - id: solo-music
+          label: Charlotte makes the beat.
+          asset: null
+          weight: 100
+  - id: mama
+    name: Mama
+    shortLabel: Mama
+    role: Warm, capable helper.
+    color: "#fbcfe8"
+    homeVariants:
+      - id: mama-home
+        label: Mama is ready at home base.
+        asset: /characters/mama-baseline.png
+        weight: 80
+      - id: mama-carrying-river
+        label: Mama is carrying River.
+        asset: /characters/mama-river-carrier.png
+        weight: 20
+    actionVariants:
+      math:
+        - id: mama-counts
+          label: Mama helps count dino eggs.
+          asset: /characters/mama-baseline.png
+          weight: 100
+      spelling:
+        - id: mama-words
+          label: Mama helps find the next letter.
+          asset: /characters/mama-baseline.png
+          weight: 100
+      speech:
+        - id: mama-say-it
+          label: Mama says it slowly with you.
+          asset: /characters/mama-baseline.png
+          weight: 80
+        - id: mama-river-rhythm
+          label: Mama and River clap the little beats.
+          asset: /characters/mama-river-carrier.png
+          weight: 20
+      music:
+        - id: mama-song
+          label: Mama keeps the song soft and steady.
+          asset: /characters/mama-baseline.png
+          weight: 100
+  - id: dada
+    name: Dada
+    shortLabel: Dada
+    role: Playful, steady sidekick.
+    color: "#bfdbfe"
+    homeVariants:
+      - id: dada-home
+        label: Dada is smiling at home base.
+        asset: /characters/dada-baseline.png
+        weight: 75
+      - id: dada-helper
+        label: Dada is crouched to help.
+        asset: /characters/dada-helping.png
+        weight: 25
+    actionVariants:
+      math:
+        - id: dada-counts
+          label: Dada points to the next number.
+          asset: /characters/dada-helping.png
+          weight: 100
+      spelling:
+        - id: dada-words
+          label: Dada points to the next letter.
+          asset: /characters/dada-helping.png
+          weight: 100
+      speech:
+        - id: dada-say-it
+          label: Dada makes the rhythm playful.
+          asset: /characters/dada-helping.png
+          weight: 100
+      music:
+        - id: dada-beat
+          label: Dada taps a steady dino beat.
+          asset: /characters/dada-baseline.png
+          weight: 65
+        - id: dada-helper-beat
+          label: Dada crouches down for the next beat.
+          asset: /characters/dada-helping.png
+          weight: 35
+  - id: river
+    name: River
+    shortLabel: River
+    role: Curious baby brother.
+    color: "#e0f2fe"
+    homeVariants:
+      - id: river-home
+        label: River is watching from home base.
+        asset: /characters/river-baseline.png
+        weight: 70
+      - id: river-bouncer
+        label: River is bouncing gently.
+        asset: /characters/river-bouncer.png
+        weight: 30
+    actionVariants:
+      math:
+        - id: river-watches
+          label: River watches the dino numbers.
+          asset: /characters/river-baseline.png
+          weight: 100
+      spelling:
+        - id: river-words
+          label: River watches the big letters.
+          asset: /characters/river-baseline.png
+          weight: 100
+      speech:
+        - id: river-say-it
+          label: River listens to the little sounds.
+          asset: /characters/river-baseline.png
+          weight: 70
+        - id: river-bounce-beats
+          label: River bounces with the syllables.
+          asset: /characters/river-bouncer.png
+          weight: 30
+      music:
+        - id: river-bounce-song
+          label: River bounces with the song.
+          asset: /characters/river-bouncer.png
+          weight: 100
+  - id: gracie
+    name: Gracie
+    shortLabel: Gracie
+    role: Calm, loyal helper.
+    color: "#ddd6fe"
+    homeVariants:
+      - id: gracie-home
+        label: Gracie is resting nearby.
+        asset: /characters/gracie-baseline.png
+        weight: 100
+    actionVariants:
+      math:
+        - id: gracie-counts
+          label: Gracie finds quiet counting clues.
+          asset: /characters/gracie-baseline.png
+          weight: 100
+      spelling:
+        - id: gracie-letters
+          label: Gracie sniffs out letter clues.
+          asset: /characters/gracie-baseline.png
+          weight: 100
+      speech:
+        - id: gracie-listens
+          label: Gracie listens calmly while you try.
+          asset: /characters/gracie-baseline.png
+          weight: 100
+      music:
+        - id: gracie-beat
+          label: Gracie keeps the beat gentle.
+          asset: /characters/gracie-baseline.png
+          weight: 100
+  - id: max
+    name: Max
+    shortLabel: Max
+    role: Gentle, silly helper.
+    color: "#fef9c3"
+    homeVariants:
+      - id: max-home
+        label: Max is ready to trot along.
+        asset: /characters/max-baseline.png
+        weight: 100
+    actionVariants:
+      math:
+        - id: max-counts
+          label: Max sniffs out number clues.
+          asset: /characters/max-baseline.png
+          weight: 100
+      spelling:
+        - id: max-letters
+          label: Max finds the next letter.
+          asset: /characters/max-baseline.png
+          weight: 100
+      speech:
+        - id: max-say-it
+          label: Max waits for your happy voice.
+          asset: /characters/max-baseline.png
+          weight: 100
+      music:
+        - id: max-stomp
+          label: Max trots with the dino beat.
+          asset: /characters/max-baseline.png
+          weight: 100
+learningAreas:
+  - id: math
+    name: Math Quest
+    shortLabel: Math
+    icon: "🔢"
+    status: playable
+    description: Count, add, subtract, shapes, and patterns with Tri.
+    difficultyPace: quicker
+    accent: "#22c55e"
+  - id: spelling
+    name: Spelling Adventure
+    shortLabel: Words
+    icon: "🔤"
+    status: playable
+    description: Simple words, family names, letter sounds, and phonics.
+    difficultyPace: quicker
+    accent: "#38bdf8"
+  - id: speech
+    name: Speech Songs
+    shortLabel: Say It
+    icon: "🎵"
+    status: playable
+    description: Gentle rhythm, syllable breaks, and help-the-dino phrases.
+    difficultyPace: gentle
+    accent: "#f472b6"
+  - id: music
+    name: Music Den
+    shortLabel: Music
+    icon: "🥁"
+    status: playable
+    description: Short songs, beat games, and confidence-building sounds.
+    difficultyPace: gentle
+    accent: "#f59e0b"
+speechMoments:
+  retryLimit: 1
+  positiveOnly: true
+  starterPrompts:
+    - id: l-lion
+      focusSound: L
+      text: La-la-lion
+      rhythm: ["la", "la", "lion"]
+    - id: w-wow
+      focusSound: W
+      text: Wow, we won
+      rhythm: ["wow", "we", "won"]
+    - id: w-love
+      focusSound: W + L
+      text: We love Dino
+      rhythm: ["we", "love", "di-no"]
+    - id: l-little
+      focusSound: L
+      text: Little lion
+      rhythm: ["lit-tle", "li-on"]
+    - id: w-walk
+      focusSound: W
+      text: Max walks with me
+      rhythm: ["max", "walks", "with me"]
+    - id: max-name
+      focusSound: M
+      text: Max says mama
+      rhythm: ["max", "says", "ma-ma"]
+musicMoments:
+  - id: count-with-tri
+    learningArea: math
+    style: call-and-response
+    title: Count with Tri
+spellingWords:
+  - id: dino
+    word: DINO
+    icon: "🦕"
+    clue: A friendly helper on the island
+    sound: D says /d/
+    sayPrompt: Say Di-no
+    rhythm: ["di", "no"]
+    contextHints: ["🦕 dino friend", "starts D", "di-no"]
+    group: dino
+    difficulty: support
+  - id: mama
+    word: MAMA
+    icon: "💕"
+    clue: A family helper at home base
+    sound: M says /mmm/
+    sayPrompt: Say Ma-ma
+    rhythm: ["ma", "ma"]
+    contextHints: ["💕 family", "starts M", "ma-ma"]
+    group: family
+    difficulty: support
+  - id: dada
+    word: DADA
+    icon: "👋"
+    clue: A family helper at home base
+    sound: D says /d/
+    sayPrompt: Say Da-da
+    rhythm: ["da", "da"]
+    contextHints: ["👋 family", "starts D", "da-da"]
+    group: family
+    difficulty: support
+  - id: max
+    word: MAX
+    icon: "🐾"
+    clue: A gentle dog friend
+    sound: M says /mmm/
+    sayPrompt: Say Max
+    rhythm: ["max"]
+    contextHints: ["🐾 dog friend", "starts M", "Max"]
+    group: family
+    difficulty: support
+  - id: dog
+    word: DOG
+    icon: "🐶"
+    clue: A furry family friend
+    sound: D says /d/
+    sayPrompt: Say Dog
+    rhythm: ["dog"]
+    contextHints: ["🐶 pet", "starts D", "dog"]
+    group: family
+    difficulty: support
+  - id: we
+    word: WE
+    icon: "👋"
+    clue: A little word for us together
+    sound: W starts with round lips
+    sayPrompt: Say We
+    rhythm: ["we"]
+    contextHints: ["👋 us", "round lips W", "we"]
+    group: speech
+    difficulty: support
+  - id: wow
+    word: WOW
+    icon: "⭐"
+    clue: A happy word to say after a win
+    sound: W starts with round lips
+    sayPrompt: Say Wow
+    rhythm: ["wow"]
+    contextHints: ["⭐ happy win", "round lips W", "wow"]
+    group: speech
+    difficulty: steady
+  - id: home
+    word: HOME
+    icon: "🏠"
+    clue: Where the adventure starts
+    sound: H starts home
+    sayPrompt: Say Home
+    rhythm: ["home"]
+    contextHints: ["🏠 home base", "starts H", "home"]
+    group: family
+    difficulty: steady
+  - id: love
+    word: LOVE
+    icon: "💛"
+    clue: A warm family word
+    sound: L starts with tongue up
+    sayPrompt: Say Love
+    rhythm: ["love"]
+    contextHints: ["💛 family word", "tongue-up L", "love"]
+    group: speech
+    difficulty: steady
+  - id: lion
+    word: LION
+    icon: "🦁"
+    clue: A strong L practice word
+    sound: L starts with tongue up
+    sayPrompt: Say Li-on
+    rhythm: ["li", "on"]
+    contextHints: ["🦁 lion", "tongue-up L", "li-on"]
+    group: speech
+    difficulty: steady
+  - id: walk
+    word: WALK
+    icon: "👣"
+    clue: What helpers do on an adventure
+    sound: W starts with round lips
+    sayPrompt: Say Walk
+    rhythm: ["walk"]
+    contextHints: ["👣 feet go", "round lips W", "tongue-up L", "walk"]
+    group: speech
+    difficulty: steady
+  - id: river
+    word: RIVER
+    icon: "👶"
+    clue: Charlotte's little brother
+    sound: R starts River
+    sayPrompt: Say Ri-ver
+    rhythm: ["ri", "ver"]
+    contextHints: ["👶 brother", "starts R", "ri-ver"]
+    group: family
+    difficulty: stretch
+  - id: charlotte
+    word: CHARLOTTE
+    icon: "🌸"
+    clue: Charlotte's name
+    sound: Ch starts Charlotte
+    sayPrompt: Say Char-lotte
+    rhythm: ["char", "lotte"]
+    contextHints: ["🌸 your name", "starts Ch", "tongue-up L", "char-lotte"]
+    group: family
+    difficulty: stretch
+  - id: gracie
+    word: GRACIE
+    icon: "🐶"
+    clue: A calm dog friend
+    sound: G says /g/
+    sayPrompt: Say Gra-cie
+    rhythm: ["gra", "cie"]
+    contextHints: ["🐶 dog friend", "starts G", "gra-cie"]
+    group: family
+    difficulty: steady
+  - id: count
+    word: COUNT
+    icon: "🔢"
+    clue: What we do with numbers
+    sound: C says /k/
+    sayPrompt: Say Count
+    rhythm: ["count"]
+    contextHints: ["🔢 numbers", "starts C", "count"]
+    group: dino
+    difficulty: stretch
+musicPatterns:
+  - id: dino-stomp
+    name: Dino Stomp
+    beats: ["clap", "clap", "stomp"]
+    learningArea: music
+  - id: wow-song
+    name: Wow Song
+    beats: ["wow", "we", "won"]
+    learningArea: speech
+  - id: count-beat
+    name: Count Beat
+    beats: ["one", "two", "three"]
+    learningArea: math
+  - id: max-trot
+    name: Max Trot
+    beats: ["max", "trot", "go"]
+    learningArea: music
+  - id: love-song
+    name: Love Song
+    beats: ["we", "love", "you"]
+    learningArea: speech
+featureFlags:
+  elevenLabsVoices: false
+  liveVoiceParticipation: false
+  generatedSongs: false
