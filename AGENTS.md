@@ -10,13 +10,11 @@ Use this context for UX, copy, audio, reward, accessibility, and testing decisio
 
 ## Compound Engineering Skills
 
-32 Compound Engineering skills are committed to `ce-plugin/skills/` and must be available at `.local/secondary_skills/` for Replit Agent to discover them. Because `.local/` is gitignored and reset between sessions, **run this at the start of every new session before doing any work:**
+32 CE skills are committed directly to `.local/secondary_skills/` and are available automatically — no setup needed. Replit Agent discovers them on every session via git checkout.
 
-```bash
-bash scripts/restore-ce-skills.sh
-```
+Invoke them by name in the Replit chat, e.g.: `ce-plan: add a new biome` or `ce-work: implement the plan at docs/plans/foo.md`. For Claude Code (desktop), they're also available as `/ce-plan` etc. via `.claude/commands/`.
 
-This is also wired into `scripts/post-merge.sh` so merges restore the skills automatically. The source of truth is `ce-plugin/skills/` — edit skills there, not in `.local/`.
+To update skills, edit `.local/secondary_skills/<skill-name>/SKILL.md` directly and commit.
 
 ## Workspace
 
