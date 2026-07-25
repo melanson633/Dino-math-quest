@@ -237,7 +237,7 @@ learningAreas:
     name: Speech Songs
     shortLabel: Say It
     icon: "🎵"
-    status: playable
+    status: scaffold
     description: Gentle rhythm, syllable breaks, and help-the-dino phrases.
     difficultyPace: gentle
     accent: "#f472b6"
@@ -245,7 +245,7 @@ learningAreas:
     name: Music Den
     shortLabel: Music
     icon: "🥁"
-    status: playable
+    status: scaffold
     description: Short songs, beat games, and confidence-building sounds.
     difficultyPace: gentle
     accent: "#f59e0b"
@@ -431,6 +431,106 @@ spellingWords:
     sayPrompt: Say Count
     rhythm: ["count"]
     contextHints: ["🔢 numbers", "starts C", "count"]
+    group: dino
+    difficulty: stretch
+  - id: beach
+    word: BEACH
+    icon: "🏖️"
+    clue: Where you swim in the sand
+    sound: B says /b/
+    sayPrompt: Say Beach
+    rhythm: ["beach"]
+    contextHints: ["🏖️ sand and waves", "starts B", "beach"]
+    group: dino
+    difficulty: stretch
+  - id: ocean
+    word: OCEAN
+    icon: "🌊"
+    clue: The big blue water all around the island
+    sound: O starts round
+    sayPrompt: Say O-cean
+    rhythm: ["o", "cean"]
+    contextHints: ["🌊 big water", "starts O", "o-cean"]
+    group: dino
+    difficulty: stretch
+  - id: shell
+    word: SHELL
+    icon: "🐚"
+    clue: A treasure you find on the beach
+    sound: Sh makes a hush sound
+    sayPrompt: Say Shell
+    rhythm: ["shell"]
+    contextHints: ["🐚 beach find", "sh hush sound", "shell"]
+    group: dino
+    difficulty: stretch
+  - id: shark
+    word: SHARK
+    icon: "🦈"
+    clue: A big fish with a pointy fin
+    sound: Sh makes a hush sound
+    sayPrompt: Say Shark
+    rhythm: ["shark"]
+    contextHints: ["🦈 big fish", "sh hush sound", "shark"]
+    group: dino
+    difficulty: stretch
+  - id: plane
+    word: PLANE
+    icon: "✈️"
+    clue: You ride this high in the sky to get here
+    sound: P says /p/
+    sayPrompt: Say Plane
+    rhythm: ["plane"]
+    contextHints: ["✈️ flies high", "starts P", "plane"]
+    group: dino
+    difficulty: stretch
+  - id: cloud
+    word: CLOUD
+    icon: "☁️"
+    clue: Fluffy and white up in the sky
+    sound: C says /k/
+    sayPrompt: Say Cloud
+    rhythm: ["cloud"]
+    contextHints: ["☁️ puffy sky", "starts C", "cloud"]
+    group: dino
+    difficulty: stretch
+  - id: frog
+    word: FROG
+    icon: "🐸"
+    clue: Green and jumpy, says ribbit
+    sound: F says /fff/
+    sayPrompt: Say Frog
+    rhythm: ["frog"]
+    contextHints: ["🐸 green jumper", "starts F", "frog"]
+    group: dino
+    difficulty: stretch
+  - id: bird
+    word: BIRD
+    icon: "🐦"
+    clue: Has wings and flies through the air
+    sound: B says /b/
+    sayPrompt: Say Bird
+    rhythm: ["bird"]
+    contextHints: ["🐦 has wings", "starts B", "bird"]
+    group: dino
+    difficulty: stretch
+  - id: star
+    word: STAR
+    icon: "⭐"
+    clue: Twinkles in the night sky above the island
+    sound: St blends two sounds
+    sayPrompt: Say Star
+    rhythm: ["star"]
+    contextHints: ["⭐ night sky", "starts St", "star"]
+    group: dino
+    difficulty: steady
+  - id: cake
+    word: CAKE
+    icon: "🎂"
+    clue: A sweet treat with candles on top
+    sound: C says /k/
+    sayPrompt: Say Cake
+    rhythm: ["cake"]
+    contextHints: ["🎂 sweet treat", "starts C", "cake"]
     group: dino
     difficulty: stretch
 musicPatterns:
