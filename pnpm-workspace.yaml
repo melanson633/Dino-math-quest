@@ -34,6 +34,14 @@ minimumReleaseAgeExclude:
   - '@replit/*'
   - stripe-replit-sync
 
+# Skip pnpm's implicit "pnpm install" before every `pnpm run`. On Windows that
+# nested install does not inherit npm_config_user_agent, so the root `preinstall`
+# guard in package.json sees no "pnpm/" agent, prints "Use pnpm instead", and
+# aborts — making every documented command (dev:dino, typecheck, build) fail on a
+# clean checkout. Run `pnpm install` explicitly instead.
+# This is unrelated to the supply-chain settings above; leave those alone.
+verifyDepsBeforeRun: false
+
 packages:
   - artifacts/*
   - lib/*

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dino",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "dev:dino"],
+      "port": 25918
+    }
+  ]
+}
