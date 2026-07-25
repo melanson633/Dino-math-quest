@@ -24,6 +24,8 @@ interface GameState {
   selectedCompanionId: CompanionId;
   selectedLearningAreaId: LearningAreaId;
   lastUnlockedDinoId: string | null;
+  /** A dino unlock that a same-answer biome unlock pushed to second place. */
+  pendingDinoReward: boolean;
   adultSettings: AdultSettings;
 }
 
@@ -36,6 +38,7 @@ const defaultState: GameState = {
   selectedCompanionId: 'none',
   selectedLearningAreaId: 'math',
   lastUnlockedDinoId: null,
+  pendingDinoReward: false,
   adultSettings: {
     mathPace: 'balanced',
     speechSupport: 'steady',
@@ -68,9 +71,58 @@ interface GameContextType {
   resetGame: () => void;
   newPuzzle: () => void;
   clearCelebration: () => void;
+  showPendingDinoReward: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
+
+/** Every value App's screen switch can render. Used to sanitize persisted state. */
+const KNOWN_SCREENS: ScreenType[] = [
+  'home', 'puzzle', 'spelling', 'speech', 'music',
+  'adventure-preview', 'dinoden', 'biome-unlock', 'dino-reward',
+];
+
+const VALID_DINO_IDS = new Set(DINOS.map((d) => d.id));
+
+/**
+ * Persisted state is untrusted input: an older build, a hand edit, or a partial
+ * write can leave any field out of range, and spreading it over the defaults
+ * used to let every one of those values straight through.
+ *
+ * `currentBiome` is the dangerous one. `BIOMES[out-of-range]` is `undefined`,
+ * and every screen that paints a background dereferences `biome.art`, so the
+ * app throws during render, re-persists the bad value, and then crashes
+ * identically on every reload — unrecoverable without devtools.
+ */
+function sanitizePersistedState(parsed: Partial<GameState>): GameState {
+  const merged: GameState = {
+    ...defaultState,
+    ...parsed,
+    adultSettings: { ...defaultState.adultSettings, ...parsed.adultSettings },
+  };
+
+  if (!KNOWN_SCREENS.includes(merged.currentScreen)) {
+    merged.currentScreen = defaultState.currentScreen;
+  }
+  if (!Number.isInteger(merged.currentBiome) || merged.currentBiome < 0 || merged.currentBiome >= BIOMES.length) {
+    merged.currentBiome = defaultState.currentBiome;
+  }
+  merged.unlockedDinos = Array.isArray(merged.unlockedDinos)
+    ? merged.unlockedDinos.filter((id) => VALID_DINO_IDS.has(id))
+    : [];
+  if (!VALID_DINO_IDS.has(merged.lastUnlockedDinoId ?? '')) {
+    merged.lastUnlockedDinoId = null;
+  }
+  if (!Number.isFinite(merged.totalCorrect) || merged.totalCorrect < 0) {
+    merged.totalCorrect = 0;
+  }
+  merged.muteAudio = merged.muteAudio === true;
+  // Only the biome-unlock screen hands the queued reveal on, and reopening the
+  // app never lands there, so a persisted flag would have no one to consume it.
+  merged.pendingDinoReward = merged.pendingDinoReward === true && merged.currentScreen === 'biome-unlock';
+
+  return merged;
+}
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<GameState>(() => {
@@ -82,14 +134,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         if (parsed.currentScreen === 'biome-unlock' || parsed.currentScreen === 'dino-reward') {
           parsed.currentScreen = 'puzzle';
         }
-        return {
-          ...defaultState,
-          ...parsed,
-          adultSettings: {
-            ...defaultState.adultSettings,
-            ...parsed.adultSettings
-          }
-        };
+        return sanitizePersistedState(parsed);
       } catch (e) {}
     }
     return defaultState;
@@ -215,6 +260,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setCelebrationPending(false);
   }, []);
 
+  /** Show the dino reveal that a same-answer biome unlock queued behind it. */
+  const showPendingDinoReward = useCallback(() => {
+    playUnlockDino();
+    setState(s => ({ ...s, pendingDinoReward: false, currentScreen: 'dino-reward' }));
+  }, []);
+
   const toggleMute = () => {
     setState(s => ({ ...s, muteAudio: !s.muteAudio }));
   };
@@ -233,6 +284,17 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const resetGame = () => {
     correctStreakRef.current = 0;
     missStreakRef.current = 0;
+    // The session counters are what the adult panel reads. Leaving them set
+    // carried the pre-reset tally into the fresh game.
+    sessionStartTimeRef.current = Date.now();
+    sessionQuestionsRef.current = 0;
+    sessionCorrectRef.current = 0;
+    setSessionStats({
+      startTime: sessionStartTimeRef.current,
+      questionsAnswered: 0,
+      correct: 0,
+      difficultyBand: 'steady'
+    });
     setState(s => ({
       ...defaultState,
       muteAudio: s.muteAudio,
@@ -273,11 +335,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         let rewardScreen: ScreenType = 'puzzle';
         const newUnlocked = [...s.unlockedDinos];
         let lastUnlockedDinoId = s.lastUnlockedDinoId;
-
-        // Trigger celebration every 5 correct answers
-        if (newTotal % 5 === 0) {
-          pendingCelebrationRef.current = true;
-        }
+        let pendingDinoReward = false;
 
         // Check biome unlock
         const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
@@ -292,10 +350,27 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         if (newDino && !newUnlocked.includes(newDino.id)) {
           newUnlocked.push(newDino.id);
           lastUnlockedDinoId = newDino.id;
-          if (rewardScreen !== 'biome-unlock') {
+          if (rewardScreen === 'biome-unlock') {
+            // Both unlocks land on the same answer (totals 15, 30 and 45). The
+            // biome screen goes first because it reframes where you are; the
+            // dino reveal is queued so it still happens instead of being
+            // dropped, which silently cost raptor, plesiosaurus and t-rex
+            // their reveal screen and their unlock sound.
+            pendingDinoReward = stayedInPuzzle;
+          } else {
             rewardScreen = 'dino-reward';
             if (stayedInPuzzle) playUnlockDino();
           }
+        }
+
+        // Celebrate every 5 correct — but only when the player stays on the
+        // puzzle screen to see it. The overlay used to be flagged here and
+        // consumed by an effect on the next render, so a flag raised while
+        // navigating to a reward screen survived and fired later over an
+        // unrelated puzzle. An unlock reveal is the celebration for those
+        // answers already.
+        if (newTotal % 5 === 0 && stayedInPuzzle && rewardScreen === 'puzzle') {
+          pendingCelebrationRef.current = true;
         }
 
         return {
@@ -304,7 +379,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           currentBiome: newBiome,
           unlockedDinos: newUnlocked,
           currentScreen: stayedInPuzzle ? rewardScreen : s.currentScreen,
-          lastUnlockedDinoId
+          lastUnlockedDinoId,
+          pendingDinoReward
         };
       });
 
@@ -328,7 +404,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       selectCompanion, startLearningArea,
       startGame, goToScreen, answerPuzzle,
       toggleMute, updateAdultSettings, resetGame, newPuzzle,
-      clearCelebration
+      clearCelebration, showPendingDinoReward
     }}>
       {children}
     </GameContext.Provider>

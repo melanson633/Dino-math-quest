@@ -54,6 +54,18 @@ Current support needs:
 
 ## Current Implementation Status
 
+> **Stale as of 2026-07-25 — do not treat this section as fact.** It was last
+> written against a different build. A browser play-through at commit `20e46f9`
+> contradicts it in at least three ways: there is no Family Home Base or companion
+> selection screen (companion state exists but nothing can set it), the Words
+> letter-build mode is unwinnable in most rounds, and the "60 pass, 0 warn, 0 fail"
+> validation result does not correspond to anything runnable in this checkout —
+> there is no test runner here. See `docs/dogfood/2026-07-25-live-playthrough.md`.
+>
+> The sections above this one (Purpose, Product Thesis, Primary User, Goals,
+> Non-Goals, Core Experience, Learning Model) remain the durable north star and are
+> unaffected. Verify status claims against the running app, not this section.
+
 The current local build has the Dino Island foundation in place: Family Home Base, 0-or-1 companion selection, YAML-weighted visible home companion activity variants, Math Quest, first playable Words, Say It, and Music sections, Dino Den friend-practice, section-specific companion participation across Math, Words, Say It, and Music, grown-up controls wired into speech/music play behavior, local silent adaptation, feature-flagged voice participation off by default, and a parent-reviewed static ElevenLabs asset pipeline. Words now includes phonics cues, syllable/rhythm prompts, and more family-centered spelling content; Math now includes child-countable Dino Island mini-scenes and visible count-trail badges for countable puzzle types; Music now makes the next beat visually explicit during ordered patterns; Say It now includes an interaction-driven turn-taking cue that starts on Dino modeling, hands the turn to Charlotte after a rhythm beat tap, and unlocks the next word after `I Tried`.
 
 Math Quest has been materially improved from the first imported version and currently scores 76/100 against `docs/math-quest-rubric.md`. The experience now supports richer math variety, positive retry feedback, first-session dino reward timing, companion participation, Dino Den follow-through, child-readable context cues, compact island mission cues, and countable island visual scenes before answer tapping. Dino Den now gives unlocked friends a short confidence loop with Clap Name, Dino Song, Count, and Move actions plus a visible three-step friend-practice reward.
@@ -177,9 +189,10 @@ The orchestrator owns cross-thread synthesis and scope control.
 
 Role threads should use:
 
-- `AGENTS.md` as the first local instruction entry point.
+- `AGENTS.md` as the single entry point, then `docs/README.md` to reach any other doc.
 - `docs/team-roster.md` for role boundaries.
-- This PRD for product direction.
-- `tasks/dino-island-build-task-list.md` for execution order once approved.
+- This PRD for product direction — its durable sections, not its status section.
+- `tasks/dino-island-build-task-list.md` only when a task explicitly revives it; it
+  is indexed as historical and is not standing direction.
 
 Threads should wait for explicit implementation instructions before changing files. If they start early, they may gather context from the current directory and brainstorm suggested next steps only.

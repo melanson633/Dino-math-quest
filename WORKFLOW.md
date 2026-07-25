@@ -27,9 +27,16 @@ codex:
 
 You are working from Linear issue `{{ issue.identifier }}`: `{{ issue.title }}`.
 
-Use the repository instructions in `AGENTS.md` first. Keep changes scoped to the issue, preserve the tablet-first Charlotte context for Dino Quest work, and run the fastest meaningful validation before handing back.
+Use the repository instructions in `AGENTS.md` first — it is the single entry point,
+and `docs/README.md` indexes everything else. Keep changes scoped to the issue,
+preserve the tablet-first Charlotte context for Dino Quest work, and run the fastest
+meaningful validation before handing back.
 
-Treat `docs/product-blueprint.md` as the canonical product direction. If the Linear issue, task list, or local notes conflict with the current blueprint, stop and report the conflict instead of implementing stale scope.
+Treat the durable sections of `docs/product-blueprint.md` — Purpose, Thesis, Primary
+User, Goals, Non-Goals, Core Experience, Learning Model — as canonical product
+direction. Its "Current Implementation Status" section is stale and is not evidence.
+If the Linear issue, task list, or local notes conflict with that direction, stop and
+report the conflict instead of implementing stale scope.
 
 Use the Linear API as the authoritative source for Linear state and mutations. Browser-visible Linear state is only a visual aid unless reconciled through the API.
 

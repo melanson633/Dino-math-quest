@@ -2,6 +2,8 @@ export interface Dino {
   id: string;
   name: string;
   emoji: string;
+  /** Path under public/, authored to docs/asset-specs/dinos/<id>.md. */
+  art: string;
   fact: string;
   unlockAt: number;
   practice: {
@@ -19,6 +21,7 @@ export const DINOS: Dino[] = [
     id: "stego",
     name: "Stegosaurus",
     emoji: "🦕",
+    art: "/dinos/stego.svg",
     fact: "It had plates on its back to stay cool!",
     unlockAt: 2,
     practice: {
@@ -34,6 +37,7 @@ export const DINOS: Dino[] = [
     id: "ankylo",
     name: "Ankylosaurus",
     emoji: "🐢",
+    art: "/dinos/ankylo.svg",
     fact: "It had a heavy club on its tail!",
     unlockAt: 5,
     practice: {
@@ -49,6 +53,7 @@ export const DINOS: Dino[] = [
     id: "raptor",
     name: "Velociraptor",
     emoji: "🦤",
+    art: "/dinos/raptor.svg",
     fact: "It was small but very fast!",
     unlockAt: 15,
     practice: {
@@ -64,6 +69,7 @@ export const DINOS: Dino[] = [
     id: "brachi",
     name: "Brachiosaurus",
     emoji: "🦕",
+    art: "/dinos/brachi.svg",
     fact: "Its long neck reached the highest leaves!",
     unlockAt: 20,
     practice: {
@@ -79,6 +85,7 @@ export const DINOS: Dino[] = [
     id: "spino",
     name: "Spinosaurus",
     emoji: "🐊",
+    art: "/dinos/spino.svg",
     fact: "It had a huge sail and loved water!",
     unlockAt: 25,
     practice: {
@@ -94,6 +101,7 @@ export const DINOS: Dino[] = [
     id: "plesi",
     name: "Plesiosaurus",
     emoji: "🦕",
+    art: "/dinos/plesi.svg",
     fact: "It swam in the ancient oceans!",
     unlockAt: 30,
     practice: {
@@ -109,6 +117,7 @@ export const DINOS: Dino[] = [
     id: "carno",
     name: "Carnotaurus",
     emoji: "🦖",
+    art: "/dinos/carno.svg",
     fact: "It had two little horns over its eyes!",
     unlockAt: 35,
     practice: {
@@ -124,6 +133,7 @@ export const DINOS: Dino[] = [
     id: "iguano",
     name: "Iguanodon",
     emoji: "🦎",
+    art: "/dinos/iguano.svg",
     fact: "It had a thumb spike to defend itself!",
     unlockAt: 40,
     practice: {
@@ -139,6 +149,7 @@ export const DINOS: Dino[] = [
     id: "trex",
     name: "T-Rex",
     emoji: "🦖",
+    art: "/dinos/trex.svg",
     fact: "The king of the dinosaurs with tiny arms!",
     unlockAt: 45,
     practice: {
@@ -154,6 +165,7 @@ export const DINOS: Dino[] = [
     id: "mammo",
     name: "Woolly Mammoth",
     emoji: "🦣",
+    art: "/dinos/mammo.svg",
     fact: "It had long hair for the ice age!",
     unlockAt: 50,
     practice: {
@@ -169,6 +181,7 @@ export const DINOS: Dino[] = [
     id: "pachy",
     name: "Pachycephalosaurus",
     emoji: "🐏",
+    art: "/dinos/pachy.svg",
     fact: "It had a really thick skull!",
     unlockAt: 55,
     practice: {
@@ -184,6 +197,7 @@ export const DINOS: Dino[] = [
     id: "ptero",
     name: "Pterodactyl",
     emoji: "🦅",
+    art: "/dinos/ptero.svg",
     fact: "It was a flying reptile with wide wings!",
     unlockAt: 60,
     practice: {
