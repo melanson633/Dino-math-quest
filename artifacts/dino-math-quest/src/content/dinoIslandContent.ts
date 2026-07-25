@@ -65,6 +65,18 @@ export interface SpellingWordContent {
   difficulty: 'support' | 'steady' | 'stretch';
 }
 
+export interface WordFamilyWord {
+  word: string;
+  icon: string;
+  clue: string;
+}
+
+export interface WordFamilyContent {
+  id: string;
+  rime: string;
+  words: WordFamilyWord[];
+}
+
 export interface MusicPatternContent {
   id: string;
   name: string;
@@ -87,6 +99,7 @@ export interface DinoIslandContent {
   speechMoments: SpeechMomentContent;
   musicMoments: MusicMomentContent[];
   spellingWords: SpellingWordContent[];
+  wordFamilies: WordFamilyContent[];
   musicPatterns: MusicPatternContent[];
   featureFlags: {
     elevenLabsVoices: boolean;
@@ -99,6 +112,7 @@ export const dinoIslandContent = parse(dinoIslandYaml) as DinoIslandContent;
 
 export const COMPANIONS = dinoIslandContent.companions;
 export const LEARNING_AREAS = dinoIslandContent.learningAreas;
+export const WORD_FAMILIES = dinoIslandContent.wordFamilies ?? [];
 
 export function getCompanion(id: CompanionId): CompanionContent {
   return COMPANIONS.find((companion) => companion.id === id) ?? COMPANIONS[0];

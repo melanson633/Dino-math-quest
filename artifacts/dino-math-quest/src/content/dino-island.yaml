@@ -558,3 +558,49 @@ featureFlags:
   elevenLabsVoices: false
   liveVoiceParticipation: false
   generatedSongs: false
+wordFamilies:
+  - id: at
+    rime: at
+    words:
+      - word: CAT
+        icon: "🐱"
+        clue: a soft furry pet
+      - word: BAT
+        icon: "🦇"
+        clue: flies at night
+      - word: HAT
+        icon: "🎩"
+        clue: worn on your head
+      - word: MAT
+        icon: "🟩"
+        clue: flat on the floor
+  - id: an
+    rime: an
+    words:
+      - word: CAN
+        icon: "🥫"
+        clue: holds food inside
+      - word: FAN
+        icon: "💨"
+        clue: makes cool air
+      - word: MAN
+        icon: "🧑"
+        clue: a grown-up person
+      - word: VAN
+        icon: "🚐"
+        clue: a big car for travel
+  - id: ig
+    rime: ig
+    words:
+      - word: BIG
+        icon: "🐘"
+        clue: very large
+      - word: DIG
+        icon: "⛏️"
+        clue: move dirt underground
+      - word: FIG
+        icon: "🍑"
+        clue: a sweet fruit
+      - word: PIG
+        icon: "🐷"
+        clue: a pink farm animal

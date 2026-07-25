@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { BIOMES } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
 import { playTap } from '../lib/audio';
 import type { Puzzle } from '../lib/puzzles';
+import { TenFrame } from '../components/TenFrame';
+
+/* ─── scene token types ─────────────────────────────────────── */
 
 type SceneTokenKind = 'dino' | 'shell' | 'volcano' | 'snow' | 'egg' | 'wave' | 'flame' | 'crystal';
 
@@ -26,7 +29,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'egg') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -34,7 +36,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'shell') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -46,7 +47,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'volcano') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -56,7 +56,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'wave') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -64,7 +63,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'flame') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -72,7 +70,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   if (kind === 'crystal') {
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
@@ -80,7 +77,6 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
       </span>
     );
   }
-
   return (
     <span data-testid="math-scene-item" className={wrapperClass}>
       <span className={`h-8 w-8 rounded-full bg-white/85 shadow-inner ring-2 ring-sky-200 ${baseClass}`} />
@@ -88,21 +84,29 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
   );
 }
 
-function TokenRow({
-  count,
-  kind,
-  fadedFrom = count,
-  label
-}: {
-  count: number;
-  kind: SceneTokenKind;
-  fadedFrom?: number;
-  label: string;
+function TokenRow({ count, kind, fadedFrom = count, label }: {
+  count: number; kind: SceneTokenKind; fadedFrom?: number; label: string;
 }) {
   return (
     <div data-testid="math-token-row" aria-label={label} className="flex max-w-[340px] flex-wrap justify-center gap-2">
       {Array.from({ length: count }).map((_, i) => (
         <SceneToken key={i} kind={kind} faded={i >= fadedFrom} />
+      ))}
+    </div>
+  );
+}
+
+/** Counting shown in groups of 5 for easier subitising */
+function GroupedCounting({ count, kind }: { count: number; kind: SceneTokenKind }) {
+  const groups: number[] = [];
+  let remaining = count;
+  while (remaining > 0) { groups.push(Math.min(5, remaining)); remaining -= 5; }
+  return (
+    <div className="flex flex-wrap justify-center gap-2">
+      {groups.map((size, gi) => (
+        <div key={gi} className="flex gap-1 rounded-2xl bg-white/40 px-2 py-1.5">
+          {Array.from({ length: size }).map((_, i) => <SceneToken key={i} kind={kind} />)}
+        </div>
       ))}
     </div>
   );
@@ -147,14 +151,8 @@ function NumberPath({ display }: { display: string }) {
   );
 }
 
-function MathVisualScene({
-  puzzle,
-  tokenKind,
-  subtractKind
-}: {
-  puzzle: Puzzle;
-  tokenKind: SceneTokenKind;
-  subtractKind: SceneTokenKind;
+function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
+  puzzle: Puzzle; tokenKind: SceneTokenKind; subtractKind: SceneTokenKind;
 }) {
   if (puzzle.type === 'missing-number') return <NumberPath display={puzzle.display} />;
 
@@ -167,13 +165,43 @@ function MathVisualScene({
         aria-label={`Dino Island counting scene with ${count} items`}
         className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <TokenRow count={count} kind={tokenKind} label={`${count} countable Dino Island items`} />
+        <GroupedCounting count={count} kind={tokenKind} />
       </div>
     );
   }
 
-  if (puzzle.type === 'addition' && puzzle.operands) {
+  if (puzzle.type === 'fill-to-ten' && puzzle.filledCount !== undefined) {
+    return (
+      <div
+        data-testid="math-visual-scene"
+        aria-label={`Ten frame showing ${puzzle.filledCount} filled cells`}
+        className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-6 py-6 shadow-inner"
+      >
+        <p className="mb-3 text-center text-sm font-black uppercase tracking-wide text-emerald-700">
+          Fill to 10 🪣
+        </p>
+        <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto max-w-[240px]" />
+      </div>
+    );
+  }
+
+  if ((puzzle.type === 'addition' || puzzle.type === 'word-problem') && puzzle.operands && puzzle.display.includes('+')) {
     const [a, b] = puzzle.operands;
+    const total = a + b;
+    if (total <= 10) {
+      return (
+        <div
+          data-testid="math-visual-scene"
+          aria-label="Dino Island ten-frame addition scene"
+          className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
+        >
+          <p className="text-sm font-black uppercase tracking-wide text-emerald-700">
+            <span className="text-emerald-600">●</span> {a} &nbsp;+&nbsp; <span className="text-sky-500">●</span> {b}
+          </p>
+          <TenFrame filled={a} secondaryFilled={b} theme="green" className="mx-auto max-w-[260px]" />
+        </div>
+      );
+    }
     return (
       <div
         data-testid="math-visual-scene"
@@ -187,8 +215,23 @@ function MathVisualScene({
     );
   }
 
-  if (puzzle.type === 'subtraction' && puzzle.operands) {
+  if ((puzzle.type === 'subtraction' || puzzle.type === 'word-problem') && puzzle.operands && puzzle.display.includes('−')) {
     const [a, b] = puzzle.operands;
+    if (a <= 10) {
+      const remaining = a - b;
+      return (
+        <div
+          data-testid="math-visual-scene"
+          aria-label="Dino Island ten-frame subtraction scene"
+          className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
+        >
+          <p className="text-sm font-black uppercase tracking-wide text-rose-600">
+            {a} started — {b} went away
+          </p>
+          <TenFrame filled={remaining} crossed={b} theme="rose" className="mx-auto max-w-[260px]" />
+        </div>
+      );
+    }
     return (
       <div
         data-testid="math-visual-scene"
@@ -231,25 +274,147 @@ function MathVisualScene({
   );
 }
 
+/* ─── confetti ────────────────────────────────────────────────── */
+
+const CONFETTI_EMOJIS = ['⭐', '🌟', '✨', '🥚', '🦕', '🌿', '🌸', '💛', '🎉'];
+
+interface ConfettiParticle {
+  id: number;
+  emoji: string;
+  left: number;
+  delay: number;
+  duration: number;
+}
+
+function generateParticles(count: number): ConfettiParticle[] {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    emoji: CONFETTI_EMOJIS[i % CONFETTI_EMOJIS.length],
+    left: 5 + Math.random() * 88,
+    delay: Math.random() * 0.6,
+    duration: 1.2 + Math.random() * 0.8
+  }));
+}
+
+function ConfettiBurst({ count = 20 }: { count?: number }) {
+  const particles = useMemo(() => generateParticles(count), [count]);
+  return (
+    <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
+      {particles.map((p) => (
+        <span
+          key={p.id}
+          className="absolute top-0 text-2xl"
+          style={{
+            left: `${p.left}%`,
+            animation: `confetti-fall ${p.duration}s ${p.delay}s linear forwards`
+          }}
+        >
+          {p.emoji}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function CelebrationOverlay({ onDone }: { onDone: () => void }) {
+  const particles = useMemo(() => generateParticles(30), []);
+
+  useEffect(() => {
+    const t = setTimeout(onDone, 3000);
+    return () => clearTimeout(t);
+  }, [onDone]);
+
+  return (
+    <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
+      {/* Frosted flash */}
+      <motion.div
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute inset-0 bg-white"
+      />
+      {/* Bouncing centre badge */}
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: [0, 1.3, 1] }}
+        transition={{ duration: 0.45, delay: 0.1 }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <div className="rounded-[2rem] bg-white/90 px-10 py-6 shadow-2xl text-center">
+          <p className="text-[5rem] leading-none">🎉</p>
+          <p className="mt-2 text-2xl font-black text-emerald-700">Amazing!</p>
+          <p className="text-base font-bold text-slate-500">5 in a row!</p>
+        </div>
+      </motion.div>
+      {/* Emoji rain */}
+      {particles.map((p) => (
+        <span
+          key={p.id}
+          className="absolute top-0 text-3xl"
+          style={{
+            left: `${p.left}%`,
+            animation: `confetti-fall ${p.duration + 0.5}s ${p.delay}s linear forwards`
+          }}
+        >
+          {p.emoji}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/* ─── helpers ─────────────────────────────────────────────────── */
+
 function getNextDino(totalCorrect: number) {
   return DINOS.find((dino) => dino.unlockAt > totalCorrect) ?? DINOS[DINOS.length - 1];
 }
 
+const BUTTON_PASTEL_BASE = [
+  'bg-blue-100  text-blue-900  border-blue-300  shadow-[0_5px_0_0_#93c5fd]  active:shadow-none active:translate-y-[5px]',
+  'bg-amber-100 text-amber-900 border-amber-300 shadow-[0_5px_0_0_#fcd34d] active:shadow-none active:translate-y-[5px]',
+  'bg-rose-100  text-rose-900  border-rose-300  shadow-[0_5px_0_0_#fca5a5] active:shadow-none active:translate-y-[5px]'
+];
+
+/* ─── main component ─────────────────────────────────────────── */
+
 export function PuzzleScreen() {
-  const { state, puzzle, answerPuzzle, goToScreen } = useGame();
+  const { state, puzzle, answerPuzzle, goToScreen, celebrationPending, clearCelebration } = useGame();
   const biome = BIOMES[state.currentBiome];
 
   const [wrongIds, setWrongIds] = useState<Set<string>>(new Set());
   const [shakingId, setShakingId] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showEncouragement, setShowEncouragement] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   useEffect(() => {
     setWrongIds(new Set());
     setShakingId(null);
     setIsCorrect(false);
     setShowEncouragement(false);
+    setShowConfetti(false);
   }, [puzzle]);
+
+  // Small confetti burst on every correct answer
+  useEffect(() => {
+    if (!isCorrect) return;
+    setShowConfetti(true);
+    const t = setTimeout(() => setShowConfetti(false), 2000);
+    return () => clearTimeout(t);
+  }, [isCorrect]);
+
+  // Big celebration every 5 correct
+  const handleCelebrationDone = useCallback(() => {
+    setShowCelebration(false);
+  }, []);
+
+  useEffect(() => {
+    if (celebrationPending) {
+      setShowCelebration(true);
+      clearCelebration();
+    }
+  }, [celebrationPending, clearCelebration]);
 
   const handleSelect = useCallback(
     (id: string, correct: boolean) => {
@@ -291,28 +456,47 @@ export function PuzzleScreen() {
   const correctTowardNextDino = Math.min(state.totalCorrect, nextDino.unlockAt);
   const progressValue = Math.min(100, Math.max(0, ((correctTowardNextDino - previousUnlockAt) / progressSpan) * 100));
 
+  const isWordProblem = puzzle.type === 'word-problem';
+
   return (
     <div
       className="absolute inset-0 flex w-full flex-col overflow-y-auto pt-20 sm:pt-24"
       style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
     >
+      {/* Confetti & celebration overlays */}
+      {showConfetti && <ConfettiBurst count={20} />}
+      {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
+
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 px-4 pb-4 sm:px-5">
-        {/* Prompt + home */}
-        <div className="flex items-start justify-between gap-3 text-white">
-          <h2 className="flex min-h-[64px] flex-1 items-center justify-center rounded-3xl bg-black/25 px-4 py-3 text-center text-2xl font-black leading-tight backdrop-blur sm:text-3xl">
-            {puzzle.prompt}
-          </h2>
+
+        {/* Speech bubble prompt + home button */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-1 items-start gap-3">
+            {/* Mini Tri head */}
+            <span className="flex-shrink-0 text-4xl leading-none mt-1" aria-hidden="true">🦕</span>
+            {/* Bubble */}
+            <div className="relative flex-1 rounded-3xl rounded-tl-sm bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
+              {/* Triangle pointer */}
+              <div
+                className="absolute -left-3 top-4 h-0 w-0"
+                style={{ borderTop: '8px solid transparent', borderRight: '14px solid rgba(255,255,255,0.95)', borderBottom: '8px solid transparent' }}
+              />
+              <p className={`font-black leading-snug text-slate-800 ${isWordProblem ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
+                {puzzle.prompt}
+              </p>
+            </div>
+          </div>
           <button
             type="button"
             onClick={() => goToScreen('home')}
             data-testid="button-math-home"
-            className="min-h-[64px] rounded-3xl bg-white/95 px-5 py-3 text-base font-black text-slate-700 shadow-lg active:scale-95"
+            className="flex-shrink-0 min-h-[56px] rounded-3xl bg-white/95 px-4 py-3 text-base font-black text-slate-700 shadow-lg active:scale-95"
           >
             Home
           </button>
         </div>
 
-        {/* Visual scene — full width */}
+        {/* Visual scene */}
         <motion.div
           key={puzzle.prompt + puzzle.type}
           initial={{ scale: 0.88, opacity: 0 }}
@@ -320,8 +504,9 @@ export function PuzzleScreen() {
           transition={{ type: 'spring', bounce: 0.35, duration: 0.45 }}
           className="flex flex-col items-center gap-3 text-white"
         >
-          {(puzzle.type === 'addition' || puzzle.type === 'subtraction') && (
-            <div className="text-[4.25rem] font-bold leading-none tracking-wide drop-shadow-lg sm:text-[5.5rem]">
+          {/* Equation display for non-word-problem math */}
+          {(puzzle.type === 'addition' || puzzle.type === 'subtraction' || puzzle.type === 'fill-to-ten') && (
+            <div className="text-[3.5rem] font-bold leading-none tracking-wide drop-shadow-lg sm:text-[4.5rem]">
               {puzzle.display}
             </div>
           )}
@@ -346,15 +531,15 @@ export function PuzzleScreen() {
           </AnimatePresence>
         </div>
 
-        {/* Answer buttons */}
+        {/* Answer buttons — pill shapes, pastel tints */}
         <div className="grid w-full grid-cols-3 gap-2 sm:gap-3">
-          {puzzle.options.map((opt) => {
+          {puzzle.options.map((opt, idx) => {
             const isWrong = wrongIds.has(opt.id);
             const isThisCorrect = isCorrect && opt.isCorrect;
 
-            let btnClass = 'bg-white text-gray-800 border-4 border-white/30';
-            if (isWrong) btnClass = 'bg-gray-300 text-gray-400 border-4 border-gray-200 opacity-50 cursor-not-allowed';
-            if (isThisCorrect) btnClass = 'bg-green-400 text-white border-4 border-green-300 shadow-green-200';
+            let btnClass = `${BUTTON_PASTEL_BASE[idx % 3]} border-4 transition-all`;
+            if (isWrong) btnClass = 'bg-slate-200 text-slate-400 border-4 border-slate-200 opacity-50 cursor-not-allowed shadow-none';
+            if (isThisCorrect) btnClass = 'bg-green-400 text-white border-4 border-green-300 shadow-[0_5px_0_0_#16a34a] scale-105';
 
             return (
               <motion.button
@@ -364,7 +549,7 @@ export function PuzzleScreen() {
                 transition={{ duration: 0.4 }}
                 onClick={() => handleSelect(opt.id, opt.isCorrect)}
                 disabled={isWrong || isCorrect}
-                className={`flex min-h-[72px] w-full items-center justify-center rounded-3xl text-3xl font-black shadow-lg transition-all sm:min-h-[104px] sm:text-5xl ${btnClass}`}
+                className={`flex min-h-[80px] w-full items-center justify-center rounded-full text-3xl font-black sm:min-h-[108px] sm:text-5xl ${btnClass}`}
               >
                 {opt.label}
                 {isThisCorrect && ' ✨'}

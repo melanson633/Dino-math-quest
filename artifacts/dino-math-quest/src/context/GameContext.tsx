@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { playCorrect, playWrong, playUnlockBiome, playUnlockDino, setMuted, startBgMusic, unlockAudioForGesture } from '../lib/audio';
 import { BIOMES } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
@@ -43,10 +43,19 @@ const defaultState: GameState = {
   }
 };
 
+export interface SessionStats {
+  startTime: number;
+  questionsAnswered: number;
+  correct: number;
+  difficultyBand: PuzzleDifficulty;
+}
+
 interface GameContextType {
   state: GameState;
   puzzle: Puzzle | null;
   settingsOpen: boolean;
+  celebrationPending: boolean;
+  sessionStats: SessionStats;
   openSettings: () => void;
   closeSettings: () => void;
   startGame: () => void;
@@ -58,6 +67,7 @@ interface GameContextType {
   updateAdultSettings: (settings: Partial<AdultSettings>) => void;
   resetGame: () => void;
   newPuzzle: () => void;
+  clearCelebration: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -87,8 +97,22 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [celebrationPending, setCelebrationPending] = useState(false);
+
+  // Session stats (not persisted, reset on mount)
+  const sessionStartTimeRef = useRef(Date.now());
+  const sessionQuestionsRef = useRef(0);
+  const sessionCorrectRef = useRef(0);
+  const [sessionStats, setSessionStats] = useState<SessionStats>({
+    startTime: sessionStartTimeRef.current,
+    questionsAnswered: 0,
+    correct: 0,
+    difficultyBand: 'steady'
+  });
+
   const correctStreakRef = useRef(0);
   const missStreakRef = useRef(0);
+  const pendingCelebrationRef = useRef(false);
 
   // Track previous biome/screen to avoid restarting music on every state change
   const prevBiomeRef = useRef<number>(-1);
@@ -117,7 +141,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     prevScreenRef.current = state.currentScreen;
   }, [state.currentBiome, state.currentScreen]);
 
-  const getMathDifficulty = (): PuzzleDifficulty => {
+  // Fire celebration when totalCorrect changes and we have a pending flag
+  useEffect(() => {
+    if (pendingCelebrationRef.current) {
+      setCelebrationPending(true);
+      pendingCelebrationRef.current = false;
+    }
+  }, [state.totalCorrect]);
+
+  const getMathDifficulty = useCallback((): PuzzleDifficulty => {
     const pace = state.adultSettings?.mathPace ?? defaultState.adultSettings.mathPace;
     const missesForSupport = pace === 'gentle' ? 1 : 2;
     const correctForStretch = pace === 'stretch' ? 2 : pace === 'gentle' ? 6 : 4;
@@ -125,11 +157,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     if (missStreakRef.current >= missesForSupport) return 'support';
     if (correctStreakRef.current >= correctForStretch) return 'stretch';
     return 'steady';
-  };
+  }, [state.adultSettings?.mathPace]);
 
-  const newPuzzle = () => {
-    setPuzzle(generatePuzzle(getMathDifficulty()));
-  };
+  const newPuzzle = useCallback(() => {
+    const band = getMathDifficulty();
+    setPuzzle(generatePuzzle(band));
+  }, [getMathDifficulty]);
 
   const startGame = () => {
     startLearningArea('math');
@@ -141,6 +174,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const startLearningArea = (learningAreaId: LearningAreaId) => {
     unlockAudioForGesture();
+    // Reset session stats
+    sessionStartTimeRef.current = Date.now();
+    sessionQuestionsRef.current = 0;
+    sessionCorrectRef.current = 0;
+    setSessionStats({
+      startTime: sessionStartTimeRef.current,
+      questionsAnswered: 0,
+      correct: 0,
+      difficultyBand: getMathDifficulty()
+    });
 
     if (learningAreaId === 'math') {
       newPuzzle();
@@ -167,6 +210,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
+
+  const clearCelebration = useCallback(() => {
+    setCelebrationPending(false);
+  }, []);
 
   const toggleMute = () => {
     setState(s => ({ ...s, muteAudio: !s.muteAudio }));
@@ -198,10 +245,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const answerPuzzle = (isCorrect: boolean) => {
+    // Update session stats immediately
+    sessionQuestionsRef.current += 1;
+    if (isCorrect) sessionCorrectRef.current += 1;
+
     if (!isCorrect) {
       correctStreakRef.current = 0;
       missStreakRef.current += 1;
       playWrong();
+      setSessionStats(prev => ({
+        ...prev,
+        questionsAnswered: sessionQuestionsRef.current,
+        correct: sessionCorrectRef.current,
+        difficultyBand: getMathDifficulty()
+      }));
       return;
     }
     correctStreakRef.current += 1;
@@ -216,6 +273,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         let rewardScreen: ScreenType = 'puzzle';
         const newUnlocked = [...s.unlockedDinos];
         let lastUnlockedDinoId = s.lastUnlockedDinoId;
+
+        // Trigger celebration every 5 correct answers
+        if (newTotal % 5 === 0) {
+          pendingCelebrationRef.current = true;
+        }
 
         // Check biome unlock
         const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
@@ -246,6 +308,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         };
       });
 
+      setSessionStats(prev => ({
+        ...prev,
+        questionsAnswered: sessionQuestionsRef.current,
+        correct: sessionCorrectRef.current,
+        difficultyBand: getMathDifficulty()
+      }));
+
       // Always queue a fresh puzzle — it will show when they reach the puzzle screen
       newPuzzle();
     }, 900);
@@ -254,10 +323,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   return (
     <GameContext.Provider value={{
       state, puzzle, settingsOpen,
+      celebrationPending, sessionStats,
       openSettings, closeSettings,
       selectCompanion, startLearningArea,
       startGame, goToScreen, answerPuzzle,
-      toggleMute, updateAdultSettings, resetGame, newPuzzle
+      toggleMute, updateAdultSettings, resetGame, newPuzzle,
+      clearCelebration
     }}>
       {children}
     </GameContext.Provider>

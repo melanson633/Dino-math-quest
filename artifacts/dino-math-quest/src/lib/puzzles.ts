@@ -1,4 +1,4 @@
-export type PuzzleType = 'addition' | 'subtraction' | 'shapes' | 'counting' | 'missing-number' | 'compare';
+export type PuzzleType = 'addition' | 'subtraction' | 'shapes' | 'counting' | 'missing-number' | 'compare' | 'fill-to-ten' | 'word-problem';
 export type PuzzleDifficulty = 'support' | 'steady' | 'stretch';
 
 export interface PuzzleOption {
@@ -21,21 +21,22 @@ export interface Puzzle {
   mission?: PuzzleMission;
   options: PuzzleOption[];
   operands?: [number, number];
+  /** For fill-to-ten: how many cells are already filled */
+  filledCount?: number;
 }
 
 export function generatePuzzle(difficulty: PuzzleDifficulty = 'steady'): Puzzle {
   const rand = Math.random();
   const mix = PUZZLE_MIX[difficulty];
 
-  if (rand < mix.addition) return withMission(generateAddition(difficulty));
-  if (rand < mix.addition + mix.subtraction) return withMission(generateSubtraction(difficulty));
-  if (rand < mix.addition + mix.subtraction + mix.counting) return withMission(generateCounting(difficulty));
-  if (rand < mix.addition + mix.subtraction + mix.counting + mix.missingNumber) {
-    return withMission(generateMissingNumber(difficulty));
-  }
-  if (rand < mix.addition + mix.subtraction + mix.counting + mix.missingNumber + mix.compare) {
-    return withMission(generateCompare(difficulty));
-  }
+  let cum = 0;
+  if (rand < (cum += mix.addition)) return withMission(generateAddition(difficulty));
+  if (rand < (cum += mix.subtraction)) return withMission(generateSubtraction(difficulty));
+  if (rand < (cum += mix.counting)) return withMission(generateCounting(difficulty));
+  if (rand < (cum += mix.missingNumber)) return withMission(generateMissingNumber(difficulty));
+  if (rand < (cum += mix.compare)) return withMission(generateCompare(difficulty));
+  if (rand < (cum += mix.fillToTen)) return withMission(generateFillToTen(difficulty));
+  if (rand < (cum += mix.wordProblem)) return withMission(generateWordProblem(difficulty));
   return withMission(generateShapes());
 }
 
@@ -45,7 +46,9 @@ const MATH_MISSIONS: Record<PuzzleType, PuzzleMission> = {
   counting: { icon: '🦕', title: 'Dino Count', cue: 'Count each friend.' },
   'missing-number': { icon: '🦶', title: 'Number Path', cue: 'Find the missing step.' },
   compare: { icon: '🌋', title: 'Big Pile', cue: 'Pick the pile with more.' },
-  shapes: { icon: '💎', title: 'Shape Hunt', cue: 'Find the matching shape.' }
+  shapes: { icon: '💎', title: 'Shape Hunt', cue: 'Find the matching shape.' },
+  'fill-to-ten': { icon: '🪣', title: 'Fill the Frame', cue: 'How many more to reach ten?' },
+  'word-problem': { icon: '📖', title: 'Dino Story', cue: 'Listen to the story, then count!' }
 };
 
 function withMission(puzzle: Puzzle): Puzzle {
@@ -61,10 +64,12 @@ const PUZZLE_MIX: Record<PuzzleDifficulty, {
   counting: number;
   missingNumber: number;
   compare: number;
+  fillToTen: number;
+  wordProblem: number;
 }> = {
-  support: { addition: 0.24, subtraction: 0.12, counting: 0.34, missingNumber: 0.10, compare: 0.10 },
-  steady: { addition: 0.30, subtraction: 0.22, counting: 0.18, missingNumber: 0.14, compare: 0.08 },
-  stretch: { addition: 0.28, subtraction: 0.24, counting: 0.10, missingNumber: 0.22, compare: 0.10 }
+  support:  { addition: 0.18, subtraction: 0.08, counting: 0.26, missingNumber: 0.08, compare: 0.07, fillToTen: 0.14, wordProblem: 0.09 },
+  steady:   { addition: 0.18, subtraction: 0.14, counting: 0.10, missingNumber: 0.10, compare: 0.06, fillToTen: 0.12, wordProblem: 0.16 },
+  stretch:  { addition: 0.14, subtraction: 0.13, counting: 0.06, missingNumber: 0.17, compare: 0.07, fillToTen: 0.09, wordProblem: 0.18 }
 };
 
 function getNumberRange(difficulty: PuzzleDifficulty) {
@@ -89,6 +94,12 @@ function uniqueDistractors(correct: number, count: number, max = 20): number[] {
       result.push(candidate);
     }
   }
+  // fallback
+  let fallback = 0;
+  while (result.length < count) {
+    if (!used.has(fallback)) { used.add(fallback); result.push(fallback); }
+    fallback++;
+  }
   return result;
 }
 
@@ -100,6 +111,21 @@ function numberOptions(correct: number, max = 20): PuzzleOption[] {
     { id: 'w2', label: distractors[1].toString(), isCorrect: false }
   ]);
 }
+
+const ADD_WORD_PROBLEMS = [
+  (a: number, b: number) => `Tri found ${a} eggs 🥚. Then ${b} more hatched. How many now?`,
+  (a: number, b: number) => `${a} dinos were playing 🦕. ${b} more joined the fun! How many total?`,
+  (a: number, b: number) => `Tri picked ${a} berries 🫐. Then found ${b} more. How many berries?`,
+  (a: number, b: number) => `${a} shells on the beach 🐚. The tide brought ${b} more. Count them all!`,
+  (a: number, b: number) => `Tri had ${a} friends 🦕. ${b} new friends came to play. How many friends now?`,
+];
+
+const SUB_WORD_PROBLEMS = [
+  (a: number, b: number) => `Tri had ${a} berries 🫐. Ate ${b} for a snack. How many left?`,
+  (a: number, b: number) => `${a} eggs were in the nest 🥚. ${b} hatched and hopped away. How many remain?`,
+  (a: number, b: number) => `${a} shells on the sand 🐚. A wave took ${b} away. How many are left?`,
+  (a: number, b: number) => `Tri had ${a} friends playing 🦕. ${b} went home for dinner. How many still here?`,
+];
 
 function generateAddition(difficulty: PuzzleDifficulty): Puzzle {
   const range = getNumberRange(difficulty);
@@ -132,6 +158,58 @@ function generateSubtraction(difficulty: PuzzleDifficulty): Puzzle {
   };
 }
 
+function generateWordProblem(difficulty: PuzzleDifficulty): Puzzle {
+  const range = getNumberRange(difficulty);
+  const isAdd = Math.random() < 0.55;
+
+  if (isAdd) {
+    const maxSum = range.max;
+    const a = randomInt(range.min, Math.min(maxSum, difficulty === 'support' ? 5 : 10));
+    const b = randomInt(1, Math.min(maxSum - a, difficulty === 'stretch' ? 12 : 8));
+    const sum = a + b;
+    const template = ADD_WORD_PROBLEMS[Math.floor(Math.random() * ADD_WORD_PROBLEMS.length)];
+    return {
+      type: 'word-problem',
+      prompt: template(a, b),
+      display: `${a} + ${b} = ?`,
+      childHints: ['listen to the story', 'count both groups', `${a} and ${b} together`],
+      options: numberOptions(sum, maxSum),
+      operands: [a, b]
+    };
+  } else {
+    const a = randomInt(2, range.max);
+    const b = randomInt(1, difficulty === 'support' ? Math.min(a - 1, 4) : Math.max(1, a - 1));
+    const diff = a - b;
+    const template = SUB_WORD_PROBLEMS[Math.floor(Math.random() * SUB_WORD_PROBLEMS.length)];
+    return {
+      type: 'word-problem',
+      prompt: template(a, b),
+      display: `${a} \u2212 ${b} = ?`,
+      childHints: ['listen to the story', 'what stays behind?', `${a} take away ${b}`],
+      options: numberOptions(diff, range.max),
+      operands: [a, b]
+    };
+  }
+}
+
+function generateFillToTen(difficulty: PuzzleDifficulty): Puzzle {
+  // n is already filled; answer is 10 - n
+  const maxFilled = difficulty === 'support' ? 7 : difficulty === 'stretch' ? 9 : 8;
+  const minFilled = difficulty === 'support' ? 1 : 2;
+  const n = randomInt(minFilled, maxFilled);
+  const answer = 10 - n;
+
+  return {
+    type: 'fill-to-ten',
+    prompt: `Tri has ${n}. How many more to make 10?`,
+    display: `${n} + ? = 10`,
+    childHints: ['count the empty spaces', 'fill the frame to 10', `10 take ${n}`],
+    options: numberOptions(answer, 10),
+    operands: [n, answer],
+    filledCount: n
+  };
+}
+
 function generateCounting(difficulty: PuzzleDifficulty): Puzzle {
   const max = difficulty === 'support' ? 8 : difficulty === 'stretch' ? 16 : 12;
   const count = randomInt(3, max);
@@ -149,18 +227,32 @@ function generateCounting(difficulty: PuzzleDifficulty): Puzzle {
 function generateMissingNumber(difficulty: PuzzleDifficulty): Puzzle {
   const maxStart = difficulty === 'support' ? 5 : difficulty === 'stretch' ? 16 : 10;
   const start = randomInt(0, maxStart);
-  const step = difficulty === 'stretch' && Math.random() < 0.35 ? 2 : 1;
+
+  // Stretch gets skip-counting by 2 or 5
+  let step = 1;
+  if (difficulty === 'stretch') {
+    const r = Math.random();
+    if (r < 0.25) step = 5;
+    else if (r < 0.55) step = 2;
+  } else if (difficulty === 'steady' && Math.random() < 0.2) {
+    step = 2;
+  }
+
   const missingIndex = randomInt(1, 3);
   const sequence = Array.from({ length: 5 }, (_, i) => start + i * step);
   const answer = sequence[missingIndex];
   const shown = sequence.map((n, i) => (i === missingIndex ? '?' : n)).join('  ');
 
+  let hint = 'next number';
+  if (step === 5) hint = 'count by 5s';
+  else if (step === 2) hint = 'skip count by 2';
+
   return {
     type: 'missing-number',
     prompt: 'What number is missing?',
     display: shown,
-    childHints: ['say in order', 'find the gap', step === 2 ? 'skip count' : 'next number'],
-    options: numberOptions(answer, sequence[4] + 2)
+    childHints: ['say in order', 'find the gap', hint],
+    options: numberOptions(answer, sequence[4] + step)
   };
 }
 
@@ -236,24 +328,51 @@ function generateShapeRecognition(): Puzzle {
 function generatePatternCompletion(): Puzzle {
   const pairIdx = Math.floor(Math.random() * PATTERN_PAIRS.length);
   const [a, b] = PATTERN_PAIRS[pairIdx];
+
+  // Randomly choose pattern type: AB, ABB, AABB
+  const patternType = shuffle(['AB', 'ABB', 'AABB'])[0];
+  let sequence: string;
+  let answer: string;
+
+  if (patternType === 'AB') {
+    // ABABAB? → answer is A or B depending on position
+    // Show: ABABAB? where ? = A (next in cycle)
+    sequence = `${a}${b}${a}${b}${a}${b}${a}❓`;
+    answer = b;
+  } else if (patternType === 'ABB') {
+    // ABBABB? → answer is A
+    sequence = `${a}${b}${b}${a}${b}${b}${a}❓`;
+    answer = b;
+  } else {
+    // AABB: AABBAABB? → answer is A
+    sequence = `${a}${a}${b}${b}${a}${a}${b}❓`;
+    answer = b;
+  }
+
   const wrongOptions = shuffle(
     PATTERN_PAIRS.filter((_, i) => i !== pairIdx).map(p => p[Math.floor(Math.random() * 2)])
   );
   const options = shuffle([
-    { id: 'c',  label: b, isCorrect: true },
+    { id: 'c',  label: answer, isCorrect: true },
     { id: 'w1', label: wrongOptions[0], isCorrect: false },
     { id: 'w2', label: wrongOptions[1], isCorrect: false }
   ]);
+
+  let patternCue = '';
+  if (patternType === 'AB') patternCue = `${a} then ${b}`;
+  else if (patternType === 'ABB') patternCue = `${a} then ${b}${b}`;
+  else patternCue = `${a}${a} then ${b}${b}`;
+
   return {
     type: 'shapes',
     prompt: 'What comes next?',
-    display: `${a}${b}${a}${b}${a}${b}${a}❓`,
-    childHints: [`${a} then ${b}`, 'look at pattern', 'touch next one'],
+    display: sequence,
+    childHints: [patternCue, 'look at the pattern', 'touch next one'],
     options
   };
 }
 
-function shuffle<T>(array: T[]): T[] {
+export function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
