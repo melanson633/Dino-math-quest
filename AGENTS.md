@@ -8,6 +8,16 @@ Charlotte is a bright 4-year-old who mainly uses the app on iPad/tablet, sometim
 
 Use this context for UX, copy, audio, reward, accessibility, and testing decisions, but keep the product flexible. Prefer observing the running game and making practical child-centered improvements over hard-coding a fixed therapy flow.
 
+## Compound Engineering Skills
+
+32 Compound Engineering skills are committed to `ce-plugin/skills/` and must be available at `.local/secondary_skills/` for Replit Agent to discover them. Because `.local/` is gitignored and reset between sessions, **run this at the start of every new session before doing any work:**
+
+```bash
+bash scripts/restore-ce-skills.sh
+```
+
+This is also wired into `scripts/post-merge.sh` so merges restore the skills automatically. The source of truth is `ce-plugin/skills/` — edit skills there, not in `.local/`.
+
 ## Workspace
 
 - Package manager: `pnpm` only.

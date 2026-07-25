@@ -49,7 +49,11 @@ Thumbs.db
 
 # Replit
 .cache/
-.local/
+.local/*
+!.local/secondary_skills/
+.local/secondary_skills/*
+!.local/secondary_skills/ce-*/
+!.local/secondary_skills/lfg/
 .dino-dev.pid
 /dino-dev.*.log
 
