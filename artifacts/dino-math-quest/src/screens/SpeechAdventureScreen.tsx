@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { publicAssetUrl } from '../lib/assets';
 import { dinoIslandContent, getCompanion, pickCompanionActionVariant } from '../content/dinoIslandContent';
 import { playCorrect, playRhythmCue, playTap } from '../lib/audio';
 import { detectVoiceAttempt } from '../lib/voiceParticipation';
@@ -87,7 +88,7 @@ export function SpeechAdventureScreen() {
         <section className="rounded-[28px] border-4 border-white bg-white/85 p-5 shadow-xl">
           <div className="flex items-center gap-4">
             {variant?.asset ? (
-              <img src={variant.asset} alt={companion.name} className="h-24 w-24 rounded-3xl object-contain bg-white" />
+              <img src={publicAssetUrl(variant.asset)} alt={companion.name} className="h-24 w-24 rounded-3xl object-contain bg-white" />
             ) : (
               <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-pink-200 text-5xl">🦖</div>
             )}

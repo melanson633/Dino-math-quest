@@ -18,6 +18,9 @@ Tiers mean:
 | `repo-map.md` | 95 | Before touching code. File inventory, screen wiring, what to ignore |
 | `product-blueprint.md` | 185 | You need product direction. **Its "Current Implementation Status" section is stale — see the note in the file.** The Purpose, Thesis, Goals, and Non-Goals sections are durable |
 | `team-roster.md` | 87 | Coordinating across multiple threads. Not needed for solo work |
+| `asset-specs/README.md` | 154 | Generating, reviewing, or replacing dino and biome art. Defines the spec schema and **reserves a silhouette class and body color per species** — read this before any art work |
+| `asset-specs/dinos/<id>.md` | ~230 each | Drawing or reviewing one dino. Read only the one you are working on |
+| `asset-specs/biomes/<id>.md` | ~255 each | Drawing or reviewing one biome background |
 
 ## Reference
 

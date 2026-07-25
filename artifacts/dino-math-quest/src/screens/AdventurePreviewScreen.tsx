@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
+import { publicAssetUrl } from '../lib/assets';
 import { getCompanion, LEARNING_AREAS } from '../content/dinoIslandContent';
 
 export function AdventurePreviewScreen() {
@@ -22,7 +23,7 @@ export function AdventurePreviewScreen() {
 
         {variant?.asset && (
           <img
-            src={variant.asset}
+            src={publicAssetUrl(variant.asset)}
             alt={`${companion.name} companion`}
             className="h-40 max-w-[75%] object-contain drop-shadow-xl"
           />

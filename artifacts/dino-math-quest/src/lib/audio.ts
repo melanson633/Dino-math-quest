@@ -1,3 +1,5 @@
+import { publicAssetUrl } from './assets';
+
 let audioCtx: AudioContext | null = null;
 let bgmOscillator: OscillatorNode | null = null;
 let bgmGain: GainNode | null = null;
@@ -160,7 +162,7 @@ function playReviewedAudioAsset(id: string, onPlaybackFailure: () => void): bool
   const asset = reviewedAudioManifest.assets.find((entry) => entry.id === id && entry.approved);
   if (!asset) return false;
 
-  const audio = new Audio(publicAudioUrl(asset.src));
+  const audio = new Audio(publicAssetUrl(asset.src));
   audio.volume = 0.72;
   let didFallback = false;
   const fallbackOnce = () => {
@@ -175,7 +177,7 @@ function playReviewedAudioAsset(id: string, onPlaybackFailure: () => void): bool
 
 function preloadReviewedAudioManifest(): void {
   if (reviewedAudioManifest || reviewedAudioManifestRequest) return;
-  reviewedAudioManifestRequest = fetch(publicAudioUrl('/audio/manifest.json'))
+  reviewedAudioManifestRequest = fetch(publicAssetUrl('/audio/manifest.json'))
     .then((response) => (response.ok ? response.json() : null))
     .then((manifest: ReviewedAudioManifest | null) => {
       reviewedAudioManifest = validateReviewedAudioManifest(manifest);
@@ -185,11 +187,6 @@ function preloadReviewedAudioManifest(): void {
     .finally(() => {
       reviewedAudioManifestRequest = null;
     });
-}
-
-function publicAudioUrl(src: string): string {
-  const base = import.meta.env.BASE_URL || '/';
-  return `${base.replace(/\/$/, '')}/${src.replace(/^\//, '')}`;
 }
 
 function validateReviewedAudioManifest(manifest: unknown): ReviewedAudioManifest | null {

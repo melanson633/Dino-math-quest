@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { DINOS } from '../lib/dinos';
+import { DinoArt } from '../components/DinoArt';
 import { TriDino } from '../components/TriDino';
 
 export function DinoRewardScreen() {
@@ -34,9 +35,7 @@ export function DinoRewardScreen() {
           transition={{ type: 'spring', bounce: 0.55, delay: 0.1 }}
           className="absolute rounded-full bg-white/45 p-12 shadow-2xl"
         >
-          <span className="block text-[8rem] leading-none drop-shadow-sm sm:text-[10rem]">
-            {dino?.emoji ?? '🦕'}
-          </span>
+          <DinoArt dino={dino} decorative className="block h-32 w-32 drop-shadow-sm sm:h-40 sm:w-40" />
         </motion.div>
 
         <motion.div

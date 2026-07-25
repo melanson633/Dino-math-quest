@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { dinoIslandContent, SpellingWordContent, WORD_FAMILIES, WordFamilyContent } from '../content/dinoIslandContent';
 import { playCorrect, playTap } from '../lib/audio';
+import { shuffle } from '../lib/puzzles';
 
 /* ─── types & constants ─────────────────────────────────────── */
 
@@ -12,21 +13,14 @@ type SpellingMode = 'letter-build' | 'word-family' | 'first-sound';
 const SPELLING_DIFFICULTY_ORDER: SpellingDifficulty[] = ['support', 'steady', 'stretch'];
 const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
 const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+/** Letters offered per round. Grows if a word has more distinct letters. */
+const TRAY_SIZE = 12;
 const MODES: SpellingMode[] = ['letter-build', 'word-family', 'first-sound'];
 
 function moveDifficulty(current: SpellingDifficulty, direction: -1 | 1): SpellingDifficulty {
   const currentIndex = SPELLING_DIFFICULTY_ORDER.indexOf(current);
   const nextIndex = Math.min(SPELLING_DIFFICULTY_ORDER.length - 1, Math.max(0, currentIndex + direction));
   return SPELLING_DIFFICULTY_ORDER[nextIndex];
-}
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
 }
 
 /* ─── letter button ─────────────────────────────────────────── */
@@ -104,10 +98,15 @@ function LetterBuildRound({
   const [stampComplete, setStampComplete] = useState(false);
 
   const choices = useMemo(() => {
-    const wordLetters = new Set(word.word.split(''));
-    const extras = ALL_LETTERS.filter((l) => !wordLetters.has(l));
-    const pool = Array.from(new Set([...word.word.split(''), ...extras]));
-    return shuffle(pool).slice(0, 12);
+    // Reserve the answer's letters FIRST, then fill the remaining slots with
+    // distractors. Slicing a shuffled pool of all 26 letters — as this did
+    // before — dropped required letters past index 12, leaving a tray the word
+    // could not be spelled from. For a four-distinct-letter word only about 4%
+    // of trays were solvable.
+    const required = Array.from(new Set(word.word.split('')));
+    const distractors = shuffle(ALL_LETTERS.filter((l) => !required.includes(l)));
+    const traySize = Math.max(TRAY_SIZE, required.length);
+    return shuffle([...required, ...distractors.slice(0, traySize - required.length)]);
   }, [word.word]);
 
   const built = letters.join('');

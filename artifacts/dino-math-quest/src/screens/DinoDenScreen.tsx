@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { DINOS } from '../lib/dinos';
+import { DinoArt } from '../components/DinoArt';
 import { playRhythmCue, playTap, playTinySong } from '../lib/audio';
 import { ArrowLeft, Footprints, Music, Sparkles, Volume2 } from 'lucide-react';
 
@@ -93,7 +94,7 @@ export function DinoDenScreen() {
         {selectedDino ? (
           <section className="mb-5 rounded-3xl border-4 border-emerald-100 bg-white p-4 shadow-md">
             <div className="flex items-center gap-3">
-              <span className="text-6xl" aria-hidden="true">{selectedDino.emoji}</span>
+              <DinoArt dino={selectedDino} decorative className="h-16 w-16" />
               <div>
                 <h2 className="text-2xl font-extrabold text-emerald-800">{selectedDino.name}</h2>
                 <p className="text-emerald-700 font-semibold">{selectedDino.practice.wordPrompt}</p>
@@ -233,7 +234,7 @@ export function DinoDenScreen() {
               >
                 {isUnlocked ? (
                   <>
-                    <span className="text-6xl mb-2">{dino.emoji}</span>
+                    <DinoArt dino={dino} decorative className="mb-2 h-16 w-16" />
                     <h3 className="font-bold text-base leading-tight text-amber-700">{dino.name}</h3>
                     <p className="text-xs text-gray-500 mt-1 leading-snug">{dino.fact}</p>
                   </>

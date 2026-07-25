@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
-import { BIOMES } from '../lib/biomes';
+import { BIOMES, biomeBackground } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
+import { DinoArt } from '../components/DinoArt';
+import { publicAssetUrl } from '../lib/assets';
 import { playTap } from '../lib/audio';
 import type { Puzzle } from '../lib/puzzles';
 import { TenFrame } from '../components/TenFrame';
@@ -365,8 +367,9 @@ function CelebrationOverlay({ onDone }: { onDone: () => void }) {
 
 /* ─── helpers ─────────────────────────────────────────────────── */
 
+/** The dino still to be found, or null once every one of them is unlocked. */
 function getNextDino(totalCorrect: number) {
-  return DINOS.find((dino) => dino.unlockAt > totalCorrect) ?? DINOS[DINOS.length - 1];
+  return DINOS.find((dino) => dino.unlockAt > totalCorrect) ?? null;
 }
 
 const BUTTON_PASTEL_BASE = [
@@ -378,8 +381,15 @@ const BUTTON_PASTEL_BASE = [
 /* ─── main component ─────────────────────────────────────────── */
 
 export function PuzzleScreen() {
-  const { state, puzzle, answerPuzzle, goToScreen, celebrationPending, clearCelebration } = useGame();
+  const { state, puzzle, answerPuzzle, goToScreen, celebrationPending, clearCelebration, newPuzzle } = useGame();
   const biome = BIOMES[state.currentBiome];
+
+  // Puzzles are generated on navigation, not persisted. Reopening the app on
+  // this screen therefore arrived with none, and the loading dino below bounced
+  // forever with no way to answer anything.
+  useEffect(() => {
+    if (!puzzle) newPuzzle();
+  }, [puzzle, newPuzzle]);
 
   const [wrongIds, setWrongIds] = useState<Set<string>>(new Set());
   const [shakingId, setShakingId] = useState<string | null>(null);
@@ -441,7 +451,7 @@ export function PuzzleScreen() {
     return (
       <div
         className="absolute inset-0 flex items-center justify-center pt-24"
-        style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
+        style={biomeBackground(biome, publicAssetUrl)}
       >
         <span className="animate-bounce text-6xl">🦕</span>
       </div>
@@ -452,16 +462,20 @@ export function PuzzleScreen() {
   const subtractKind = SUBTRACT_KINDS[state.currentBiome] ?? 'egg';
   const nextDino = getNextDino(state.totalCorrect);
   const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
-  const progressSpan = Math.max(1, nextDino.unlockAt - previousUnlockAt);
-  const correctTowardNextDino = Math.min(state.totalCorrect, nextDino.unlockAt);
-  const progressValue = Math.min(100, Math.max(0, ((correctTowardNextDino - previousUnlockAt) / progressSpan) * 100));
+  // Past the last unlock there is nothing left to fill toward, so the bar reads
+  // full. It used to point at the final dino and sit at 0% forever.
+  const progressSpan = Math.max(1, (nextDino?.unlockAt ?? 0) - previousUnlockAt);
+  const correctTowardNextDino = Math.min(state.totalCorrect, nextDino?.unlockAt ?? state.totalCorrect);
+  const progressValue = nextDino
+    ? Math.min(100, Math.max(0, ((correctTowardNextDino - previousUnlockAt) / progressSpan) * 100))
+    : 100;
 
   const isWordProblem = puzzle.type === 'word-problem';
 
   return (
     <div
       className="absolute inset-0 flex w-full flex-col overflow-y-auto pt-20 sm:pt-24"
-      style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
+      style={biomeBackground(biome, publicAssetUrl)}
     >
       {/* Confetti & celebration overlays */}
       {showConfetti && <ConfettiBurst count={20} />}
@@ -570,8 +584,14 @@ export function PuzzleScreen() {
           >
             <span className="text-[6rem] leading-none">🎉</span>
             <div className="flex flex-col items-center gap-1 text-white">
-              <span className="text-3xl">{nextDino.emoji}</span>
-              <p className="text-base font-black">{nextDino.name}</p>
+              {nextDino ? (
+                <>
+                  <DinoArt dino={nextDino} decorative className="h-8 w-8" />
+                  <p className="text-base font-black">{nextDino.name}</p>
+                </>
+              ) : (
+                <p className="text-base font-black">All {DINOS.length} friends found!</p>
+              )}
               <div className="mt-1 h-3 w-32 overflow-hidden rounded-full bg-white/30">
                 <div className="h-full rounded-full bg-emerald-400 transition-all" style={{ width: `${progressValue}%` }} />
               </div>

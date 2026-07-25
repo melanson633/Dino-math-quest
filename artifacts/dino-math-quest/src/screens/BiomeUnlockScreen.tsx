@@ -1,16 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
-import { BIOMES } from '../lib/biomes';
+import { BIOMES, biomeBackground } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
 import { TriDino } from '../components/TriDino';
+import { DinoArt } from '../components/DinoArt';
+import { publicAssetUrl } from '../lib/assets';
 
 export function BiomeUnlockScreen() {
-  const { state, goToScreen, newPuzzle } = useGame();
+  const { state, goToScreen, newPuzzle, showPendingDinoReward } = useGame();
   const biome = BIOMES[state.currentBiome];
   const bossDino = DINOS.find(d => d.id === biome.bossDinoId);
 
   const handleLetsGo = () => {
+    // A dino unlocked on the same answer as this biome waits behind it.
+    if (state.pendingDinoReward) {
+      showPendingDinoReward();
+      return;
+    }
     newPuzzle();
     goToScreen('puzzle');
   };
@@ -18,7 +25,7 @@ export function BiomeUnlockScreen() {
   return (
     <div
       className="flex-1 flex flex-col items-center justify-between relative w-full p-6 text-white overflow-hidden"
-      style={{ background: `linear-gradient(to bottom, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
+      style={biomeBackground(biome, publicAssetUrl)}
     >
       {/* Falling sparkles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -66,7 +73,7 @@ export function BiomeUnlockScreen() {
             transition={{ delay: 0.6, type: 'spring', bounce: 0.4 }}
             className="flex flex-col items-center"
           >
-            <span className="text-[6rem] drop-shadow-2xl">{bossDino.emoji}</span>
+            <DinoArt dino={bossDino} decorative className="h-24 w-24 drop-shadow-2xl" />
             <span className="text-xl font-bold bg-black/20 px-3 py-1 rounded-full">{bossDino.name}!</span>
           </motion.div>
         )}
