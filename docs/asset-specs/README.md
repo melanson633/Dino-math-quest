@@ -37,6 +37,35 @@ author working in parallel.
 8. Hand-author each outline independently. Do not copy another asset's path and
    perturb the numbers. This is the failure being corrected.
 
+## No prescribed coordinates
+
+**A spec states sizes, counts, proportions and relationships — never the
+coordinates that satisfy them.** The only numbers tied to the grid are
+frame-level: the overall bounding box, the ground line, occupancy percentages,
+and the stroke-clearance envelope in global constraint 7.
+
+This is the second defect class the schema had to close. Reserving the
+silhouette and body fill stops two *different* specs from converging, but says
+nothing about whether one spec is internally solvable. Round 2's specs each
+carried a coordinate walk *and* a minimum-size table written as two independent
+passes, never solved against each other — so a spec could demand six splashes at
+≥ 18 units wide inside a 128-unit frame, or place a snout tip outside its own
+clipping envelope. An author following the numbers and an author following the
+minimums produced different, and sometimes impossible, drawings. Codex halted on
+this before authoring a single file.
+
+Every quantity a spec states must therefore be **arithmetically checkable
+against every other quantity in the same file.** Where N repeated elements have
+a minimum size and a minimum gap, the spec must show the sum fits the frame and
+say so inline, so the next author cannot silently raise one number past the
+budget.
+
+The biome motif tables are the deliberate exception, and they show what the
+allowed use looks like: those x centers exist **because** the crop-safety rule
+is stated as "which instances survive the `x 66–126` phone window," so each
+number is the answer to a check rather than a drawing instruction. A coordinate
+earns its place in a spec only when a stated test reads it.
+
 ## Palette
 
 Structural: stroke `#503B32`, cream `#FFF4D5` (bellies, tusks, eye whites),
@@ -99,13 +128,16 @@ countable: { element: back plates, count: 3 }
 
 1. **Identity in one line.** What a four-year-old says out loud when they see it.
 2. **Silhouette contract.** The asset filled flat black must still be nameable.
-   Describe the outline as an ordered walk with approximate coordinate regions on
-   the 128 grid. State the overall bounding box and the stance. This section is
-   the primary deliverable — if it is vague the asset will fail.
+   Describe the outline as an ordered **relational** walk — snout to brow, brow
+   over the skull, skull down to the shoulder, shoulder up to the hip — naming
+   the direction, the curvature and the proportion of each run. State the overall
+   bounding box and the stance. This section is the primary deliverable — if it
+   is vague the asset will fail.
 3. **Required features.** Each defining anatomical feature, with a **minimum size
-   in viewBox units** and a position. A feature smaller than ~18 units does not
-   read at 96 px and does not count as present. Round 1 failed here: the raptor's
-   sickle claw was a ~10-unit notch.
+   in viewBox units** and a **relational placement** ("on the near foot, arcing
+   up and forward", not "at (66, 108)"). A feature smaller than ~18 units does
+   not read at 96 px and does not count as present. Round 1 failed here: the
+   raptor's sickle claw was a ~10-unit notch.
 4. **Countable elements.** The app narrates counting against the art —
    `dinos.ts` `practice.countPrompt`. If the prompt says "Count three back
    plates", the art must show **exactly three**, individually separated and
@@ -150,5 +182,7 @@ Same frontmatter shape with `kind: biome`, then:
 
 ## What a spec is not
 
-Not prose about mood. Not a prompt. Every requirement must be something a
-reviewer can hold the finished SVG against and answer yes or no.
+Not prose about mood. Not a prompt. Not a coordinate dump — see **No prescribed
+coordinates**. Every requirement must be something a reviewer can hold the
+finished SVG against and answer yes or no, and every requirement must be
+satisfiable at the same time as every other requirement in the file.

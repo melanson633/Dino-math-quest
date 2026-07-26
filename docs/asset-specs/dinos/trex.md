@@ -25,7 +25,7 @@ the animal; **the head is roughly a third of the animal.** Round 1's trex had no
 defining feature at all; the head mass *is* the defining feature and it must be
 impossible to miss.
 
-Overall bounding box (body): **x 8 → 116, y 34 → 120**. Width ≈ 108, height
+Overall bounding box (body): **x 8 → 116, y 32 → 118**. Width ≈ 108, height
 ≈ 86. **Aspect ratio L:H ≈ 1.28** (raptor 1.64, spino 1.04, carno 0.85).
 
 Stance: **standing biped, head carried high and forward, spine pitched
@@ -51,49 +51,47 @@ within 40% of each other in area.** That is the counterbalance.
 
 Ordered walk of the body outline, clockwise from the snout tip:
 
-1. Snout tip **(116, 56)** — blunt, deep, 5-unit corner radius. The snout front
-   is nearly **vertical**, 14 units of face from (116, 48) down to (116, 62).
-   Nothing else in the roster has a blunt vertical snout front.
-2. Up the front of the muzzle to the top of the snout **(116, 48)**.
-3. Along the top of the skull, rising: **(104, 38) → (88, 34)** — the crown.
-4. Back of the skull drops to the nape **(72, 42)**. Head box is x 68–116,
-   y 34–72: **48 × 38**.
-5. Very short neck: **(72, 42) → shoulder (62, 46)**. Only 10 units. The skull
-   sits directly on the shoulders.
-6. Back line, gently falling rearward: **(62, 46) → (46, 56) → hip (32, 66)**.
-7. Tail top edge: **(32, 66) → (16, 74) → blunt tail tip (10, 84)**. The tip is
-   **rounded, 6 units across** — a blunt heavy end, never a point.
-8. Tail underside: **(10, 84) → (20, 92) → (34, 98)**. **Base depth = 98 − 66 =
-   32.** The tail keeps its depth for its first two thirds and only tapers in
-   the last 12 units. Round 1's "thin taper with no counterbalance mass" is
-   exactly what this forbids.
-9. Belly, broad and low: **(34, 98) → (48, 100) → chest (60, 94)**.
-10. Chest rises steeply to the throat **(66, 80) → (68, 72)**.
-11. Underside of the jaw runs forward and slightly down: **(68, 72) →
-    (92, 70) → (116, 62)**, closing at the snout tip. **Jaw depth at the hinge =
-    72 − 42 = 30 units** — a deep jaw is half the head-mass read.
-12. **Near leg:** a broad thigh mass, an oval x 36–64, y 70–100 blended into the
-    body outline, then a **thick shin** x 46–68, y 96–120, then a foot pad
-    x 42–74 on the ground line, with **three visible rounded toe bumps**, each
-    ≥ 9 units.
-13. **Far leg** drawn as a separate closed shape behind, inset 10 units
-    rearward, 4 units narrower, same short thick proportions.
-14. **Arms:** two separate closed shapes leaving the chest at (62, 80), angling
-    forward and down to (76, 88) — see Section 3. They hang in open space below
-    the jaw so they are visible against background, not lost on the chest.
+1. Snout tip — blunt, deep, ~5-unit corner radius. The snout front is nearly
+   **vertical**, ~14 units of face. Nothing else in the roster has a blunt
+   vertical snout front.
+2. Up the front of the muzzle to the top of the snout.
+3. Along the top of the skull, rising rearward to the **crown**.
+4. Back of the skull drops to the **nape**. The head box measures ~48 × 38.
+5. Very short neck from nape to **shoulder** — only ~10 units. The skull sits
+   directly on the shoulders.
+6. Back line falls gently rearward to the **hip**.
+7. Tail top edge runs back and down to a **blunt tail tip**, rounded and ~6 units
+   across — a blunt heavy end, never a point.
+8. Tail underside returns forward to the belly. **Base depth ≈ 32.** The tail
+   keeps its depth for its first two thirds and only tapers in the last stretch.
+   Round 1's "thin taper with no counterbalance mass" is exactly what this
+   forbids.
+9. Belly, broad and low, forward to the chest.
+10. Chest rises steeply to the throat.
+11. Underside of the jaw runs forward and slightly down, closing at the snout
+    tip. **Jaw depth at the hinge ≈ 30 units** — a deep jaw is half the head-mass
+    read.
+12. **Near leg:** a broad thigh mass blended into the body outline, then a
+    **thick shin**, then a foot pad on the ground line with **three visible
+    rounded toe bumps**, each ≥ 9 units.
+13. **Far leg** drawn as a separate closed shape behind, inset rearward and
+    narrower, same short thick proportions.
+14. **Arms:** two separate closed shapes leaving the chest, angling forward and
+    down — see Section 3. They hang in open space below the jaw so they are
+    visible against background, not lost on the chest.
 
 ## 3. Required features — minimum sizes
 
-| feature | min size (viewBox units) | position |
+| feature | min size (viewBox units) | placement |
 |---|---|---|
-| **Head** | **≥ 44 long × ≥ 34 deep**, and head depth **≥ 0.35 × standing height** | x 68–116, y 34–72 |
-| **Jaw depth at the hinge** | **≥ 28** | x 68–76 |
-| **Tail** | **≥ 30 deep at the base**, ≥ 30 long, blunt tip ≥ 6 across | x 10–34, y 66–98 |
-| **Arm + two fingers** | **≥ 20 units total reach**, hand shows **exactly two rounded fingers, each ≥ 8 long × ≥ 6 wide**, separated by a ≥ 4-unit notch | x 62–84, y 76–94 |
-| Each leg — thigh | ≥ 26 wide | y 70–100 |
-| Each leg — shin | ≥ 20 wide × ≥ 20 tall | y 96–120 |
-| Foot pad + toes | ≥ 30 long, 3 toe bumps ≥ 9 each | y 112–120 |
-| Neck | ≤ 14 long (a **maximum**, not a minimum) | x 62–72 |
+| **Head** | **≥ 44 long × ≥ 34 deep**, and head depth **≥ 0.35 × standing height** | carried high and forward, over the shoulders |
+| **Jaw depth at the hinge** | **≥ 28** | rear of the head, under the nape |
+| **Tail** | **≥ 30 deep at the base**, ≥ 30 long, blunt tip ≥ 6 across | off the hip, running back and slightly down |
+| **Arm + two fingers** | **≥ 20 units total reach**, hand shows **exactly two rounded fingers, each ≥ 8 long × ≥ 6 wide**, separated by a ≥ 4-unit notch | off the chest, hanging in open space below the jaw |
+| Each leg — thigh | ≥ 26 wide | under the hip |
+| Each leg — shin | ≥ 20 wide × ≥ 20 tall | below the thigh, down to the ground line |
+| Foot pad + toes | ≥ 30 long, 3 toe bumps ≥ 9 each | on the ground line, pointing forward |
+| Neck | ≤ 14 long (a **maximum**, not a minimum) | between nape and shoulder |
 
 The arms are the second half of the identity ("tiny arms" is in the `fact`
 string) and round 1 delivered "a featureless 4-point stub with no fingers." The
@@ -113,17 +111,17 @@ Also `movePrompt`: "Do ten quiet brave roars."
 - Layout — **two staggered rows of five** in the empty band above the back and
   ahead of the head. Five-and-five is the easiest ten for a four-year-old to
   count, and it is what fits:
-  - **Row A**, y centers ≈ **12**: x centers **16, 30, 44, 58, 72**.
-  - **Row B**, y centers ≈ **26**: x centers **24, 38, 52, 66, 80** (offset
-    +8 from row A so no puff sits directly under another).
+  - **Row A** sits highest, **Row B** below it, each row evenly spaced left to
+    right across the band.
+  - Row B is offset horizontally by roughly half a spacing so **no puff sits
+    directly under another**.
 - Minimum clear gap between any two puff outlines: **≥ 3 units**. No puff may
   overlap another; no puff may touch the head, back or tail — **minimum 4 units
-  of clear background** to any body path. The body's highest point is y = 34, so
-  row B's lowest edge at y ≈ 31 must be checked against the crown at
-  x 68–90.
-- Puffs grow slightly from row A's leftmost (11 units) to row B's rightmost
-  (14 units), so the set reads as sound travelling out from the mouth rather
-  than as wallpaper. Size variation must stay within the 11-unit floor.
+  of clear background** to any body path. Row B's lower edge is the one to check
+  against the crown, which is the body's highest point.
+- Puffs grow slightly from the leftmost of row A (the 11-unit floor) to the
+  rightmost of row B (up to ~14 units), so the set reads as sound travelling out
+  from the mouth rather than as wallpaper. No puff may fall below the floor.
 - Puffs are filled `#FFF4D5` with the shared stroke and are **excluded from the
   flat-black silhouette test** in Section 9 test 1.
 
@@ -133,16 +131,18 @@ survive a 96 px screenshot check.
 
 ## 5. Stance and framing
 
-- Ground line: **y = 120**. Both feet terminate on it. Nothing extends below.
+- Ground line: **y = 118**. Both feet terminate on it. Nothing extends below.
+  (The ground line sits at 118, not 120, so the foot outline **plus its 1.5-unit
+  stroke half-width** still lands inside the 120.5 envelope below.)
 - Stroke width **3**, so every coordinate satisfies **7.5 ≤ x ≤ 120.5** and
-  **7.5 ≤ y ≤ 120.5**. Puff row A at y center 12 with a 5.5 radius reaches
-  y = 6.5; with the stroke that is y = 5. **Move row A to y center 13.5** when
-  authoring. The tail tip at x = 10 is safe.
+  **7.5 ≤ y ≤ 120.5**. Row A's puffs are the topmost shapes in the file — place
+  the row so the puff outline **plus its stroke half-width** clears the margin,
+  not just the puff center.
 - Occupancy: ≈ 84% of frame width; body ≈ 67% of frame height, and the puff band
   fills the remainder.
-- Weight distribution: **at least 40% of the filled body area lies to the right
-  of x = 66** (head end) and **at least 25% lies to the left of x = 34** (tail
-  end). The middle is the thin part. This is the see-saw check.
+- Weight distribution: **at least 40% of the filled body area lies forward of the
+  shoulder** (head end) and **at least 25% lies behind the hip** (tail end). The
+  middle is the thin part. This is the see-saw check.
 
 ## 6. Color plan
 
@@ -168,22 +168,22 @@ T-Rex has the **smallest eye on the biggest head** — a big gentle animal
 squinting kindly, mouth open in a quiet round "roar" that is obviously a sound,
 not a threat.
 
-- Eye: an ellipse **9 wide × 8 tall**, centered **(84, 46)** — set high and
-  **far back**, 32 units behind the snout tip. On a 48-unit head that is an
-  eye:head ratio of **0.19, the smallest in the roster** (raptor's is 0.46).
+- Eye: an ellipse **9 wide × 8 tall** — set high and **far back**, within the
+  rear third of the skull. On a 48-unit head that is an eye:head ratio of
+  **0.19, the smallest in the roster** (raptor's is 0.46).
   The huge empty expanse of muzzle in front of the eye is what sells the head
   size.
 - Lid: a **heavy soft brow ridge**, a 20-unit arc arching 5 units above the eye
   and thickening toward the front. It is a rounded bulge, not a frown — angled
   **up** at the front by 10°. No other species gets a brow ridge this large.
-- Pupil: `r = 3` circle set **low and forward** at (83, 48), so the eye looks
-  down toward the child.
+- Pupil: `r = 3` circle set **low and forward** within the eye, so it looks down
+  toward the child.
 - **Mouth: the only OPEN mouth in the roster** — a rounded cavity **26 wide ×
-  12 tall**, centered (100, 64), filled cream, with fully **rounded lip
-  corners** (radius ≥ 5) and a soft rounded tongue bump 10 × 5 at the bottom.
-  **Zero teeth. No fangs, no serrations, no visible gum line.** The shape is a
-  soft "oh" — the ten quiet roars — not a snarl.
-- Nostril: one 3-unit dot at **(110, 50)**, high on the deep snout.
+  12 tall** set in the forward half of the jaw, filled cream, with fully
+  **rounded lip corners** (radius ≥ 5) and a soft rounded tongue bump 10 × 5 at
+  the bottom. **Zero teeth. No fangs, no serrations, no visible gum line.** The
+  shape is a soft "oh" — the ten quiet roars — not a snarl.
+- Nostril: one 3-unit dot near the snout tip, high on the deep snout.
 - Cheek: a soft cream cheek patch 14 × 10 under the eye, trex only.
 
 Differentiators against the other three bipeds: only open-mouth cavity (spino
@@ -210,7 +210,7 @@ The specific round-1 failures for this species, to be corrected:
   under 30 units deep at the base; any tail that begins tapering before 60% of
   its length; any pointed tip.
 - Do not drift toward **carno**: **no horns, no bumps, no knobs, no crest and no
-  raised feature of any kind on the skull roof — the crown from x 104 to x 72 is
+  raised feature of any kind on the skull roof — the crown from snout to nape is
   one smooth convex curve.** Trex's tail must not rise (carno's does); trex's
   legs must not be slender (carno's are); trex's spine must not go upright
   (carno's does).
@@ -250,8 +250,8 @@ The specific round-1 failures for this species, to be corrected:
    60% along its length; tip is blunt, ≥ 6 across. **Pass/fail.**
 7. Count fingers on each hand: **exactly 2**, each ≥ 8 long × ≥ 6 wide,
    separated by a ≥ 4-unit notch; arm reach ≥ 20 units. **Pass/fail.**
-8. Trace the skull roof from x 116 to x 72: **zero bumps, knobs, horns or
-   vertices under 150°**. **Pass/fail.**
+8. Trace the skull roof from the snout tip back to the nape: **zero bumps, knobs,
+   horns or vertices under 150°**. **Pass/fail.**
 9. Count the roar puffs: exactly **10**, in two rows of five, each ≥ 11 × 9
    units, minimum 3-unit gap between puffs and 4-unit clearance to any body
    path. **Pass/fail.**
@@ -261,8 +261,8 @@ The specific round-1 failures for this species, to be corrected:
     Belly is `#FFF4D5`. **Pass/fail.**
 12. Zero teeth, zero fangs, zero pointed claws in the file. The mouth cavity's
     lip corners have radius ≥ 5. **Pass/fail.**
-13. Weight check: ≥ 40% of filled body area right of x = 66; ≥ 25% left of
-    x = 34. **Pass/fail.**
+13. Weight check: ≥ 40% of filled body area forward of the shoulder; ≥ 25%
+    behind the hip. **Pass/fail.**
 14. All coordinates satisfy 7.5 ≤ x, y ≤ 120.5; no stroke is clipped by the
     frame. **Pass/fail.**
 15. Global constraints: `viewBox="0 0 128 128"` exactly; **no** `width`/`height`

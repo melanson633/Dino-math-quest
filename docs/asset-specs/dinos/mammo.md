@@ -29,55 +29,53 @@ foot.
 Ordered walk of the outline, starting at the shoulder hump and going clockwise
 (back first, then rear, then underside, then head):
 
-1. **Hump apex (59, 26)** — the highest point of the whole animal, sitting over
-   the shoulders at roughly 45% of the body length from the front.
-2. Back descends rearward through the shaggy ridge (§3 #1) to the **rump
-   (105, 52)**.
-3. **Rump** rounds down to the **tail root (108, 58)**; a **short thin tail**
-   drops to (112, 70). Tail length **≤ 14 units**, width ≤ 5 units, and it must
-   hang — never extend horizontally.
-4. **Near rear leg**: rear edge from (105, 60) straight down to (105, 106); foot
-   pad flares out to (111, 114) and forward to (94, 114); front edge of the leg
-   rises to (94, 92).
-5. **Far rear leg** occupies x 84–96, foot on the ground x 84–96 at y 114,
-   drawn behind the near rear leg with **≥ 6 units** of its column visible so it
-   reads as a separate leg in the silhouette.
-6. **Belly** runs forward from (92, 92) to (48, 94), carrying a hanging fur
-   fringe (§3 #4).
-7. **Far front leg** occupies x 54–68, foot x 54–68 at y 114, again with ≥ 6
-   units of column visible.
-8. **Near front leg**: rear edge from (50, 92) down to (48, 106), foot pad
-   (36, 114) to (52, 114), front edge rising to (40, 82).
-9. **Chest** rises from (40, 80) to the **throat (34, 62)**.
-10. **Trunk** leaves the face at (32, 58) and descends as a tube (§3 #2) through
-    (28, 72), (26, 88), to a tip curling forward at **(34, 102)**.
-11. Front of the face rises from the trunk root at (30, 54) over the **brow
-    (32, 44)** to the **shaggy forehead crown (38, 38)**.
-12. Crown runs rearward and upward, joining the hump apex at (59, 26).
+1. **Hump apex** — the highest point of the whole animal, sitting over the
+   shoulders at roughly 45% of the body length from the front.
+2. Back descends rearward through the shaggy ridge (§3 #1) to the **rump**.
+3. **Rump** rounds down to the **tail root**; a **short thin tail** hangs from
+   it. Tail length **≤ 14 units**, width ≤ 5 units, and it must hang — never
+   extend horizontally.
+4. **Near rear leg**: rear edge straight down from the rump; foot pad flares out
+   rearward and forward on the ground line; front edge of the leg rises to the
+   belly.
+5. **Far rear leg** sits behind the near rear leg, foot also on the ground line,
+   with **≥ 6 units** of its column visible so it reads as a separate leg in the
+   silhouette.
+6. **Belly** runs forward, carrying a hanging fur fringe (§3 #4).
+7. **Far front leg**, again with ≥ 6 units of column visible behind the near
+   front leg.
+8. **Near front leg**: rear edge down from the belly, foot pad on the ground
+   line, front edge rising to the chest.
+9. **Chest** rises to the **throat**.
+10. **Trunk** leaves the face below the tusk roots and descends as a tube
+    (§3 #2) with a gentle forward S, to a tip curling forward.
+11. Front of the face rises from the trunk root over the **brow** to the **shaggy
+    forehead crown**.
+12. Crown runs rearward and upward, joining the hump apex.
 
 Depth cues that do not alter the outline: the far tusk is drawn behind the trunk
-in the same cream, offset 6 units up and back from the near tusk; far legs are
-the body fill at reduced opacity.
+in the same cream, offset up and back from the near tusk; far legs are the body
+fill at reduced opacity.
 
 **Silhouette-critical proportions:**
-- Body length (x 34 → 108) is **≥ 68 units**; body height at the hump (y 26 →
-  94) is **≥ 62 units** — a bulky, near-square mass.
-- The trunk tip (y ≈ 102) hangs **below the knee line (y = 92)**.
+- Body length nose-to-rump is **≥ 68 units**; body height from the hump apex down
+  to the belly is **≥ 62 units** — a bulky, near-square mass.
+- The trunk tip hangs **below the knee line**.
 - The gap between the two front feet and the two rear feet, measured foot-edge to
-  foot-edge along y = 114, is **≥ 26 units** of empty ground, so four separate
-  feet are visible on the ground line.
+  foot-edge along the ground line, is **≥ 26 units** of empty ground, so four
+  separate feet are visible.
 
 ## 3. Required features
 
-| # | Feature | Minimum size (viewBox units) | Position |
+| # | Feature | Minimum size (viewBox units) | Placement |
 |---|---|---|---|
-| 1 | **Shaggy back ridge** — 5 rounded peaks with V-valleys | ridge spans **≥ 48 units** of x; each peak **≥ 10 units** wide; each valley **≥ 6 units** deep | peaks at (48,33) (59,26) (70,31) (82,37) (94,44) |
-| 2 | **Trunk** — a downward tube of even width with a gentle forward S | **≥ 44 units** long from face to tip; **10–13 units** wide the whole way, tapering no more than 3 units | root (32, 58) → tip (34, 102) |
-| 3 | **Tusk pair** — two cream crescents, one on each side of the trunk, mirrored | each **≥ 32 units** of arc length, **≥ 7 units** thick at the base | near tusk root (33, 62) sweeping to tip (15, 84); far tusk root (39, 60) sweeping to tip (21, 90) |
-| 4 | **Belly fur fringe** — hanging hair points along the underside | fringe band **≥ 44 units** wide, each point **≥ 7 units** deep | x 48–92, y 92–100 |
-| 5 | **Four legs** — straight vertical columns | each **≥ 14 units** wide and **≥ 30 units** tall | near front x 36–52; far front x 54–68; far rear x 84–96; near rear x 94–111 |
-| 6 | **Shoulder hump** | rises **≥ 18 units** above the rump line (y 52) | apex (59, 26) |
-| 7 | **Shaggy forehead crown** | **≥ 18 units** wide | x 30–48, y 38–46 |
+| 1 | **Shaggy back ridge** — 5 rounded peaks with V-valleys | ridge spans **≥ 48 units** of the back; each peak **≥ 10 units** wide; each valley **≥ 6 units** deep | along the top outline, hump apex to rump, stepping downward |
+| 2 | **Trunk** — a downward tube of even width with a gentle forward S | **≥ 44 units** long from face to tip; **10–13 units** wide the whole way, tapering no more than 3 units | hanging from the face, tip below the knee line |
+| 3 | **Tusk pair** — two cream crescents, one on each side of the trunk, mirrored | each **≥ 32 units** of arc length, **≥ 7 units** thick at the base | rooted at the mouth region, sweeping down, forward, then up |
+| 4 | **Belly fur fringe** — hanging hair points along the underside | fringe band **≥ 44 units** wide, each point **≥ 7 units** deep | along the belly, between the front and rear legs |
+| 5 | **Four legs** — straight vertical columns | each **≥ 14 units** wide and **≥ 30 units** tall | two front, two rear, all four pads on the ground line |
+| 6 | **Shoulder hump** | rises **≥ 18 units** above the rump | over the shoulders, topmost point of the sprite |
+| 7 | **Shaggy forehead crown** | **≥ 18 units** wide | top-front of the head, between brow and hump |
 
 **Tusk symmetry rule (the round-1 fix):** the two tusks must be the **same curve
 geometry** — same arc direction, same taper, same thickness — differing only in
@@ -100,8 +98,9 @@ peaks.**
 
 - Count: **5**, exactly. This was the strongest thing about round-1 mammo and it
   is preserved deliberately.
-- Peak centers: (48, 33), (59, 26), (70, 31), (82, 37), (94, 44). Horizontal
-  spacing 11–12 units, evenly stepped.
+- Arrangement: one evenly stepped row along the back, the tallest peak at the
+  hump apex and each following peak lower than the last, marching down toward the
+  rump. Adjacent peak centers **11–12 units** apart.
 - Separation: the valley between any two adjacent peaks is **≥ 6 units deep**
   measured from the lower of the two peak tops, so the peaks stay individually
   countable at 96 px and do not blur into one furry lump.
@@ -117,14 +116,13 @@ one, never three.
 - Occupancy: sprite fills **≥ 78%** of frame width and **≥ 72%** of frame height.
   Mammo is the bulkiest sprite in the roster and should feel it.
 - **Minimum margin from every frame edge: 6 units**, to the outer edge of the
-  stroke. No path coordinate outside x 8–120 or y 8–120. The near tusk tip at
-  x = 15 is the tightest point — verify it and its stroke.
+  stroke. No path coordinate outside x 8–120 or y 8–120. The forward tusk tip is
+  the tightest point — verify it and its stroke.
 - The trunk hangs in open space; keep **≥ 8 units** of background between the
   trunk's rear edge and the near front leg so the trunk is not read as a fifth
   leg.
-- Body axis is **level**: hump apex (y 26) and rump (y 52) define a back that
-  slopes down toward the rear, but the belly line (y 92–94) is horizontal within
-  4 units.
+- Body axis is **level**: the back slopes down from hump apex to rump, but the
+  belly line is horizontal within 4 units.
 
 ## 6. Color plan
 
@@ -146,13 +144,12 @@ identity at thumbnail size.
 Woolly Mammoth is the **big, warm, wide-open, mouthless** face of the roster.
 
 - **Eye:** the largest simple eye in the set — a **circle 10 units in diameter**,
-  cream `#FFF4D5`, centered **(40, 46)**, set high on the head and well back from
-  the trunk root.
+  cream `#FFF4D5`, set high on the head and well back from the trunk root.
 - **Pupil:** a large round `#503B32` dot, **r = 3.5**, with a single cream
   catchlight notch at its upper-left. The pupil-to-eye ratio (0.7) is the
   highest of the twelve and is what makes the face read as gentle and warm.
 - **Lid:** none. Fully open. Instead, a **shaggy brow fringe of exactly three
-  hair points**, each ≥ 6 units, hanging from (32, 40) to (48, 40) partially over
+  hair points**, each ≥ 6 units, hanging from the forehead crown partially over
   the top of the eye — the eye peers out from under hair.
 - **Mouth: none.** Mammo is the **only sprite in the roster with no drawn
   mouth** — the trunk root and the two tusk roots occupy the entire mouth region.
@@ -197,8 +194,8 @@ failures are forbidden:
    with four separate foot pads touching y = 114. **PASS/FAIL**
 4. Total empty ground between the front foot group and the rear foot group along
    y = 114 is ≥ 26 units. **PASS/FAIL**
-5. A trunk is present: ≥ 44 units long, 10–13 units wide throughout, tip below
-   y = 92. **PASS/FAIL**
+5. A trunk is present: ≥ 44 units long, 10–13 units wide throughout, tip hanging
+   below the knee line. **PASS/FAIL**
 6. ≥ 8 units of background separate the trunk from the near front leg.
    **PASS/FAIL**
 7. Exactly **two** tusks, mirrored: same arc direction and taper, length
@@ -211,7 +208,7 @@ failures are forbidden:
 11. Every feature in the §3 table meets its stated minimum. **PASS/FAIL**
 12. Body fill is `#B96C47`; no green and no gold appear anywhere in the file.
     **PASS/FAIL**
-13. No mouth path exists in the face region x 26–48, y 48–62. **PASS/FAIL**
+13. No mouth path exists anywhere on the head. **PASS/FAIL**
 14. Eye is a 10-unit circle with an r = 3.5 pupil and a 3-point brow fringe.
     **PASS/FAIL**
 15. `viewBox="0 0 128 128"` exactly; no `width`, no `height`. **PASS/FAIL**
@@ -221,6 +218,6 @@ failures are forbidden:
 19. No opaque full-bleed background `<rect>`. **PASS/FAIL**
 20. Stroke color is `#503B32`; joins and caps round. **PASS/FAIL**
 21. Every path including its stroke half-width lies within x 8–120, y 8–120;
-    the near tusk tip at x ≈ 15 is explicitly checked. **PASS/FAIL**
+    the forward tusk tip is explicitly checked. **PASS/FAIL**
 22. Path data is not a copy or numeric perturbation of any other asset in
     `public/dinos/`. **PASS/FAIL**
