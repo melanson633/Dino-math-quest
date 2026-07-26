@@ -1,27 +1,28 @@
 import { Router, type IRouter, type Request } from "express";
+import { ReplitConnectors } from "@replit/connectors-sdk";
 import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 
 const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID ?? "21m00Tcm4TlvDq8ikWAM";
-const ELEVENLABS_TTS_URL = "https://api.elevenlabs.io/v1/text-to-speech";
+const TTS_PATH = "/v1/text-to-speech";
 
 // eleven_flash_v2_5: lowest latency, optimised for real-time game interactions.
 // Voice settings tuned for energetic, child-friendly delivery (panel-reviewed).
 const TTS_MODEL = "eleven_flash_v2_5";
 const VOICE_SETTINGS = {
-  stability: 0.35,         // lower = more expressive / emotive range
-  similarity_boost: 0.80,  // keeps voice character consistent
-  style: 0.45,             // adds prosodic exaggeration suitable for kids
-  use_speaker_boost: true, // enhances clarity over BGM
+  stability: 0.35,
+  similarity_boost: 0.80,
+  style: 0.45,
+  use_speaker_boost: true,
 };
 
 /* ── Simple in-memory IP rate limiter ─────────────────────────────────────
    Allows MAX_REQUESTS per IP within WINDOW_MS. No external dependency needed.
    Buckets are purged once per window to prevent unbounded memory growth.      */
 
-const WINDOW_MS = 60_000;  // 1 minute window
-const MAX_REQUESTS = 20;   // 20 TTS calls per IP per minute
+const WINDOW_MS = 60_000;
+const MAX_REQUESTS = 20;
 
 interface RateBucket { count: number; windowStart: number }
 const rateBuckets = new Map<string, RateBucket>();
@@ -74,25 +75,25 @@ router.post("/tts", async (req, res) => {
   const voice = voiceId ?? DEFAULT_VOICE_ID;
 
   try {
-    const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) {
-      res.status(503).json({ error: "TTS service not configured" });
-      return;
-    }
+    // Never cache the connectors client — tokens expire.
+    const connectors = new ReplitConnectors();
 
-    const upstream = await fetch(`${ELEVENLABS_TTS_URL}/${voice}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "xi-api-key": apiKey,
-        Accept: "audio/mpeg",
-      },
-      body: JSON.stringify({
-        text: text.trim(),
-        model_id: TTS_MODEL,
-        voice_settings: VOICE_SETTINGS,
-      }),
-    });
+    const upstream = await connectors.proxy(
+      "elevenlabs",
+      `${TTS_PATH}/${voice}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "audio/mpeg",
+        },
+        body: JSON.stringify({
+          text: text.trim(),
+          model_id: TTS_MODEL,
+          voice_settings: VOICE_SETTINGS,
+        }),
+      }
+    );
 
     if (!upstream.ok) {
       const errText = await upstream.text();
@@ -111,15 +112,12 @@ router.post("/tts", async (req, res) => {
     }
 
     const reader = body.getReader();
-    const pump = async () => {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(Buffer.from(value));
-      }
-      res.end();
-    };
-    await pump();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      res.write(Buffer.from(value));
+    }
+    res.end();
   } catch (err) {
     logger.error({ err }, "TTS route error");
     if (!res.headersSent) {
