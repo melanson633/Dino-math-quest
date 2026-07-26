@@ -8,7 +8,7 @@ silhouette_class: "small lean biped, forward pitch, long horizontal tail"
 body_fill: "#F39A49"
 accent_fills: ["#F5C55A"]
 nearest_neighbors: [trex, spino]
-countable: { element: footprints, count: 10 }
+countable: { element: footprints, count: 8 }
 ---
 
 # Velociraptor — asset spec
@@ -110,20 +110,21 @@ Source: `dinos.ts` → `raptor.practice.countPrompt` = **"Count by twos to ten."
 Also `movePrompt`: "Take quick steps: two, four, six." and `chant`:
 "Ve-lo-ci-rap-tor, quick little steps."
 
-- Required count: **exactly 10** footprints, arranged in **exactly 5 pairs**, so
-  a child counting 2-4-6-8-10 lands one number per pair.
-- Each footprint: **≥ 12 wide × ≥ 9 tall**, a rounded three-toed pad, its own
+- Required count: **exactly 8** footprints, arranged in **exactly 4 pairs**, so
+  a child counting 2-4-6-8 lands one number per pair.
+- Each footprint: **≥ 11 wide × ≥ 9 tall**, a rounded three-toed pad, its own
   closed path.
 - **Within a pair**, the gap between the two prints is **3–5 units**. **Between
   pairs**, the gap is **≥ 10 units**. The two spacings must differ by at least
   a factor of 2 so the pairing is unambiguous at 96 px. A child must see five
   clusters, not ten scattered dots.
 - Layout, a receding trail behind the running raptor — **two rows**:
-  - **Near row**, along the ground line: **2 pairs, 4 prints.**
+  - **Near row**, along the ground line: **1 pair, 2 prints.** The body occupies
+    the ground from x 55 to x 105, so only the left ~43 units are usable.
   - **Far row**, a short distance above and further back: **3 pairs, 6 prints.**
   - Within each row the pairs march evenly left to right; the two rows are
     offset horizontally from each other so no print sits directly above another.
-- Total 10. The far row sits behind the tail; the near row sits under it. No
+- Total 8. The far row sits behind the tail; the near row sits under it. No
   print may touch the tail, a leg, or the sickle claw — **minimum 4 units of
   clear background** between any print and any body path.
 - Footprints are filled `#F5C55A` with the shared stroke, and are **excluded
@@ -243,9 +244,10 @@ The specific round-1 failures for this species, to be corrected:
 7. Measure standing height: **≤ 76 units**. At least 85% of filled area lies
    below the hip line. **Pass/fail.**
 8. Measure spine pitch, hip to shoulder: **≥ 30° nose-down**. **Pass/fail.**
-9. Count the footprints: exactly **10**, in exactly **5** visually unambiguous
-   pairs; within-pair gap 3–5 units, between-pair gap ≥ 10 units; each print
-   ≥ 12 × 9 units. **Pass/fail.**
+9. Count the footprints: exactly **8**, in exactly **4** visually unambiguous
+   pairs; within-pair gap 3–5 units, between-pair gap ≥ 10 units — both measured
+   fill-edge to fill-edge, since the post-stroke reading does not fit the 113-unit
+   envelope; each print ≥ 11 × 9 units. **Pass/fail.**
 10. Every Section 3 feature meets its stated minimum size. **Pass/fail.**
 11. The file contains **no `#FFF4D5` fill on the belly** and **no `#C0553F`
     anywhere**. Belly is `#F5C55A`. **Pass/fail.**

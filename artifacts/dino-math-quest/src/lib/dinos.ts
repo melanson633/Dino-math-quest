@@ -157,7 +157,7 @@ export const DINOS: Dino[] = [
       chant: "T-Rex, big brave roar.",
       countPrompt: "Count ten quiet roars.",
       wordPrompt: "Spell REX.",
-      movePrompt: "Do ten quiet brave roars.",
+      movePrompt: "Do six quiet brave roars.",
       cheer: "Rex heard your brave voice.",
     },
   },

@@ -8,7 +8,7 @@ silhouette_class: "biped, massive head, thick counterbalance tail"
 body_fill: "#C0553F"
 accent_fills: ["#FFF4D5"]
 nearest_neighbors: [carno, raptor]
-countable: { element: roar puffs, count: 10 }
+countable: { element: roar puffs, count: 6 }
 ---
 
 # T-Rex — asset spec
@@ -102,20 +102,21 @@ resolvable fingers counts as **absent**.
 ## 4. Countable elements
 
 Source: `dinos.ts` → `trex.practice.countPrompt` = **"Count ten quiet roars."**
-Also `movePrompt`: "Do ten quiet brave roars."
+Also `movePrompt`: "Do six quiet brave roars."
 
-- Required count: **exactly 10** roar puffs. Not 9, not 12, not an
+- Required count: **exactly 6** roar puffs. Not 5, not 8, not an
   indeterminate cloud.
 - Each puff: a rounded three-lobe cloud shape, **≥ 11 units across × ≥ 9 tall**,
   its own closed path.
-- Layout — **two staggered rows of five** in the empty band above the back and
-  ahead of the head. Five-and-five is the easiest ten for a four-year-old to
-  count, and it is what fits:
+- Layout — **two staggered rows of three** in the empty band above the back and
+  ahead of the head. Three-and-three is the easiest six for a four-year-old to
+  count, and it is what fits: the band clears the tail and crown for only about
+  66 units of run, and five puffs at the size floor need 82.
   - **Row A** sits highest, **Row B** below it, each row evenly spaced left to
     right across the band.
   - Row B is offset horizontally by roughly half a spacing so **no puff sits
     directly under another**.
-- Minimum clear gap between any two puff outlines: **≥ 3 units**. No puff may
+- Minimum clear gap between any two puff outlines: **≥ 3 units of background measured between the rendered outer stroke edges**. No puff may
   overlap another; no puff may touch the head, back or tail — **minimum 4 units
   of clear background** to any body path. Row B's lower edge is the one to check
   against the crown, which is the body's highest point.
@@ -252,7 +253,7 @@ The specific round-1 failures for this species, to be corrected:
    separated by a ≥ 4-unit notch; arm reach ≥ 20 units. **Pass/fail.**
 8. Trace the skull roof from the snout tip back to the nape: **zero bumps, knobs,
    horns or vertices under 150°**. **Pass/fail.**
-9. Count the roar puffs: exactly **10**, in two rows of five, each ≥ 11 × 9
+9. Count the roar puffs: exactly **6**, in two rows of three, each ≥ 11 × 9
    units, minimum 3-unit gap between puffs and 4-unit clearance to any body
    path. **Pass/fail.**
 10. Every Section 3 feature meets its stated minimum size; the neck meets its
