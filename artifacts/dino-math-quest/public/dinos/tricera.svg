@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Body -->
+  <ellipse cx="62" cy="78" rx="32" ry="22" fill="#7cb87c" stroke="#2d5a2d" stroke-width="3"/>
+  <!-- Legs -->
+  <rect x="38" y="92" width="12" height="18" rx="5" fill="#6aaa6a" stroke="#2d5a2d" stroke-width="2.5"/>
+  <rect x="54" y="94" width="12" height="16" rx="5" fill="#6aaa6a" stroke="#2d5a2d" stroke-width="2.5"/>
+  <rect x="70" y="94" width="12" height="16" rx="5" fill="#6aaa6a" stroke="#2d5a2d" stroke-width="2.5"/>
+  <rect x="86" y="92" width="12" height="18" rx="5" fill="#6aaa6a" stroke="#2d5a2d" stroke-width="2.5"/>
+  <!-- Tail -->
+  <path d="M94 78 Q110 72 114 62 Q116 55 108 58" fill="none" stroke="#2d5a2d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M94 78 Q110 72 114 62 Q116 55 108 58" fill="none" stroke="#7cb87c" stroke-width="6" stroke-linecap="round"/>
+  <!-- Neck -->
+  <ellipse cx="34" cy="66" rx="14" ry="16" fill="#7cb87c" stroke="#2d5a2d" stroke-width="3"/>
+  <!-- Head -->
+  <ellipse cx="22" cy="52" rx="18" ry="14" fill="#7cb87c" stroke="#2d5a2d" stroke-width="3"/>
+  <!-- Frill -->
+  <ellipse cx="26" cy="40" rx="20" ry="14" fill="#e05c5c" stroke="#2d5a2d" stroke-width="2.5" opacity="0.9"/>
+  <!-- Frill lines -->
+  <line x1="14" y1="48" x2="10" y2="30" stroke="#2d5a2d" stroke-width="1.5"/>
+  <line x1="22" y1="42" x2="20" y2="26" stroke="#2d5a2d" stroke-width="1.5"/>
+  <line x1="30" y1="40" x2="32" y2="26" stroke="#2d5a2d" stroke-width="1.5"/>
+  <line x1="38" y1="44" x2="42" y2="30" stroke="#2d5a2d" stroke-width="1.5"/>
+  <!-- Three horns -->
+  <polygon points="8,52 4,36 14,46" fill="#f5e642" stroke="#2d5a2d" stroke-width="2"/>
+  <polygon points="14,44 10,28 20,42" fill="#f5e642" stroke="#2d5a2d" stroke-width="2"/>
+  <polygon points="22,40 20,24 28,38" fill="#f5e642" stroke="#2d5a2d" stroke-width="2"/>
+  <!-- Eye -->
+  <circle cx="16" cy="54" r="4" fill="white" stroke="#2d5a2d" stroke-width="2"/>
+  <circle cx="16" cy="54" r="2" fill="#1a1a1a"/>
+  <!-- Nostril -->
+  <circle cx="8" cy="58" r="1.5" fill="#2d5a2d"/>
+  <!-- Mouth -->
+  <path d="M6 62 Q14 66 22 62" fill="none" stroke="#2d5a2d" stroke-width="2" stroke-linecap="round"/>
+</svg>

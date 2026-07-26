@@ -5,6 +5,8 @@ import { BIOMES, biomeBackground } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
 import type { Dino } from '../lib/dinos';
 import { DinoArt } from '../components/DinoArt';
+import { EggIncubationBar } from '../components/EggIncubationBar';
+import { CheckpointBanner } from '../components/CheckpointBanner';
 import { publicAssetUrl } from '../lib/assets';
 import { playTap } from '../lib/audio';
 import type { Puzzle } from '../lib/puzzles';
@@ -414,6 +416,7 @@ export function PuzzleScreen() {
   const [showEncouragement, setShowEncouragement] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showCheckpoint, setShowCheckpoint] = useState(false);
 
   useEffect(() => {
     setWrongIds(new Set());
@@ -450,6 +453,7 @@ export function PuzzleScreen() {
 
       if (correct) {
         setIsCorrect(true);
+        setShowCheckpoint(false);
         answerPuzzle(true);
         return;
       }
@@ -479,9 +483,11 @@ export function PuzzleScreen() {
   const subtractKind = SUBTRACT_KINDS[state.currentBiome] ?? 'egg';
   const nextDino = getNextDino(state.totalCorrect);
 
-  // Most recently unlocked dino — shown as a companion throughout gameplay.
+  // Biome companion dino — changes per biome, not based on unlock progress.
+  const companionDino = DINOS.find((d) => d.id === biome.companionDinoId) ?? null;
+
+  // Unlocked dinos for counting tokens — stable set.
   const unlockedDinos = DINOS.filter((d) => d.unlockAt <= state.totalCorrect);
-  const companionDino = unlockedDinos.length > 0 ? unlockedDinos[unlockedDinos.length - 1] : null;
 
   // Stable per-puzzle dino for counting tokens — rotates through unlocked collection.
   const puzzleKey = puzzle.prompt + puzzle.type;
@@ -491,13 +497,23 @@ export function PuzzleScreen() {
       : undefined;
 
   const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
-  // Past the last unlock there is nothing left to fill toward, so the bar reads
-  // full. It used to point at the final dino and sit at 0% forever.
+  // Past the last unlock there is nothing left to fill toward, so the bar reads full.
   const progressSpan = Math.max(1, (nextDino?.unlockAt ?? 0) - previousUnlockAt);
-  const correctTowardNextDino = Math.min(state.totalCorrect, nextDino?.unlockAt ?? state.totalCorrect);
-  const progressValue = nextDino
-    ? Math.min(100, Math.max(0, ((correctTowardNextDino - previousUnlockAt) / progressSpan) * 100))
-    : 100;
+  const answersRemaining = nextDino ? Math.max(0, nextDino.unlockAt - state.totalCorrect) : 0;
+
+  // Next biome to unlock — shown alongside the dino in CheckpointBanner when they coincide.
+  const nextBiome = nextDino
+    ? (BIOMES.find((b) => b.threshold === nextDino.unlockAt) ?? null)
+    : null;
+
+  // Show checkpoint banner when player is close (≤5) to the next milestone.
+  useEffect(() => {
+    if (nextDino && answersRemaining > 0 && answersRemaining <= 5) {
+      setShowCheckpoint(true);
+    } else {
+      setShowCheckpoint(false);
+    }
+  }, [nextDino, answersRemaining]);
 
   const isWordProblem = puzzle.type === 'word-problem';
 
@@ -512,27 +528,26 @@ export function PuzzleScreen() {
 
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 px-4 pb-4 sm:px-5">
 
-        {/* Speech bubble prompt + home button */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex flex-1 items-start gap-3">
-            {/* Companion dino — most recently unlocked */}
-            {companionDino ? (
-              <DinoArt dino={companionDino} decorative className="flex-shrink-0 h-14 w-14 object-contain mt-1 drop-shadow-md" />
-            ) : (
-              <span className="flex-shrink-0 text-4xl leading-none mt-1" aria-hidden="true">🦕</span>
-            )}
-            {/* Bubble */}
-            <div className="relative flex-1 rounded-3xl rounded-tl-sm bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
-              {/* Triangle pointer */}
-              <div
-                className="absolute -left-3 top-4 h-0 w-0"
-                style={{ borderTop: '8px solid transparent', borderRight: '14px solid rgba(255,255,255,0.95)', borderBottom: '8px solid transparent' }}
-              />
-              <p className={`font-black leading-snug text-slate-800 ${isWordProblem ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
-                {puzzle.prompt}
-              </p>
-            </div>
+        {/* Speech bubble prompt + companion + home button */}
+        <div className="flex items-start gap-2">
+          {/* Bubble */}
+          <div className="relative flex-1 min-w-0 rounded-3xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
+            <p className={`font-black leading-snug text-slate-800 ${isWordProblem ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
+              {puzzle.prompt}
+            </p>
           </div>
+          {/* Per-biome companion dino — sits between bubble and Home */}
+          {companionDino ? (
+            <motion.div
+              className="flex-shrink-0 mt-1"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            >
+              <DinoArt dino={companionDino} decorative className="h-12 w-12 object-contain drop-shadow-md" />
+            </motion.div>
+          ) : (
+            <span className="flex-shrink-0 text-3xl leading-none mt-1" aria-hidden="true">🦕</span>
+          )}
           <button
             type="button"
             onClick={() => goToScreen('home')}
@@ -578,6 +593,13 @@ export function PuzzleScreen() {
           </AnimatePresence>
         </div>
 
+        {/* Egg incubation bar — always visible above answers */}
+        <EggIncubationBar
+          nextDino={nextDino}
+          answersRemaining={answersRemaining}
+          totalToUnlock={progressSpan}
+        />
+
         {/* Answer buttons — pill shapes, pastel tints */}
         <div className="grid w-full grid-cols-3 gap-2 sm:gap-3">
           {puzzle.options.map((opt, idx) => {
@@ -606,33 +628,31 @@ export function PuzzleScreen() {
         </div>
       </div>
 
-      {/* Correct overlay — shows dino progress */}
+      {/* Correct answer flash */}
       {isCorrect && (
         <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: [0, 1.2, 1], opacity: [0, 1, 1] }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center gap-3 rounded-[2rem] bg-white/20 px-10 py-6 backdrop-blur"
+            className="flex flex-col items-center gap-2 rounded-[2rem] bg-white/20 px-10 py-6 backdrop-blur"
           >
             <span className="text-[6rem] leading-none">🎉</span>
-            <div className="flex flex-col items-center gap-1 text-white">
-              {nextDino ? (
-                <>
-                  <DinoArt dino={nextDino} className="h-16 w-16 object-contain drop-shadow-md" />
-                  <p className="text-lg font-black text-white drop-shadow">{nextDino.name}</p>
-                  <p className="text-xs font-bold text-white/80 uppercase tracking-wide">Next friend!</p>
-                </>
-              ) : (
-                <p className="text-base font-black">All {DINOS.length} friends found!</p>
-              )}
-              <div className="mt-1 h-3 w-32 overflow-hidden rounded-full bg-white/30">
-                <div className="h-full rounded-full bg-emerald-400 transition-all" style={{ width: `${progressValue}%` }} />
-              </div>
-            </div>
+            <p className="text-xl font-black text-white drop-shadow">
+              {nextDino ? 'Keep going!' : `All ${DINOS.length} friends found! 🏆`}
+            </p>
           </motion.div>
         </div>
       )}
+
+      {/* Dual-milestone checkpoint banner */}
+      <CheckpointBanner
+        nextDino={nextDino}
+        nextBiome={nextBiome}
+        answersRemaining={answersRemaining}
+        onDismiss={() => setShowCheckpoint(false)}
+        visible={showCheckpoint && !isCorrect}
+      />
     </div>
   );
 }

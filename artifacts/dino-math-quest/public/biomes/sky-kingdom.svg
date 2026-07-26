@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skyKingdom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="50%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <radialGradient id="islandGlow" cx="50%" cy="30%">
+      <stop offset="0%" stop-color="#f0abfc" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#skyKingdom)"/>
+  <!-- Magic sparkle backdrop -->
+  <rect width="400" height="300" fill="url(#islandGlow)"/>
+  <!-- Stars / sparkles -->
+  <circle cx="40" cy="30" r="2" fill="#f0abfc" opacity="0.9"/>
+  <circle cx="80" cy="15" r="1.5" fill="#e9d5ff" opacity="0.8"/>
+  <circle cx="150" cy="20" r="2" fill="#f0abfc" opacity="0.9"/>
+  <circle cx="260" cy="10" r="1.5" fill="#e9d5ff" opacity="0.8"/>
+  <circle cx="330" cy="28" r="2" fill="#f0abfc" opacity="0.9"/>
+  <circle cx="380" cy="12" r="1.5" fill="#e9d5ff" opacity="0.8"/>
+  <circle cx="100" cy="50" r="1.5" fill="#fde68a" opacity="0.9"/>
+  <circle cx="350" cy="55" r="2" fill="#fde68a" opacity="0.9"/>
+  <!-- Large fluffy clouds (floating islands) -->
+  <!-- Island 1 left -->
+  <ellipse cx="70" cy="180" rx="70" ry="28" fill="#ede9fe" opacity="0.95"/>
+  <ellipse cx="70" cy="172" rx="56" ry="22" fill="#f5f3ff"/>
+  <rect x="58" y="152" width="16" height="22" fill="#c4b5fd" rx="3"/>
+  <!-- Crystal tower on island 1 -->
+  <polygon points="66,130 74,130 70,118" fill="#a78bfa" stroke="#6d28d9" stroke-width="1.5"/>
+  <polygon points="62,152 78,152 74,134 66,134" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.5"/>
+  <!-- Island 2 center -->
+  <ellipse cx="200" cy="140" rx="80" ry="30" fill="#ede9fe" opacity="0.95"/>
+  <ellipse cx="200" cy="130" rx="64" ry="24" fill="#f5f3ff"/>
+  <!-- Castle on center island -->
+  <rect x="170" y="96" width="60" height="36" fill="#c4b5fd" rx="3" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="168" y="86" width="18" height="26" fill="#a78bfa" rx="2" stroke="#6d28d9" stroke-width="1.5"/>
+  <rect x="214" y="86" width="18" height="26" fill="#a78bfa" rx="2" stroke="#6d28d9" stroke-width="1.5"/>
+  <polygon points="177,86 177,70 186,86" fill="#f0abfc" stroke="#6d28d9" stroke-width="1.5"/>
+  <polygon points="214,86 223,86 218,70" fill="#f0abfc" stroke="#6d28d9" stroke-width="1.5"/>
+  <rect x="188" y="108" width="24" height="24" fill="#7c3aed" rx="2"/>
+  <circle cx="200" cy="120" r="5" fill="#fde68a"/>
+  <!-- Windows -->
+  <circle cx="180" cy="108" r="4" fill="#fde68a" opacity="0.8"/>
+  <circle cx="220" cy="108" r="4" fill="#fde68a" opacity="0.8"/>
+  <!-- Island 3 right -->
+  <ellipse cx="340" cy="190" rx="68" ry="26" fill="#ede9fe" opacity="0.95"/>
+  <ellipse cx="340" cy="182" rx="54" ry="20" fill="#f5f3ff"/>
+  <!-- Crystal on right island -->
+  <polygon points="332,160 348,160 340,140" fill="#a78bfa" stroke="#6d28d9" stroke-width="1.5"/>
+  <polygon points="336,180 344,180 348,162 332,162" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.5"/>
+  <!-- Rainbow bridge between islands -->
+  <path d="M130 172 Q200 148 268 168" fill="none" stroke="#f0abfc" stroke-width="6" opacity="0.5"/>
+  <path d="M130 176 Q200 152 268 172" fill="none" stroke="#a78bfa" stroke-width="4" opacity="0.4"/>
+  <!-- Floating wisps -->
+  <ellipse cx="140" cy="100" rx="22" ry="10" fill="white" opacity="0.3"/>
+  <ellipse cx="280" cy="90" rx="26" ry="10" fill="white" opacity="0.3"/>
+  <ellipse cx="60" cy="110" rx="18" ry="8" fill="white" opacity="0.3"/>
+  <!-- Magic sparkle trails -->
+  <circle cx="160" cy="150" r="3" fill="#fde68a" opacity="0.9"/>
+  <circle cx="170" cy="142" r="2" fill="#fde68a" opacity="0.7"/>
+  <circle cx="240" cy="148" r="3" fill="#fde68a" opacity="0.9"/>
+  <circle cx="230" cy="140" r="2" fill="#fde68a" opacity="0.7"/>
+</svg>

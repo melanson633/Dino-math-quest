@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Body -->
+  <ellipse cx="68" cy="78" rx="30" ry="20" fill="#e87d3e" stroke="#7a3010" stroke-width="3"/>
+  <!-- Tail -->
+  <path d="M96 78 Q110 74 116 64 Q118 56 110 60" fill="none" stroke="#7a3010" stroke-width="10" stroke-linecap="round"/>
+  <path d="M96 78 Q110 74 116 64 Q118 56 110 60" fill="none" stroke="#e87d3e" stroke-width="6" stroke-linecap="round"/>
+  <!-- Legs -->
+  <rect x="46" y="90" width="12" height="20" rx="5" fill="#d06a2a" stroke="#7a3010" stroke-width="2.5"/>
+  <rect x="62" y="92" width="12" height="18" rx="5" fill="#d06a2a" stroke="#7a3010" stroke-width="2.5"/>
+  <rect x="76" y="92" width="12" height="18" rx="5" fill="#d06a2a" stroke="#7a3010" stroke-width="2.5"/>
+  <!-- Small front arms -->
+  <path d="M46 72 Q36 76 30 82" fill="none" stroke="#7a3010" stroke-width="7" stroke-linecap="round"/>
+  <path d="M46 72 Q36 76 30 82" fill="none" stroke="#e87d3e" stroke-width="4" stroke-linecap="round"/>
+  <!-- Neck -->
+  <ellipse cx="42" cy="64" rx="14" ry="18" fill="#e87d3e" stroke="#7a3010" stroke-width="3"/>
+  <!-- Head crest (Parasaurolophus' tube crest) -->
+  <path d="M28 42 Q20 28 16 16 Q14 8 22 10 Q32 14 36 28" fill="#cc5520" stroke="#7a3010" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Duck bill -->
+  <ellipse cx="20" cy="58" rx="12" ry="7" fill="#e87d3e" stroke="#7a3010" stroke-width="2.5"/>
+  <ellipse cx="14" cy="58" rx="6" ry="4" fill="#c85a18" stroke="#7a3010" stroke-width="2"/>
+  <!-- Head -->
+  <ellipse cx="28" cy="50" rx="14" ry="12" fill="#e87d3e" stroke="#7a3010" stroke-width="3"/>
+  <!-- Eye -->
+  <circle cx="24" cy="46" r="4" fill="white" stroke="#7a3010" stroke-width="2"/>
+  <circle cx="24" cy="46" r="2" fill="#1a1a1a"/>
+  <!-- Highlight -->
+  <circle cx="25" cy="45" r="1" fill="white"/>
+  <!-- Nostril -->
+  <circle cx="14" cy="56" r="1.5" fill="#7a3010"/>
+</svg>

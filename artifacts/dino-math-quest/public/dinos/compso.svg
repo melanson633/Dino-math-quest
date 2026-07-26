@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Tail (long and thin) -->
+  <path d="M72 76 Q90 72 106 62 Q114 54 108 52 Q102 52 98 60 Q88 68 72 72" fill="#c4a832" stroke="#6b5608" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Small body -->
+  <ellipse cx="58" cy="76" rx="20" ry="14" fill="#d4b840" stroke="#6b5608" stroke-width="3"/>
+  <!-- Two legs -->
+  <rect x="44" y="86" width="10" height="22" rx="4" fill="#bfa02e" stroke="#6b5608" stroke-width="2.5"/>
+  <rect x="60" y="86" width="10" height="22" rx="4" fill="#bfa02e" stroke="#6b5608" stroke-width="2.5"/>
+  <!-- Feet claws -->
+  <path d="M44 106 L40 112 M50 106 L50 112 M56 106 L54 112" stroke="#6b5608" stroke-width="2" stroke-linecap="round"/>
+  <path d="M60 106 L56 112 M66 106 L66 112 M72 106 L70 112" stroke="#6b5608" stroke-width="2" stroke-linecap="round"/>
+  <!-- Small arms -->
+  <path d="M44 70 Q34 66 28 70" fill="none" stroke="#6b5608" stroke-width="5" stroke-linecap="round"/>
+  <path d="M44 70 Q34 66 28 70" fill="none" stroke="#d4b840" stroke-width="3" stroke-linecap="round"/>
+  <!-- Neck (slender) -->
+  <rect x="30" y="56" width="12" height="22" rx="6" fill="#d4b840" stroke="#6b5608" stroke-width="2.5"/>
+  <!-- Small pointed head -->
+  <ellipse cx="26" cy="50" rx="14" ry="10" fill="#d4b840" stroke="#6b5608" stroke-width="2.5"/>
+  <!-- Pointy snout -->
+  <polygon points="14,50 6,48 14,54" fill="#d4b840" stroke="#6b5608" stroke-width="2"/>
+  <!-- Eye (big, cute) -->
+  <circle cx="22" cy="46" r="5" fill="white" stroke="#6b5608" stroke-width="2"/>
+  <circle cx="22" cy="46" r="3" fill="#1a1a1a"/>
+  <circle cx="23" cy="45" r="1.2" fill="white"/>
+  <!-- Nostril -->
+  <circle cx="10" cy="50" r="1.2" fill="#6b5608"/>
+  <!-- Smile -->
+  <path d="M8 54 Q14 58 20 54" fill="none" stroke="#6b5608" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Spots on body -->
+  <circle cx="52" cy="72" r="3" fill="#bfa02e" opacity="0.7"/>
+  <circle cx="62" cy="70" r="2.5" fill="#bfa02e" opacity="0.7"/>
+  <circle cx="70" cy="74" r="2" fill="#bfa02e" opacity="0.7"/>
+</svg>

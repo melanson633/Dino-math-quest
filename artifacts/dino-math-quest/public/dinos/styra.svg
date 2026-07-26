@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Body -->
+  <ellipse cx="64" cy="78" rx="30" ry="20" fill="#5b8fd4" stroke="#1e3a7a" stroke-width="3"/>
+  <!-- Legs -->
+  <rect x="42" y="90" width="12" height="18" rx="5" fill="#4a7ec3" stroke="#1e3a7a" stroke-width="2.5"/>
+  <rect x="56" y="92" width="12" height="16" rx="5" fill="#4a7ec3" stroke="#1e3a7a" stroke-width="2.5"/>
+  <rect x="70" y="92" width="12" height="16" rx="5" fill="#4a7ec3" stroke="#1e3a7a" stroke-width="2.5"/>
+  <rect x="84" y="90" width="12" height="18" rx="5" fill="#4a7ec3" stroke="#1e3a7a" stroke-width="2.5"/>
+  <!-- Tail -->
+  <path d="M92 78 Q108 74 114 64 Q116 56 108 60" fill="none" stroke="#1e3a7a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M92 78 Q108 74 114 64 Q116 56 108 60" fill="none" stroke="#5b8fd4" stroke-width="6" stroke-linecap="round"/>
+  <!-- Neck -->
+  <ellipse cx="36" cy="66" rx="14" ry="16" fill="#5b8fd4" stroke="#1e3a7a" stroke-width="3"/>
+  <!-- Spiky frill (Styracosaurus' signature) -->
+  <ellipse cx="24" cy="44" rx="20" ry="16" fill="#e05c5c" stroke="#1e3a7a" stroke-width="2.5" opacity="0.9"/>
+  <!-- Frill spikes radiating outward -->
+  <polygon points="6,40 0,24 12,36" fill="#f5a642" stroke="#1e3a7a" stroke-width="2"/>
+  <polygon points="14,32 10,14 20,28" fill="#f5a642" stroke="#1e3a7a" stroke-width="2"/>
+  <polygon points="24,28 24,10 30,26" fill="#f5a642" stroke="#1e3a7a" stroke-width="2"/>
+  <polygon points="34,30 38,12 38,28" fill="#f5a642" stroke="#1e3a7a" stroke-width="2"/>
+  <polygon points="42,36 48,22 44,34" fill="#f5a642" stroke="#1e3a7a" stroke-width="2"/>
+  <!-- Main nose horn (large) -->
+  <polygon points="6,52 0,34 14,48" fill="#f5e642" stroke="#1e3a7a" stroke-width="2"/>
+  <!-- Head -->
+  <ellipse cx="22" cy="54" rx="18" ry="14" fill="#5b8fd4" stroke="#1e3a7a" stroke-width="3"/>
+  <!-- Eye -->
+  <circle cx="16" cy="50" r="4.5" fill="white" stroke="#1e3a7a" stroke-width="2"/>
+  <circle cx="16" cy="50" r="2.5" fill="#1a1a1a"/>
+  <circle cx="17" cy="49" r="1" fill="white"/>
+  <!-- Nostril -->
+  <circle cx="6" cy="56" r="1.5" fill="#1e3a7a"/>
+  <!-- Mouth -->
+  <path d="M4 60 Q12 64 20 60" fill="none" stroke="#1e3a7a" stroke-width="2" stroke-linecap="round"/>
+</svg>

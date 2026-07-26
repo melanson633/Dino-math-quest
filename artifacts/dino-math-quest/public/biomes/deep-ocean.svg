@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="oceanDepth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="40%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#0c2a4a"/>
+    </linearGradient>
+    <radialGradient id="bubbleGlow" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#oceanDepth)"/>
+  <!-- Light rays from surface -->
+  <polygon points="140,0 160,0 200,180 120,180" fill="#bae6fd" opacity="0.08"/>
+  <polygon points="180,0 220,0 240,180 160,180" fill="#bae6fd" opacity="0.08"/>
+  <polygon points="240,0 270,0 300,180 210,180" fill="#bae6fd" opacity="0.06"/>
+  <!-- Sea floor -->
+  <ellipse cx="200" cy="295" rx="250" ry="40" fill="#0c2a4a"/>
+  <rect x="0" y="270" width="400" height="30" fill="#0c2a4a"/>
+  <!-- Seaweed -->
+  <path d="M30 280 Q20 250 30 220 Q40 190 30 160 Q20 130 30 100" fill="none" stroke="#16a34a" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+  <path d="M60 280 Q70 248 60 218 Q50 188 62 158" fill="none" stroke="#15803d" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <path d="M340 280 Q350 252 340 222 Q330 192 342 162" fill="none" stroke="#16a34a" stroke-width="7" stroke-linecap="round" opacity="0.8"/>
+  <path d="M370 280 Q360 250 370 220 Q380 190 368 160" fill="none" stroke="#15803d" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <!-- Coral left -->
+  <path d="M80 280 L80 240 M80 240 L65 210 M80 240 L95 215 M80 250 L68 228 M80 250 L92 232" stroke="#e11d48" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.9"/>
+  <!-- Coral right -->
+  <path d="M310 280 L310 242 M310 242 L295 212 M310 242 L325 218 M310 252 L298 230 M310 252 L322 234" stroke="#7c3aed" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.9"/>
+  <!-- Large fish -->
+  <ellipse cx="200" cy="140" rx="38" ry="22" fill="#38bdf8" opacity="0.9"/>
+  <polygon points="238,140 258,124 258,156" fill="#38bdf8" opacity="0.9"/>
+  <circle cx="176" cy="134" r="6" fill="white"/>
+  <circle cx="176" cy="134" r="3" fill="#0c2a4a"/>
+  <!-- Small fish group -->
+  <ellipse cx="110" cy="100" rx="14" ry="8" fill="#7dd3fc" opacity="0.8"/>
+  <polygon points="124,100 132,94 132,106" fill="#7dd3fc" opacity="0.8"/>
+  <circle cx="102" cy="98" r="3" fill="white"/>
+  <circle cx="102" cy="98" r="1.5" fill="#0c2a4a"/>
+  <ellipse cx="290" cy="110" rx="14" ry="8" fill="#7dd3fc" opacity="0.8"/>
+  <polygon points="304,110 312,104 312,116" fill="#7dd3fc" opacity="0.8"/>
+  <circle cx="282" cy="108" r="3" fill="white"/>
+  <circle cx="282" cy="108" r="1.5" fill="#0c2a4a"/>
+  <!-- Bubbles -->
+  <circle cx="160" cy="200" r="7" fill="none" stroke="#bae6fd" stroke-width="2" opacity="0.7"/>
+  <circle cx="240" cy="180" r="5" fill="none" stroke="#bae6fd" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="130" cy="160" r="4" fill="none" stroke="#bae6fd" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="280" cy="220" r="6" fill="none" stroke="#bae6fd" stroke-width="2" opacity="0.6"/>
+  <circle cx="190" cy="240" r="4" fill="none" stroke="#bae6fd" stroke-width="1.5" opacity="0.5"/>
+  <!-- Glowing jellyfish -->
+  <ellipse cx="320" cy="170" rx="20" ry="14" fill="#e879f9" opacity="0.6"/>
+  <path d="M308 184 Q306 200 310 210" stroke="#e879f9" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M316 186 Q314 202 316 214" stroke="#e879f9" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M324 186 Q326 202 322 212" stroke="#e879f9" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M330 184 Q334 198 330 210" stroke="#e879f9" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- Bioluminescence dots -->
+  <circle cx="50" cy="200" r="2.5" fill="#38bdf8" opacity="0.8"/>
+  <circle cx="150" cy="260" r="2" fill="#7dd3fc" opacity="0.7"/>
+  <circle cx="250" cy="250" r="2.5" fill="#38bdf8" opacity="0.8"/>
+  <circle cx="360" cy="230" r="2" fill="#7dd3fc" opacity="0.7"/>
+</svg>

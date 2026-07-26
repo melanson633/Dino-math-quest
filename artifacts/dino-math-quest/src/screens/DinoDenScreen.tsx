@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { DINOS } from '../lib/dinos';
+import { BIOMES } from '../lib/biomes';
 import { DinoArt } from '../components/DinoArt';
 import { playRhythmCue, playTap, playTinySong } from '../lib/audio';
-import { ArrowLeft, Footprints, Music, Sparkles, Volume2 } from 'lucide-react';
+import { ArrowLeft, Footprints, Lock, Music, Sparkles, Volume2 } from 'lucide-react';
 
 type PracticeMode = 'syllables' | 'chant' | 'count' | 'move';
 
@@ -249,6 +250,51 @@ export function DinoDenScreen() {
             );
           })}
         </div>
+
+        {/* Coming-soon biome zone cards */}
+        {(() => {
+          const lockedBiomes = BIOMES.filter((b) => b.threshold > state.totalCorrect && b.threshold > 0);
+          if (lockedBiomes.length === 0) return null;
+          return (
+            <div className="mt-6">
+              <h2 className="text-base font-black uppercase tracking-wide text-amber-600 mb-3 px-1">
+                🗺️ Worlds to discover
+              </h2>
+              <div className="flex flex-col gap-3">
+                {lockedBiomes.map((biome, idx) => (
+                  <motion.div
+                    key={biome.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.06 }}
+                    className="flex items-center gap-4 rounded-2xl border-4 border-dashed border-gray-200 bg-gray-50 px-4 py-3 shadow-sm"
+                    style={{ borderColor: biome.colors.bgFrom + '66' }}
+                  >
+                    {/* Color chip */}
+                    <div
+                      className="flex-shrink-0 h-14 w-14 rounded-xl shadow-md flex items-center justify-center"
+                      style={{ background: `linear-gradient(135deg, ${biome.colors.bgFrom}, ${biome.colors.bgTo})` }}
+                    >
+                      <Lock size={22} className="text-white opacity-80" />
+                    </div>
+                    {/* Text */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-black text-base text-gray-700 truncate">{biome.name}</h3>
+                      <p className="text-xs font-semibold text-gray-400">Unlock at {biome.threshold} correct</p>
+                    </div>
+                    {/* Tinted label */}
+                    <span
+                      className="flex-shrink-0 text-xs font-black rounded-full px-3 py-1 text-white shadow"
+                      style={{ background: biome.colors.bgFrom }}
+                    >
+                      Coming soon
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

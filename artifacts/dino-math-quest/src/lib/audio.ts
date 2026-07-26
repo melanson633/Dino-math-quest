@@ -279,9 +279,11 @@ export function startBgMusic(biomeIndex: number) {
   bgmOscillator = ctx.createOscillator();
   bgmGain = ctx.createGain();
   
-  // Different frequencies per biome
+  // Different frequencies per biome — clamp so new biomes reuse the highest track
   const freqs = [150, 180, 130, 220];
-  bgmOscillator.frequency.value = freqs[biomeIndex] || 150;
+  const MAX_TRACK_INDEX = freqs.length - 1;
+  const clampedIndex = Math.min(biomeIndex, MAX_TRACK_INDEX);
+  bgmOscillator.frequency.value = freqs[clampedIndex];
   bgmOscillator.type = 'triangle';
   
   bgmGain.gain.value = isMuted ? 0 : 0.04;

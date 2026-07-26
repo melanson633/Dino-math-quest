@@ -16,7 +16,7 @@ export interface AdultSettings {
 }
 
 interface GameState {
-  currentBiome: 0 | 1 | 2 | 3;
+  currentBiome: number;
   totalCorrect: number;
   unlockedDinos: string[];
   muteAudio: boolean;
@@ -340,7 +340,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     let pendingDinoReward = false;
 
     // Check biome unlock
-    const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
+    const nextBiomeIndex = s.currentBiome + 1;
     if (nextBiomeIndex < BIOMES.length && newTotal >= BIOMES[nextBiomeIndex].threshold) {
       newBiome = nextBiomeIndex;
       rewardScreen = 'biome-unlock';
