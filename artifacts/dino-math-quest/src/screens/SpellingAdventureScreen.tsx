@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { dinoIslandContent, SpellingWordContent, WORD_FAMILIES, WordFamilyContent } from '../content/dinoIslandContent';
 import { playCorrect, playTap } from '../lib/audio';
@@ -7,21 +7,13 @@ import { shuffle } from '../lib/puzzles';
 
 /* ─── types & constants ─────────────────────────────────────── */
 
-type SpellingDifficulty = SpellingWordContent['difficulty'];
 type SpellingMode = 'letter-build' | 'word-family' | 'first-sound';
 
-const SPELLING_DIFFICULTY_ORDER: SpellingDifficulty[] = ['support', 'steady', 'stretch'];
 const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
 const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 /** Letters offered per round. Grows if a word has more distinct letters. */
 const TRAY_SIZE = 12;
 const MODES: SpellingMode[] = ['letter-build', 'word-family', 'first-sound'];
-
-function moveDifficulty(current: SpellingDifficulty, direction: -1 | 1): SpellingDifficulty {
-  const currentIndex = SPELLING_DIFFICULTY_ORDER.indexOf(current);
-  const nextIndex = Math.min(SPELLING_DIFFICULTY_ORDER.length - 1, Math.max(0, currentIndex + direction));
-  return SPELLING_DIFFICULTY_ORDER[nextIndex];
-}
 
 /* ─── letter button ─────────────────────────────────────────── */
 
@@ -239,6 +231,7 @@ function WordFamilyRound({
   }, [family]);
 
   const [selected, setSelected] = useState<string | null>(null);
+  const [message, setMessage] = useState('Tap the right spelling!');
 
   const handlePick = (label: string, isCorrect: boolean) => {
     if (selected) return;
@@ -248,7 +241,12 @@ function WordFamilyRound({
       playCorrect();
       setTimeout(onComplete, 900);
     } else {
-      setTimeout(onError, 900);
+      // Stay on this word: record the miss, then invite another try in place.
+      setTimeout(() => {
+        setSelected(null);
+        setMessage('Good try. Pick one more! ⭐');
+        onError();
+      }, 900);
     }
   };
 
@@ -265,7 +263,7 @@ function WordFamilyRound({
       <div className="rounded-[28px] border-4 border-white bg-white/85 p-5 shadow-xl text-center">
         <span className="text-7xl leading-none" aria-hidden="true">{targetWord.icon}</span>
         <p className="mt-2 text-xl font-black text-slate-800">{targetWord.clue}</p>
-        <p className="mt-1 text-sm font-bold text-slate-500">Tap the right spelling!</p>
+        <p className="mt-1 text-sm font-bold text-slate-500">{message}</p>
       </div>
 
       {/* 3 tile choices */}
@@ -319,6 +317,7 @@ function FirstSoundRound({
   }, [correctLetter, word.word]);
 
   const [selected, setSelected] = useState<string | null>(null);
+  const [message, setMessage] = useState('Which letter starts this word?');
 
   const handlePick = (letter: string) => {
     if (selected) return;
@@ -329,7 +328,12 @@ function FirstSoundRound({
       playCorrect();
       setTimeout(onComplete, 900);
     } else {
-      setTimeout(onError, 900);
+      // Stay on this word: record the miss, then invite another try in place.
+      setTimeout(() => {
+        setSelected(null);
+        setMessage('Good try. Pick one more! ⭐');
+        onError();
+      }, 900);
     }
   };
 
@@ -344,7 +348,7 @@ function FirstSoundRound({
       <div className="rounded-[28px] border-4 border-white bg-white/85 p-6 shadow-xl text-center">
         <span className="text-8xl leading-none" aria-hidden="true">{word.icon}</span>
         <p className="mt-3 text-xl font-black text-slate-800">{word.clue}</p>
-        <p className="mt-1 text-base font-bold text-sky-600">Which letter starts this word?</p>
+        <p className="mt-1 text-base font-bold text-sky-600">{message}</p>
       </div>
 
       {/* 3 large letter choices */}
@@ -383,12 +387,13 @@ function FirstSoundRound({
 /* ─── main screen ───────────────────────────────────────────── */
 
 export function SpellingAdventureScreen() {
-  const { state, goToScreen } = useGame();
+  const { state, goToScreen, recordSpellingResult } = useGame();
   const words = dinoIslandContent.spellingWords;
 
-  const [difficulty, setDifficulty] = useState<SpellingDifficulty>('support');
-  const [correctStreak, setCorrectStreak] = useState(0);
-  const [wordIndex, setWordIndex] = useState(0);
+  // The silent difficulty ramp lives in GameContext (state.spellingBand) so it
+  // survives reward-screen detours and app restarts. Starting at a random word
+  // keeps re-entry fresh instead of always opening on the same word.
+  const [wordIndex, setWordIndex] = useState(() => Math.floor(Math.random() * Math.max(1, words.length)));
   const [roundNumber, setRoundNumber] = useState(0);
 
   // Family index for word-family mode
@@ -397,9 +402,9 @@ export function SpellingAdventureScreen() {
   const currentMode: SpellingMode = MODES[roundNumber % MODES.length];
 
   const currentWords = useMemo(() => {
-    const exact = words.filter((w) => w.difficulty === difficulty);
+    const exact = words.filter((w) => w.difficulty === state.spellingBand);
     return exact.length > 0 ? exact : words;
-  }, [difficulty, words]);
+  }, [state.spellingBand, words]);
 
   const currentWord = currentWords[wordIndex % currentWords.length];
   const currentFamily = WORD_FAMILIES[familyIndex % Math.max(1, WORD_FAMILIES.length)];
@@ -411,30 +416,16 @@ export function SpellingAdventureScreen() {
   }, []);
 
   const handleComplete = useCallback(() => {
-    setCorrectStreak((streak) => {
-      const nextStreak = streak + 1;
-      const nextDifficulty = moveDifficulty(difficulty, 1);
-      const isLastWord = wordIndex >= currentWords.length - 1;
+    recordSpellingResult(true);
+    setWordIndex((i) => i + 1);
+    advanceToNextRound();
+  }, [recordSpellingResult, advanceToNextRound]);
 
-      if (nextStreak >= 2 && nextDifficulty !== difficulty && isLastWord) {
-        setDifficulty(nextDifficulty);
-        setWordIndex(0);
-        advanceToNextRound();
-        return 0;
-      }
-
-      setWordIndex((i) => (i + 1) % currentWords.length);
-      advanceToNextRound();
-      return nextStreak >= 2 && isLastWord ? 0 : nextStreak;
-    });
-  }, [difficulty, wordIndex, currentWords.length, advanceToNextRound]);
-
+  // A miss eases the band quietly (in GameContext) but never yanks the child
+  // to a different mode or word — the round invites another try in place.
   const handleError = useCallback(() => {
-    setCorrectStreak(0);
-    setDifficulty((d) => moveDifficulty(d, -1));
-    setWordIndex(0);
-    setRoundNumber((r) => r + 1);
-  }, []);
+    recordSpellingResult(false);
+  }, [recordSpellingResult]);
 
   const effectiveMode: SpellingMode = WORD_FAMILIES.length === 0 && currentMode === 'word-family'
     ? 'letter-build'
@@ -451,13 +442,6 @@ export function SpellingAdventureScreen() {
               <>
                 <span className="text-6xl leading-none sm:text-7xl" aria-hidden="true">{currentWord.icon}</span>
                 <h1 className="text-xl font-black leading-tight text-slate-800 sm:text-2xl">{currentWord.clue}</h1>
-                <div data-testid="spelling-context-cues" className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
-                  {currentWord.contextHints.map((hint) => (
-                    <span key={hint} className="rounded-full bg-sky-100 px-3 py-1 text-sm font-black text-sky-900 shadow-inner">
-                      {hint}
-                    </span>
-                  ))}
-                </div>
               </>
             )}
             {effectiveMode !== 'letter-build' && (
@@ -468,14 +452,15 @@ export function SpellingAdventureScreen() {
           </div>
         </section>
 
-        {/* Mode-specific round */}
+        {/* Mode-specific round. No exit animation on purpose: with
+            AnimatePresence mode="wait" a single dropped animation frame left
+            the finished round stuck on screen with the next one never
+            mounting. Instant swap + slide-in cannot strand the child. */}
         <section>
-          <AnimatePresence mode="wait">
-            <motion.div
+          <motion.div
               key={`${effectiveMode}-${roundNumber}`}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.25 }}
             >
               {effectiveMode === 'letter-build' && (
@@ -500,8 +485,7 @@ export function SpellingAdventureScreen() {
                   onError={handleError}
                 />
               )}
-            </motion.div>
-          </AnimatePresence>
+          </motion.div>
         </section>
 
         {/* Home button */}

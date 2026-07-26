@@ -18,6 +18,11 @@ export function BiomeUnlockScreen() {
       showPendingDinoReward();
       return;
     }
+    // Spelling wins unlock biomes too — continue where the child was playing.
+    if (state.selectedLearningAreaId === 'spelling') {
+      goToScreen('spelling');
+      return;
+    }
     newPuzzle();
     goToScreen('puzzle');
   };

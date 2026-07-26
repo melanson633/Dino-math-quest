@@ -8,8 +8,14 @@ import { TriDino } from '../components/TriDino';
 export function DinoRewardScreen() {
   const { state, goToScreen, newPuzzle } = useGame();
   const dino = DINOS.find((item) => item.id === state.lastUnlockedDinoId);
+  // Spelling wins earn dinos too — continue back to the area the child came from.
+  const cameFromSpelling = state.selectedLearningAreaId === 'spelling';
 
   const handleContinue = () => {
+    if (cameFromSpelling) {
+      goToScreen('spelling');
+      return;
+    }
     newPuzzle();
     goToScreen('puzzle');
   };
@@ -64,7 +70,7 @@ export function DinoRewardScreen() {
           onClick={handleContinue}
           className="mt-5 h-20 w-full rounded-3xl bg-emerald-600 text-3xl font-black text-white shadow-xl active:scale-95"
         >
-          More Math
+          {cameFromSpelling ? 'More Words' : 'More Math'}
         </button>
 
         <button
