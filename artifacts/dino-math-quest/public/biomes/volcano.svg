@@ -1,1 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#9B78C7" d="M0 0h128v128H0z"/><path fill="#EE8A9B" d="M0 76 28 52l14 12 25-43 38 49 23-9v67H0Z"/><path fill="#B96C47" d="M0 88 31 59l19 21 18-52 37 60 23-10v50H0Z"/><path fill="#503B32" d="m50 61 18-36 19 34-10-3-9 7-9-6Z"/><path fill="#F39A49" d="m58 54 10-27 11 26-8-3-4 8-4-7Z"/><path fill="#F5C55A" d="m65 45 4-12 5 13-4 6Z"/><g fill="none" stroke="#503B32" stroke-width="4" stroke-linecap="round"><path d="M6 106c13-8 26-8 39 0m38 0c14-8 27-8 39 0M25 84l9-7m67 10 10-8"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 128">
+  <rect x="0" y="0" width="192" height="28" fill="#F7D6BE"/>
+  <rect x="0" y="28" width="192" height="72" fill="#EFA98C"/>
+  <ellipse cx="12" cy="10" rx="3" ry="4" fill="#E8886B"/>
+  <ellipse cx="34" cy="19" rx="4" ry="3" fill="#E8886B"/>
+  <ellipse cx="56" cy="9" rx="3" ry="3" fill="#E8886B"/>
+  <ellipse cx="78" cy="20" rx="4" ry="3" fill="#E8886B"/>
+  <ellipse cx="96" cy="10" rx="3" ry="4" fill="#E8886B"/>
+  <ellipse cx="116" cy="19" rx="4" ry="3" fill="#E8886B"/>
+  <ellipse cx="138" cy="9" rx="3" ry="3" fill="#E8886B"/>
+  <ellipse cx="160" cy="20" rx="4" ry="3" fill="#E8886B"/>
+  <ellipse cx="182" cy="10" rx="3" ry="4" fill="#E8886B"/>
+  <rect x="0" y="100" width="192" height="16" fill="#E09479"/>
+  <path d="M0 116C6 95 11 62 20 34C29 63 36 96 44 116Z" fill="#E09479"/>
+  <path d="M30 116C36 94 41 68 48 52C53 68 57 87 60 100L66 116Z" fill="#E09479"/>
+  <path d="M72 116Q84 104 96 100Q108 104 120 116Z" fill="#F6C0A4"/>
+  <path d="M126 116L132 100C137 74 142 56 148 46C156 63 164 93 170 116Z" fill="#E09479"/>
+  <path d="M156 116C162 91 168 58 176 38C184 61 189 96 192 116Z" fill="#E09479"/>
+  <path d="M6 118Q12 108 18 104Q24 108 30 118Q24 116 18 122Q12 116 6 118Z" fill="#E8886B"/>
+  <path d="M38 118Q46 108 54 104Q62 108 70 118Q62 116 54 122Q46 116 38 118Z" fill="#E8886B"/>
+  <path d="M83 118Q90 108 96 104Q102 108 109 118Q102 116 96 122Q90 116 83 118Z" fill="#E8886B"/>
+  <path d="M122 118Q130 108 138 104Q146 108 154 118Q146 116 138 122Q130 116 122 118Z" fill="#E8886B"/>
+  <path d="M162 118Q168 108 174 104Q180 108 186 118Q180 116 174 122Q168 116 162 118Z" fill="#E8886B"/>
+  <rect x="0" y="122" width="192" height="6" fill="#D98F78"/>
+</svg>

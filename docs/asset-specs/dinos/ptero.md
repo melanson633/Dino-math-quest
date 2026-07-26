@@ -33,57 +33,53 @@ airborne.** Facing **the viewer**, head turned slightly right. Stance:
 
 Ordered walk of the outline, counter-clockwise starting at the left wingtip:
 
-1. **Left wingtip (11, 42)** — the leftmost point of the sprite.
-2. **Leading edge** sweeps right and slightly down through the **left wrist
-   (21, 40)** and the **left elbow (35, 43)** to the **left shoulder (56, 52)**.
-   This edge is gently convex — one long clean curve, no notches.
-3. **Neck**: up from the shoulder to the **jaw hinge (65, 39)**. Neck run
-   **≤ 16 units** long and ≤ 12 units wide.
-4. **Lower jaw** runs forward and up to the **beak tip (85, 24)**.
-5. **Upper jaw** returns back from the tip to the **skull dome (65, 30)**.
-6. **Crest**: from the top-rear of the skull at **(67, 28)** a single tapering
-   horn sweeps **up and back** (up and to the left) to a point at **(48, 18)**.
-   Its underside returns to the skull at **(63, 33)**. See §3 #2 for the
-   clearance rule that keeps it off the shoulders.
-7. **Right shoulder (70, 52)**, reached down the back of the neck.
-8. **Right leading edge** sweeps right through the **right elbow (91, 43)** and
-   **right wrist (105, 40)** to the **right wingtip (116, 42)** — the rightmost
-   point.
+1. **Left wingtip** — the leftmost point of the sprite, held level with the
+   shoulders or slightly above them.
+2. **Leading edge** sweeps right and slightly down through the left wrist and the
+   left elbow to the left shoulder. This edge is gently convex — one long clean
+   curve, no notches.
+3. **Neck**: up from the shoulder to the jaw hinge. Neck run **≤ 16 units** long
+   and ≤ 12 units wide.
+4. **Lower jaw** runs forward and up to the beak tip.
+5. **Upper jaw** returns back from the tip to the skull dome.
+6. **Crest**: from the top-rear of the skull a single tapering horn sweeps **up
+   and back**, opposite the beak, to a point. Its underside returns to the skull.
+   See §3 #2 for the clearance rule that keeps it off the shoulders.
+7. Down the back of the neck to the **right shoulder**.
+8. **Right leading edge** sweeps right through the right elbow and right wrist to
+   the right wingtip — the rightmost point.
 9. **Right trailing edge** returns from the tip toward the body through two
-   concave scallops: down to (101, 60), scallop notch, out to (86, 66), scallop
-   notch, in to the **right hip (71, 76)**.
-10. **Right leg** hangs from (71, 78) down to a small foot at **(73, 96)**.
-11. **Tail** drops from the body centre at (64, 80) to (66, 100), ending in a
-    **small diamond vane** centred (66, 102).
-12. **Left leg** hangs from (58, 78) down to a small foot at **(56, 96)**.
-13. **Left trailing edge** runs from the **left hip (57, 76)** back out through
-    two mirrored concave scallops: (42, 66), (26, 60), closing at the left
-    wingtip (11, 42).
+   concave scallops, closing at the right hip.
+10. **Right leg** hangs from the hip down to a small foot.
+11. **Tail** drops from the body centre, ending in a **small diamond vane**.
+12. **Left leg** hangs from the left hip down to a small foot.
+13. **Left trailing edge** runs from the left hip back out through two mirrored
+    concave scallops, closing at the left wingtip.
 
 **Silhouette-critical proportions:**
-- **Wing span ≥ 100 units** measured tip to tip (11 → 116 = 105). This is the
-  single most important number in the file.
-- Span is **≥ 6× the body width** (body ≈ 15 units at the shoulders).
-- The two wings are **mirror-symmetric about x = 63** within **4 units** at every
-  matched landmark (tip, wrist, elbow, scallop notches, hip). Asymmetric wings
-  read as damage, not flight.
+- **Wing span ≥ 100 units** measured tip to tip. This is the single most
+  important number in the file.
+- Span is **≥ 6× the body width** at the shoulders.
+- The two wings are **mirror-symmetric about the body's vertical centreline**
+  within **4 units** at every matched landmark (tip, wrist, elbow, scallop
+  notches, hip). Asymmetric wings read as damage, not flight.
 - **Nothing touches y = 114 or below.** No ground contact anywhere.
 
 ## 3. Required features
 
-| # | Feature | Minimum size (viewBox units) | Position |
+| # | Feature | Minimum size (viewBox units) | Placement |
 |---|---|---|---|
-| 1 | **Wing pair** — two outstretched membranes | **span ≥ 100 units** tip to tip; each wing **≥ 42 units** long and **≥ 28 units** deep at the elbow | left x 11–56, right x 70–116, y 38–76 |
-| 2 | **Backswept crest** — one tapering horn behind the skull | **≥ 24 units** long, **≥ 9 units** at the base, tapering to a point | base (67, 28) → tip (48, 18) |
-| 3 | **Beak** — a long narrow pointed wedge | **≥ 24 units** from jaw hinge to tip, ≤ 14 units deep at the hinge | (65, 34) → tip (85, 24) |
-| 4 | **Trailing-edge scallops** — 2 concave notches per wing | each notch **≥ 8 units** deep and **≥ 14 units** wide | left at x 26 and x 42; right mirrored at x 86 and x 101 |
-| 5 | **Tucked legs** — two short hanging legs with feet | each **≥ 18 units** long, ≤ 7 units wide | (58, 78)→(56, 96) and (71, 78)→(73, 96) |
-| 6 | **Tail with vane** | tail **≥ 20 units**; vane **≥ 12 units** tall × 9 wide | (64, 80) → vane at (66, 102) |
+| 1 | **Wing pair** — two outstretched membranes | **span ≥ 100 units** tip to tip; each wing **≥ 42 units** long and **≥ 28 units** deep at the elbow | stretched left and right from the shoulders, held level |
+| 2 | **Backswept crest** — one tapering horn behind the skull | **≥ 24 units** long, **≥ 9 units** at the base, tapering to a point | off the top-rear of the skull, sweeping up and back |
+| 3 | **Beak** — a long narrow pointed wedge | **≥ 24 units** from jaw hinge to tip, ≤ 14 units deep at the hinge | forward and up off the skull, opposite the crest |
+| 4 | **Trailing-edge scallops** — 2 concave notches per wing | each notch **≥ 8 units** deep and **≥ 14 units** wide | evenly spaced along each trailing edge, mirrored left to right |
+| 5 | **Tucked legs** — two short hanging legs with feet | each **≥ 18 units** long, ≤ 7 units wide | hanging from the hips, straight down |
+| 6 | **Tail with vane** | tail **≥ 20 units**; vane **≥ 12 units** tall × 9 wide | dropping from the body centre, vane at its lower end |
 
 **Crest clearance rule (the round-1 fix):** the crest must have **≥ 12 units of
 open background** beneath its full underside, separating it from the neck, the
-left shoulder and the left wing's leading edge. Measured from the crest's
-underside line (67, 28)→(48, 18) straight down to the nearest other filled path.
+left shoulder and the left wing's leading edge. Measured from every point on the
+crest's underside straight down to the nearest other filled path.
 A crest that merges into the neck or shoulder mass — round 1's failure — is a
 rejection. In the flat-black silhouette the crest must appear as a **separate
 spur with sky visible under it.**
@@ -100,8 +96,9 @@ one thing round 1 got right. The art must **not** contain twelve of anything.
 
 The countable element in the art is the **wings: exactly two.**
 
-- Count: **2**, exactly. One left, one right, mirror-symmetric about x = 63.
-- Separation: the body column (x 56–70) sits between them, so the two wings are
+- Count: **2**, exactly. One left, one right, mirror-symmetric about the body's
+  vertical centreline.
+- Separation: the narrow body column sits between them, so the two wings are
   visibly separate masses joined by a narrow torso rather than one continuous
   bar. The torso must be **≤ 16 units wide** at the shoulders.
 - Both wings must be fully inside the frame and unclipped, so both are countable.
@@ -149,8 +146,8 @@ Pterodactyl is the **bright, alert, bird-eyed** face — the sharpest expression
 the four.
 
 - **Eye:** the largest eye in this batch relative to the skull — a **circle
-  11 units in diameter**, cream `#FFF4D5`, centred **(71, 32)**, set very far
-  forward, right at the base of the beak. It dominates the head.
+  11 units in diameter**, cream `#FFF4D5`, set very far forward, right at the
+  base of the beak. It dominates the head.
 - **Pupil:** `#503B32`, **r = 3**, ringed by a **thin cream annulus** ≥ 1.5 units
   wide inside the eye white — the only ringed pupil in the roster, and what gives
   ptero its bird-bright look.
@@ -158,8 +155,8 @@ the four.
   top-front quarter of the eye at roughly 30°, giving a keen, forward-focused
   expression. Angular, not curved.
 - **Mouth:** **the beak split itself** — a single straight line **≥ 22 units**
-  long running the full length of the beak from the hinge (65, 34) to the tip
-  (85, 24). No separate mouth shape, no arc, no teeth.
+  long running the full length of the beak from the hinge to the tip. No separate
+  mouth shape, no arc, no teeth.
 - **Second eye:** not drawn; the head is a three-quarter turn to the right and
   the far eye is occluded by the beak.
 - **How it differs:** biggest eye, only ringed pupil, only angular lid, and the
@@ -172,7 +169,7 @@ the four.
 Round-1 `ptero.svg` **passed**. The dominant instruction for this asset is
 **preserve what worked**; only the two named weaknesses change.
 
-1. **Do not narrow the wings.** The x 11–116 span is the reason this asset
+1. **Do not narrow the wings.** The near-full-frame span is the reason this asset
    passed. Any span under 100 units is a rejection, no matter what else improves.
 2. **A crest that reads as a neck or shoulder mass.** Round 1's crest merged into
    the body and read as bulk rather than a horn. The crest must be a distinct
@@ -200,12 +197,11 @@ Round-1 `ptero.svg` **passed**. The dominant instruction for this asset is
    or "pterodactyl" without a label. **PASS/FAIL**
 2. Flat-black silhouette placed beside `pachy` and `plesi`: a reviewer picks
    ptero out of the three with no label. **PASS/FAIL**
-3. Wing span measured tip to tip is **≥ 100 units** (target x 11 → 116).
-   **PASS/FAIL**
+3. Wing span measured tip to tip is **≥ 100 units**. **PASS/FAIL**
 4. Span is ≥ 6× the shoulder body width, and the torso is ≤ 16 units wide at the
    shoulders. **PASS/FAIL**
 5. Left and right wings match within 4 units at tip, wrist, elbow, both scallop
-   notches, and hip, mirrored about x = 63. **PASS/FAIL**
+   notches, and hip, mirrored about the body's vertical centreline. **PASS/FAIL**
 6. Exactly **two** wings, both fully inside the frame and countable as separate
    masses either side of the torso. **PASS/FAIL**
 7. Crest is present, ≥ 24 units long, ≥ 9 units at the base, sweeping **up and

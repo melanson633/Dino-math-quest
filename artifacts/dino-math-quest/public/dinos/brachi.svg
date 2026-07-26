@@ -1,1 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#78B94B" d="M18 91c1-19 16-30 40-30h13c-3-15-1-34 10-42 9-7 22-2 23 9 1 12-8 19-18 17l-1 27c13 5 20 15 20 28 0 9-8 15-19 15H39c-14 0-22-8-21-24Z"/><path fill="#A9D66E" d="M43 75c12 0 23 6 28 18H20c3-11 10-18 23-18Z" stroke="none"/><path fill="#FFF4D5" d="M81 25c9-6 18-2 18 7 0 9-10 12-16 7Z"/><circle fill="#503B32" cx="94" cy="29" r="3" stroke="none"/><path fill="none" d="M86 37c4 3 7 3 10 0"/><path fill="#78B94B" d="M37 105v11h13v-11m25 0v11h13v-11"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" stroke="#503B32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Four pillar legs, deliberately separate and unequal in height. -->
+  <path fill="#3F8F72" d="M40 86 L54 86 L54 116 L40 116 Q36 112 40 108 Z"/>
+  <path fill="#3F8F72" d="M80 92 L92 92 L92 116 L80 116 Q76 112 80 108 Z"/>
+  <path fill="#3F8F72" d="M58 84 L76 84 L76 116 L58 116 Q54 112 58 108 Z"/>
+  <path fill="#3F8F72" d="M96 90 L112 90 L112 116 L96 116 Q92 112 96 108 Z"/>
+
+  <!-- Independent crest-first outline: tiny head, tapering neck, heavy torso, short tail. -->
+  <path fill="#3F8F72" d="M25 10
+    Q32 8 38 12 Q44 14 46 20
+    L45 25 Q41 29 34 29
+    L31 28
+    Q30 39 32 50 Q34 61 42 76
+    Q47 83 56 87
+    L93 89
+    Q102 88 107 83
+    Q113 84 118 88
+    Q113 78 102 72
+    Q96 65 88 64
+    Q72 58 55 59
+    Q47 59 43 55
+    Q38 44 39 31
+    L40 25 Q38 20 33 18
+    Q28 16 25 10 Z"/>
+
+  <!-- Cream throat and belly patch follows the front of the neck, then underside. -->
+  <path fill="#FFF4D5" d="M31 28
+    Q29 42 33 55 Q36 68 45 80
+    Q50 88 59 91 L91 92
+    Q86 86 79 83 L57 82
+    Q48 78 43 67 Q37 50 40 25
+    Q35 29 31 28 Z"/>
+
+  <!-- Big gentle eye, highlight, nostril, and reaching oval mouth. -->
+  <circle cx="37" cy="19" r="6" fill="#FFF4D5"/>
+  <circle cx="39" cy="18" r="3.5" fill="#503B32" stroke="none"/>
+  <circle cx="40.5" cy="16.5" r="1.5" fill="#FFF4D5" stroke="none"/>
+  <circle cx="29" cy="13.5" r="2" fill="#503B32" stroke="none"/>
+  <ellipse cx="27" cy="24" rx="4" ry="3" fill="#503B32" transform="rotate(-18 27 24)"/>
+
+  <!-- Four gold leaves in a loose diamond, each 18 by 12, with clear gaps. -->
+  <path fill="#F5C55A" d="M103 9 Q109 18 103 27 Q97 18 103 9 Z"/>
+  <path fill="#F5C55A" d="M89 35 Q95 44 89 53 Q83 44 89 35 Z"/>
+  <path fill="#F5C55A" d="M114 35 Q120 44 114 53 Q108 44 114 35 Z"/>
+  <path fill="#F5C55A" d="M103 63 Q109 72 103 81 Q97 72 103 63 Z"/>
+  <path d="M103 27 L103 30 M89 53 L89 56 M114 53 L114 56 M103 81 L103 84" fill="none"/>
+</svg>

@@ -29,40 +29,36 @@ near forelimb swung forward and down toward, but not touching, the ground.
 
 Ordered walk of the outline, clockwise from the snout tip:
 
-1. **Snout tip (26, 46)** — blunt and square-ended. A vertical front face ~8
-   units tall from (26, 42) to (26, 50). No point, no fang, no theropod hook.
-2. Up the muzzle to the **brow (38, 34)**.
-3. Flat **skull crown** across to (49, 32).
-4. Down the back of the skull to the **neck notch (55, 40)**.
-5. **Neck** rises in a *shallow* curve to the **shoulder (67, 44)**. Total rise
-   from notch to shoulder must be **≤ 8 units**. This is not a neck arch.
-6. **Back** runs from shoulder (67, 44) in a near-straight line, very slightly
-   downhill, to the **hip (93, 52)**. Deviation from a straight line between
-   those two points must stay **under 4 units**. Unbroken — no plates, no spines,
-   no scallops.
-7. **Tail base (101, 56)**; the tail tapers straight back and down to a blunt
-   point at **(118, 80)**. Tail is thick at the base (≥ 16 units deep) and held
-   low, clearly below the back line.
-8. Underside of the tail returns forward to the **rear hip (97, 80)**.
-9. **Near hind leg**: thigh bulges out to (101, 90), shank narrows to (94, 106),
-   flat foot on the ground from (98, 114) forward to (82, 114). Thigh depth
-   ≥ 22 units.
-10. **Belly** runs forward from (88, 94) through its lowest point (74, 92) to
-    (62, 84). Deep, rounded, convex — the belly is the widest part of the body.
-11. **Near forelimb** leaves the body at the **shoulder/chest (61, 54)**, angles
-    forward and down to an **elbow (52, 70)**, then to a **wrist (45, 86)**, then
-    to the **hand centered (40, 92)**. See §3 for width and clearance.
-12. **Hand**: three short forward-pointing fingers, the longest reaching
-    **(33, 96)**.
-13. **Thumb spike** rises off the *inner top* of the wrist at (45, 84) and points
-    up-and-forward to a sharp tip at **(40, 72)**.
-14. **Chest** returns up from behind the arm at (55, 62) to the **throat
-    (35, 52)** and closes at the snout tip.
+1. **Snout tip** — blunt and square-ended, the lowest and most forward point of
+   the head. Its front face is a short *vertical* edge, not a point, not a fang,
+   not a theropod hook.
+2. Up the muzzle to the **brow**, then a flat **skull crown** running back.
+3. Down the back of the skull to the **neck notch**.
+4. **Neck** rises in a *shallow* curve to the **shoulder**. Total rise from notch
+   to shoulder must be **≤ 8 units**. This is not a neck arch.
+5. **Back** runs from shoulder to hip in a near-straight line, very slightly
+   downhill. Deviation from a straight line between those two points must stay
+   **under 4 units**. Unbroken — no plates, no spines, no scallops.
+6. **Tail** leaves the hip and tapers straight back and *down* to a blunt point.
+   Thick at the base and held low, clearly below the back line.
+7. Underside of the tail returns forward to the rear haunch.
+8. **Near hind leg**: thigh bulges rearward, shank narrows, flat foot planted on
+   the ground line and pointing forward.
+9. **Belly** runs forward from behind the leg, dipping through its lowest point
+   under the mid-body. Deep, rounded, convex — the belly is the widest part.
+10. **Near forelimb** leaves the body at the shoulder/chest, angles *forward and
+    down* through an elbow and a wrist to the hand, which hangs below and ahead
+    of the belly. See §3 for length, width and clearance.
+11. **Hand**: three short forward-pointing fingers.
+12. **Thumb spike** rises off the *inner top* of the wrist and points
+    up-and-forward to a sharp tip.
+13. **Chest** returns up from behind the arm to the throat and closes at the
+    snout tip.
 
 Depth cues (drawn, but they do not alter the outline): the far hind leg is a
-darker-value column at x 84–96 behind the near leg; the far forelimb is a short
-stub at x 56–64, y 56–74, and must be *shorter and higher* than the near arm so
-the near arm stays the dominant shape.
+darker-value column set behind the near leg; the far forelimb is a short stub
+that must be *shorter and higher* than the near arm so the near arm stays the
+dominant shape.
 
 **Negative-space rule (the round-1 fix):** between the rear edge of the forearm
 and the front edge of the chest/belly there must be **≥ 10 units of open
@@ -71,15 +67,15 @@ you could see daylight through, not a shape laid on the torso.
 
 ## 3. Required features
 
-| # | Feature | Minimum size (viewBox units) | Position |
+| # | Feature | Minimum size (viewBox units) | Placement |
 |---|---|---|---|
-| 1 | **Near forelimb** — a filled limb with the body fill and the shared stroke, shoulder to fingertips | **≥ 46 units total length**, **≥ 9 units wide** at the forearm | shoulder (61, 54) → hand (40, 92) |
-| 2 | **Hand** — a distinct wider mass at the end of the arm | **≥ 18 units** across including fingers, **≥ 12 units** tall | centered (40, 92) |
-| 3 | **Thumb spike** — gold, straight-sided cone, tip up-forward | **≥ 20 units long**, **≥ 8 units** wide at the base | base at the wrist (45, 84), tip (40, 72) |
-| 4 | **Blunt square muzzle** — flat vertical front face | front face **≥ 8 units** tall; muzzle **≥ 18 units** long | x 26–44, y 34–52 |
-| 5 | **Deep convex belly** | belly bulge dips **≥ 20 units** below the back line | x 62–90, y 84–94 |
-| 6 | **Thick low tail** | **≥ 30 units** long, base **≥ 16 units** deep | x 93–118 |
-| 7 | **Planted hind leg with flat foot** | leg **≥ 34 units** tall, foot **≥ 18 units** long | x 82–101, y 80–114 |
+| 1 | **Near forelimb** — a filled limb with the body fill and the shared stroke, shoulder to fingertips | **≥ 46 units total length**, **≥ 9 units wide** at the forearm | shoulder → down and forward to the hand |
+| 2 | **Hand** — a distinct wider mass at the end of the arm | **≥ 18 units** across including fingers, **≥ 12 units** tall | at the arm's lower-forward end, below the belly line |
+| 3 | **Thumb spike** — gold, straight-sided cone, tip up-forward | **≥ 20 units long**, **≥ 8 units** wide at the base | based at the wrist, angled up and forward |
+| 4 | **Blunt square muzzle** — flat vertical front face | front face **≥ 8 units** tall; muzzle **≥ 18 units** long | front of the head |
+| 5 | **Deep convex belly** | belly bulge dips **≥ 20 units** below the back line | underside, mid-body |
+| 6 | **Thick low tail** | **≥ 30 units** long, base **≥ 16 units** deep | rear, held below the back line |
+| 7 | **Planted hind leg with flat foot** | leg **≥ 34 units** tall, foot **≥ 18 units** long | under the hip, foot on the ground line |
 
 The thumb spike's base must **overlap the hand outline by ≥ 4 units** so the two
 shapes are visibly joined. A spike whose base does not touch a hand is a
@@ -104,8 +100,8 @@ thumb spike plus three fingers.**
 - Separation: adjacent fingertips ≥ 5 units apart, with a visible notch ≥ 4
   units deep between each pair, so the fingers do not merge into a mitten at
   96 px.
-- All four digits must be inside the region x 33–48, y 72–98 and none may be
-  occluded by the belly or the ground.
+- All four digits must sit clear of the belly and clear of the ground line —
+  none may be occluded.
 
 `movePrompt` ("Give eight tiny thumbs-up taps") is the app's job — the art only
 has to give the child one unmistakable thumb to tap.
@@ -122,15 +118,15 @@ has to give the child one unmistakable thumb to tap.
 - The forelimb reaches into the lower-left quadrant; keep at least 8 units of
   background between the fingertips and the left edge so the hand reads as
   reaching, not as clipped.
-- Overall pitch: shoulder (y 44) sits **above** hip (y 52) — a forward-tilted
-  spine. A level or rear-high spine is wrong.
+- Overall pitch: the shoulder sits **above** the hip — a forward-tilted spine.
+  A level or rear-high spine is wrong.
 
 ## 6. Color plan
 
 | Role | Fill |
 |---|---|
 | Body, head, neck, tail, all four limbs | `#E8C15A` (reserved) |
-| Belly panel, from throat (35, 52) along the underside to (88, 94) | `#FFF4D5` cream, ≥ 14 units tall at its deepest |
+| Belly panel, running from the throat back along the underside to the hind leg | `#FFF4D5` cream, ≥ 14 units tall at its deepest |
 | Thumb spike | `#F5C55A` gold |
 | Eye white | `#FFF4D5` |
 | Pupil, nostril, all outlines | `#503B32` |
@@ -144,16 +140,16 @@ error was a gold shape with no yellow limb under it.
 Iguanodon is the **calm, sleepy-lidded herbivore** of the roster.
 
 - **Eye:** a *horizontal almond*, **9 units wide × 5 units tall** — the flattest
-  eye of the twelve. Cream `#FFF4D5`. Centered (37, 41).
+  eye of the twelve. Cream `#FFF4D5`. Set high and forward on the skull.
 - **Pupil:** a **vertical** oval, 2.5 wide × 4.5 tall — a reptile slit-ish
   pupil. It is the only vertical pupil in the set.
 - **Lid:** a heavy stroked upper lid crossing the top **third** of the eye,
   extending 3 units past the eye on the snout side. This is what makes the face
   read as placid rather than alarmed.
-- **Mouth:** a **straight horizontal line, 16 units long**, from (27, 50) to
-  (43, 50), with a small downward curl only in the last 3 units at the rear —
+- **Mouth:** a **straight horizontal line, ≥ 16 units long**, running back from
+  the snout tip with a small downward curl only in the last 3 units at the rear —
   a flat cropping bill. **No smile arc.**
-- **Nostril:** a single 2.5-unit dot at (30, 41).
+- **Nostril:** a single 2.5-unit dot near the snout tip, above the mouth line.
 - **How it differs:** flattest eye, only vertical pupil, only heavy half-lid, and
   a straight bill mouth instead of a curve. Against `trex` (large round eye,
   toothed open jaw) and `stego` (tiny high dot eye) it is unmistakable.
@@ -171,7 +167,7 @@ The round-1 `iguano.svg` was a **hard fail**. Specifically forbidden:
    is banned outright. Gold appears only on the spike.
 3. **The shared neck-arch quadruped template.** Round 1 reused the same arched
    neck + even four-legged stance as the other quadrupeds. The neck rise is
-   capped at 8 units and the back must be straight (§2 steps 5–6).
+   capped at 8 units and the back must be straight (§2 steps 4–5).
 4. Reusing, mirroring, or perturbing the path data of `stego`, `brachi`, `mammo`
    or any other asset.
 5. Drift toward **trex**: no massive head, no open toothed jaw, no tail held
@@ -200,9 +196,9 @@ The round-1 `iguano.svg` was a **hard fail**. Specifically forbidden:
 8. Every feature in the §3 table meets its stated minimum, measured in viewBox
    units. **PASS/FAIL**
 9. No gold fill appears anywhere on the torso, chest or belly. **PASS/FAIL**
-10. Neck rise from notch to shoulder ≤ 8 units; back deviates < 4 units from
-    straight between (67, 44) and (93, 52). **PASS/FAIL**
-11. Shoulder y-coordinate is smaller than hip y-coordinate (forward tilt).
+10. Neck rise from notch to shoulder ≤ 8 units; the back deviates < 4 units from
+    a straight line between shoulder and hip. **PASS/FAIL**
+11. The shoulder sits higher in the frame than the hip (forward tilt).
     **PASS/FAIL**
 12. Eye is a horizontal almond ≥ 9 × 5 with a vertical pupil and a heavy upper
     lid; mouth is a straight 16-unit line, not an arc. **PASS/FAIL**

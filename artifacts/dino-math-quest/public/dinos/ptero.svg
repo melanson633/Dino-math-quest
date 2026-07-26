@@ -1,1 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#9B78C7" d="M61 62C39 33 18 34 11 42c15 8 26 24 36 43l-22 14c14 5 29 1 42-11 13 9 28 12 42 7L84 80c10-18 18-33 32-40-13-8-31-2-47 21Z"/><path fill="#EE8A9B" d="M58 70c2-20 12-33 25-34 12-1 21 10 17 20-4 9-15 12-23 8L72 80Z"/><path fill="#FFF4D5" d="M75 43c11-4 18 5 13 14-4 6-14 5-16-2Z"/><circle fill="#503B32" cx="84" cy="48" r="3" stroke="none"/><path fill="none" d="M76 55c4 3 7 3 10 0"/><path fill="#9B78C7" d="m60 82-7 29h13l7-20 7 20h13l-9-28"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" stroke="#503B32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Two independently authored but landmark-matched wing masses. -->
+  <path fill="#C77BB5" d="M11 42
+    Q27 31 45 36 Q55 39 60 49
+    L58 70
+    Q46 65 37 76
+    Q28 84 25 70
+    Q19 60 11 64
+    Q16 53 11 42 Z"/>
+  <path fill="#C77BB5" d="M116 42
+    Q101 31 83 36 Q73 39 68 49
+    L70 70
+    Q82 65 91 76
+    Q100 84 103 70
+    Q109 60 116 64
+    Q111 53 116 42 Z"/>
+
+  <!-- Cream inner membranes remain well inset from the leading edges. -->
+  <path fill="#FFF4D5" d="M22 44 Q36 37 47 42 Q54 45 57 52
+    L55 63 Q45 58 36 67 Q30 71 29 62 Q26 52 22 44 Z"/>
+  <path fill="#FFF4D5" d="M105 44 Q92 37 81 42 Q74 45 71 52
+    L73 63 Q83 58 92 67 Q98 71 99 62 Q102 52 105 44 Z"/>
+
+  <!-- Narrow central torso with head turned right and a long pointed beak. -->
+  <path fill="#C77BB5" d="M58 42
+    Q58 35 63 31 Q69 27 76 32
+    L101 40 L77 48
+    Q72 50 70 55
+    L70 74 Q69 82 64 87
+    Q59 82 58 74 Z"/>
+
+  <!-- Separate gold backswept crest, with sky below its full underside. -->
+  <path fill="#F5C55A" d="M64 31 Q51 20 38 19
+    Q49 25 60 34 Q66 36 69 34 Z"/>
+  <!-- Gold beak tip. -->
+  <path fill="#F5C55A" d="M88 36 L101 40 L88 44 Q91 40 88 36 Z"/>
+
+  <!-- Two short tucked legs. -->
+  <path fill="#C77BB5" d="M59 72 L64 73 L62 92 L56 94 L58 88 Z"/>
+  <path fill="#C77BB5" d="M66 73 L71 72 L72 89 L77 94 L70 93 Z"/>
+
+  <!-- Central tail and twelve-unit diamond vane. -->
+  <path fill="#C77BB5" d="M61 82 L67 82 L67 96 L64 102 L61 96 Z"/>
+  <path fill="#C77BB5" d="M64 96 L69 102 L64 108 L59 102 Z"/>
+
+  <!-- Ringed bird-bright eye and sharp angular lid. -->
+  <circle cx="76" cy="36" r="5.5" fill="#FFF4D5"/>
+  <circle cx="76" cy="36" r="3" fill="#503B32" stroke="none"/>
+  <path d="M72 32 L80 36" fill="none"/>
+  <!-- The beak split is the only mouth. -->
+  <path d="M77 43 L100 40" fill="none"/>
+</svg>

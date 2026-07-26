@@ -24,7 +24,8 @@ whose back carries one huge smooth dome, with a long flat snout sticking out
 level in front**. The sail and the snout are the two facts. Everything else is
 support.
 
-Overall bounding box: **x 8 → 120, y 12 → 120**. Width ≈ 112, height ≈ 108.
+Overall bounding box: **x 8 → 120, y 11 → 119** (the splashes set the lower
+edge; the body itself stops at the water line). Width ≈ 112, height ≈ 108.
 **Aspect ratio L:H ≈ 1.04** — spino is the only one of the four bipeds that is
 close to square in the frame (raptor 1.64, trex 1.28, carno 0.85). That ratio is
 itself an acceptance test.
@@ -46,53 +47,49 @@ Proportions, stated so they cannot converge with the other three bipeds:
 
 Ordered walk of the body outline, clockwise from the snout tip:
 
-1. Snout tip **(120, 62)** — blunt, 4-unit corner radius. Not a point.
-2. Top of the snout runs **back almost level** to **(98, 58)**. Rise of only 4
-   units over 22 units of length. This long flat run is the crocodile read.
-3. One soft brow rise to **(90, 52)** — a single 6-unit bump, the only feature
-   cut into the head's top edge.
-4. Dip at the nape **(82, 58)**, then up onto the shoulder **(80, 48)**.
-5. **Sail leading edge:** leaves the back at **(84, 46)** and climbs in **one
-   unbroken convex curve** to the apex **(62, 12)**.
-6. **Sail trailing edge:** from the apex **(62, 12)** down in **one unbroken
-   convex curve** to **(40, 46)**. The sail's full perimeter from step 5 to here
+1. Snout tip — blunt, ~4-unit corner radius. Not a point.
+2. Top of the snout runs **back almost level** toward the brow: a rise of no more
+   than 4 units over the snout's whole length. This long flat run is the
+   crocodile read.
+3. One soft brow rise — a single ~6-unit bump, the only feature cut into the
+   head's top edge.
+4. Dip at the nape, then up onto the shoulder.
+5. **Sail leading edge:** leaves the back just behind the shoulder and climbs in
+   **one unbroken convex curve** to the apex, the topmost point of the sprite.
+6. **Sail trailing edge:** from the apex down in **one unbroken convex curve** to
+   the back line ahead of the hip. The sail's full perimeter from step 5 to here
    contains **zero concave segments and zero vertices under 150°**.
-7. Back line continues to the hip **(36, 52)**.
-8. Tail top edge: **(36, 52) → (20, 64) → tail tip (8, 78)**. One gentle droop,
-   no kink.
-9. Tail underside back up: **(8, 78) → (24, 76) → (40, 72)**. Base depth 20,
-   tip depth 6.
-10. Belly, deep and rounded: **(40, 72) → (56, 84) → (74, 80)**. Lowest belly
-    point y = 84.
-11. Far leg: down from **(46, 80)** to the foot at **(44, 116)**, foot pad
-    forward to **(60, 116)**.
-12. Near leg: down from **(66, 82)** to **(70, 116)**, foot pad forward to
-    **(86, 116)**. Legs are short columns ≈ 16 wide.
-13. Chest rises **(78, 74) → throat (86, 68)**.
-14. **Underside of the jaw is dead straight**: **(86, 68) → (104, 66) →
-    (120, 64)**, closing at the snout tip. No chin, no jowl. A straight lower
-    jaw under a straight upper jaw is what makes it a crocodile snout and not a
-    muzzle tab.
+7. Back line continues to the hip.
+8. Tail top edge droops from the hip to a tapered tip. One gentle droop, no kink.
+9. Tail underside returns forward to the belly. Base depth ≈ 20, tip depth ≈ 6.
+10. Belly, deep and rounded — its lowest point sits under the mid-torso.
+11. Far leg drops to a foot on the ground line, foot pad pointing forward.
+12. Near leg drops to a foot on the ground line, foot pad forward. Legs are short
+    columns ≈ 16 wide.
+13. Chest rises to the throat.
+14. **Underside of the jaw is dead straight** from the throat forward to the
+    snout tip, closing the outline. No chin, no jowl. A straight lower jaw under
+    a straight upper jaw is what makes it a crocodile snout and not a muzzle tab.
 
 Two arms, small, drawn as separate closed shapes on the chest (see Section 3).
 
 The sail is drawn as **part of the body outline** — one closed path, body and
 sail together. It is not a stack of separate shapes and it is not applied on
-top. A viewer tracing the top edge from x 84 to x 40 must never leave the
-outline.
+top. A viewer tracing the top edge from the shoulder to the hip must never leave
+the outline.
 
 ## 3. Required features — minimum sizes
 
-| feature | min size (viewBox units) | position |
+| feature | min size (viewBox units) | placement |
 |---|---|---|
-| **Sail** | **≥ 44 wide × ≥ 32 tall above the back line**, single convex arc | x 40–84, y 12–46 |
-| **Long snout** | **≥ 30 long × ≤ 14 deep**, upper and lower jaw lines within 6° of horizontal | x 88–120, y 52–68 |
-| Body/torso | ≥ 34 long × ≥ 26 deep | x 40–78, y 46–84 |
-| Tail | ≥ 40 long, ≥ 18 thick at base | x 8–40 |
-| Each leg | ≥ 16 wide × ≥ 34 tall | y 80–116 |
-| Each foot pad | ≥ 16 wide | y 112–116 |
-| Each arm + hand | ≥ 20 long total, two rounded fingers ≥ 7 each | x 74–92, y 72–90 |
-| Brow bump | ≥ 6 tall (detail, not a silhouette feature) | x 84–92 |
+| **Sail** | **≥ 44 wide × ≥ 32 tall above the back line**, single convex arc | spanning shoulder to hip, apex topmost |
+| **Long snout** | **≥ 30 long × ≤ 14 deep**, upper and lower jaw lines within 6° of horizontal | front of the head, held level |
+| Body/torso | ≥ 34 long × ≥ 26 deep | between shoulder and hip, under the sail |
+| Tail | ≥ 40 long, ≥ 18 thick at base | off the hip, drooping rearward |
+| Each leg | ≥ 16 wide × ≥ 34 tall | under the torso, down to the water line |
+| Each foot pad | ≥ 16 wide | on the water line |
+| Each arm + hand | ≥ 20 long total, two rounded fingers ≥ 7 each | on the chest, ahead of the near leg |
+| Brow bump | ≥ 6 tall (detail, not a silhouette feature) | above and just ahead of the eye |
 
 Anything below its minimum counts as **absent** and fails review.
 
@@ -103,12 +100,15 @@ splashes."** Also `movePrompt`: "Splash six little waves."
 
 - Required count: **exactly 6** splash shapes. Not 5, not 7, not a continuous
   wavy water line that a child cannot resolve into units.
-- Each splash: **≥ 18 wide × ≥ 12 tall**, a rounded three-lobed water bloom
+- Each splash: **≥ 14 wide × ≥ 10 tall**, a rounded three-lobed water bloom
   (one taller center lobe, two shorter side lobes), each a separate closed path.
-- Placement: a single row on the water line at **y 108 → 122**, centers at
-  approximately **x 16, 38, 60, 82, 100, 118** — evenly spaced left to right.
-- Splashes 3 and 4 sit at the two feet (x 60, x 82); the other four sit in open
-  water. This is natural and still leaves six equal, separately countable units.
+  *This width is the ceiling the frame allows:* six splashes plus five ≥ 5-unit
+  gaps plus the 6-unit edge margins already consume ~115 of the 128 available
+  units, so do not raise it.
+- Placement: a single row straddling the water line, spanning the full frame
+  width and **evenly spaced left to right**.
+- Two of the six sit behind the feet; the other four sit in open water. This is
+  natural and still leaves six equal, separately countable units.
 - Minimum clear gap between neighboring splash outlines: **≥ 5 units**.
 - Splashes are filled `#55B7D9` and use the shared stroke. **They must never
   merge with the body outline** — minimum 4 units of clear background between
@@ -121,14 +121,15 @@ splashes."** Also `movePrompt`: "Splash six little waves."
 ## 5. Stance and framing
 
 - Ground / water line: **y = 116**. Both feet terminate on it. Splash paths may
-  reach y = 122; nothing else goes below y = 116.
+  reach **y = 119** — far enough to read as water closing over the feet, but
+  still inside the stroke envelope below; nothing else goes below y = 116.
 - Stroke width **3**, so every path coordinate satisfies **7.5 ≤ x ≤ 120.5** and
-  **7.5 ≤ y ≤ 120.5**. The sail apex at y = 12 leaves 4.5 units of clearance
-  after the stroke; the tail tip at x = 8 leaves 0.5 units. **Round the tail tip
-  in to x = 10** if the stroke is authored wider than 3.
+  **7.5 ≤ y ≤ 120.5**. The sail apex and the tail tip are the two tightest
+  points — check both with the stroke half-width included, and pull the tail tip
+  inward rather than clipping it.
 - Occupancy: ≈ 88% of frame width, ≈ 84% of frame height.
 - Weight distribution: **at least 30% of the filled silhouette area lies above
-  y = 46** (that area is the sail). If less, the sail is too small.
+  the back line** (that area is the sail). If less, the sail is too small.
 
 ## 6. Color plan
 
@@ -137,7 +138,7 @@ splashes."** Also `movePrompt`: "Splash six little waves."
 | Body, head, tail, legs, arms | `#7B5EA7` (reserved) |
 | **Sail membrane** | `#7B5EA7` — same reserved body fill, **with a cream inner rim** |
 | Sail inner rim | `#FFF4D5`, a 6-unit-wide band following the sail's inner edge |
-| Belly patch (x 44–78, y 70–84) | `#FFF4D5` |
+| Belly patch, chest back to the hind leg | `#FFF4D5` |
 | Water splashes | `#55B7D9` |
 | Eye white | `#FFF4D5` |
 | Pupil | `#503B32` |
@@ -152,20 +153,20 @@ identity channel. The cream sail rim is spino's only accent signature.
 Spinosaurus has a **narrow, calm, half-lidded face on a long flat skull** — the
 sleepy river animal.
 
-- Eye: a small **almond**, 8 wide × 6 tall, centered **(92, 56)** — set high and
-  far back on the skull, at 12% of the head length from the rear, so the long
-  empty snout in front of it reads as snout.
+- Eye: a small **almond**, 8 wide × 6 tall — set high and far back on the skull,
+  within the rear 12% of the head length, so the long empty snout in front of it
+  reads as snout.
 - Lid: a **heavy curved upper lid** covering the top 40% of the eye and
   extending 4 units past the eye's rear corner into a soft brow. Half-lidded and
   content, not sleepy-flat like stego's straight-cut lid.
-- Pupil: `r = 2` circle, forward-set at (93, 57). The smallest pupil in the
+- Pupil: `r = 2` circle, forward-set within the eye. The smallest pupil in the
   roster.
-- **Mouth: one long gentle horizontal line, 30 units, from (92, 65) to
-  (120, 63)**, with a single small upward hook at the rear corner (92, 65). This
-  is the only long-line mouth in the roster and it is what makes the crocodile
-  read. **No arc smile. No teeth. No open jaw.**
-- Nostril: one 2.5-unit dot at **(112, 58)**, near the snout tip — nostrils
-  placed far forward are a second crocodile cue.
+- **Mouth: one long gentle horizontal line, ≥ 30 units**, running the full length
+  of the jaw from the rear corner to the snout tip, with a single small upward
+  hook at the rear corner. This is the only long-line mouth in the roster and it
+  is what makes the crocodile read. **No arc smile. No teeth. No open jaw.**
+- Nostril: one 2.5-unit dot near the snout tip — nostrils placed far forward are
+  a second crocodile cue.
 - Cheek: no cheek blush. Spino's friendliness comes from the lid and the soft
   upturned mouth corner, not from a blob.
 
@@ -181,8 +182,8 @@ The specific round-1 failures for this species, to be corrected:
 - **The sail was drawn as a sawtooth row of spikes — literally stego's plate row
   recolored purple.** Absolutely forbidden: any triangular tooth, any spike, any
   zigzag, any row of separate shapes along the back. **A sail is ONE continuous
-  convex membrane.** The top edge from x 84 to x 40 is a single unbroken curve.
-  Any concave notch on that edge is an automatic fail.
+  convex membrane.** The top edge from shoulder to hip is a single unbroken
+  curve. Any concave notch on that edge is an automatic fail.
 - **The crocodile snout was absent; the head was the same snub muzzle tab used
   on stego and ankylo.** Forbidden: any head shorter than 30 units, any head
   deeper than 14 units, any rounded snub muzzle, any downturned or hooked jaw.
@@ -209,7 +210,7 @@ The specific round-1 failures for this species, to be corrected:
 3. Flat-black side by side with `raptor.svg` at 96 px: spino's L:H ratio is
    ≈ 1.04 and its spine pitch is under 15°; raptor's L:H is ≈ 1.64 and its pitch
    is over 30°. A reviewer assigns each name correctly. **Pass/fail.**
-4. Trace the sail's top edge from x 84 to x 40. It contains **zero concave
+4. Trace the sail's top edge from shoulder to hip. It contains **zero concave
    segments and zero vertices forming an interior angle < 150°**. **Pass/fail.**
 5. The sail measures **≥ 44 wide × ≥ 32 tall** above the back line, and the sail
    area is **≥ 30%** of total silhouette area. **Pass/fail.**
@@ -217,8 +218,8 @@ The specific round-1 failures for this species, to be corrected:
    group stacked on the back. **Pass/fail.**
 7. The snout measures **≥ 30 long and ≤ 14 deep**; both jaw lines are within 6°
    of horizontal. **Pass/fail.**
-8. Count the splash shapes: exactly **6**, each **≥ 18 × 12 units**, minimum
-   neighbor gap **≥ 5 units**. **Pass/fail.**
+8. Count the splash shapes: exactly **6**, each **≥ 14 × 10 units**, minimum
+   neighbor gap **≥ 5 units**, all six inside the frame margins. **Pass/fail.**
 9. Every Section 3 feature meets its stated minimum size. **Pass/fail.**
 10. Head depth ÷ standing height ≤ 0.15; hip-joint height ÷ standing height
     ≤ 0.45. **Pass/fail.**

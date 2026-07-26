@@ -23,68 +23,70 @@ Filled flat black, this must read as a **giant standing on four pillar legs with
 a neck rising almost to the top of the frame**. The frame is filled top to
 bottom by one animal. Verticality is the entire identity.
 
-Overall bounding box: **x 18 → 118, y 8 → 116**. Height ≈ 108 (84% of frame),
+Overall bounding box: **x 18 → 118, y 9 → 116**. Height ≈ 107 (84% of frame),
 width ≈ 100. Stance: **standing quadruped on four straight columnar legs, front
 shoulder higher than the hip, back sloping down toward a short tail, neck
 climbing up and to the left.**
 
-The single hard geometric rule: **the head-and-neck column occupies
-y = 8 → 76 — at least 66 units, ≥ 52% of the frame height — while the neck's
-maximum width is 22 units, at most 0.6× the torso's 38-unit depth.** A neck that
-is short, or as thick as the body, produces the round-1 swan and fails.
+The single hard geometric rule: **the head-and-neck column is at least 66 units
+tall — ≥ 52% of the frame height, running from the top band down to the
+shoulder — while the neck's maximum width is 22 units, at most 0.6× the torso's
+38-unit depth.** A neck that is short, or as thick as the body, produces the
+round-1 swan and fails.
 
 Ordered walk, clockwise from the top of the head:
 
-1. Crest apex **(56, 8)** — the domed nasal crest, the highest point of the
-   asset. Rounded, not a spike.
-2. Forward and down the face to the snout tip **(42, 18)**. Head is a small
-   boxy wedge, ~22 long, ~16 deep — the head is **smaller than one foot**.
-3. Jaw underside back to the throat **(46, 24)**.
-4. **Neck, front edge:** a long shallow S descending right and down —
-   **(48, 30) → (54, 48) → (62, 66) → (68, 78)**. Front edge is gently concave
-   at the top, convex at the base.
-5. Chest **(70, 84)**.
-6. Belly, nearly flat: **(70, 92) → (86, 96) → (100, 94)**.
-7. Hip underside **(104, 88)**.
-8. **Tail:** short and thin, sweeping right and slightly down from **(106, 86)**
-   to a tapered tip **(118, 96)**, then back along its top edge to **(106, 80)**.
-   Tail total length ≤ **26 units — no more than 40% of the neck's length.**
-9. Back line, right to left and **rising**: **(104, 78) → (92, 72) → (80, 68)**
-   to the shoulder **(74, 66)**. The shoulder is **12 units higher than the
-   hip** — the classic brachiosaur downslope.
-10. **Neck, back edge:** climbs left and up — **(70, 60) → (64, 42) → (60, 24)**
-    to the back of the skull **(62, 16)**, closed to the crest apex (56, 8).
+1. Crest apex — the domed nasal crest, **the highest point of the asset**.
+   Rounded, not a spike.
+2. Forward and down the face to the snout tip. Head is a small boxy wedge,
+   ~22 long, ~16 deep — the head is **smaller than one foot**.
+3. Jaw underside back to the throat.
+4. **Neck, front edge:** a long shallow S descending toward the chest — gently
+   concave at the top, convex at the base.
+5. Chest.
+6. Belly, **nearly flat**, running back to the hip.
+7. Hip underside.
+8. **Tail:** short and thin, sweeping rearward and slightly down to a tapered
+   tip, then back along its top edge to the hip. Tail total length ≤ **26
+   units — no more than 40% of the neck's length.**
+9. Back line, hip forward to the shoulder and **rising**. The shoulder is
+   **≥ 10 units higher than the hip** — the classic brachiosaur downslope.
+10. **Neck, back edge:** climbs from the shoulder up to the back of the skull,
+    closing at the crest apex.
 
-Neck width measured perpendicular: **14 at the top** (y ≈ 24), **22 at the base**
-(y ≈ 70). It tapers upward continuously.
+Neck width measured perpendicular: **≤ 22 at the base**, **≤ 16 at the top**. It
+tapers upward continuously — no uniform-width tube.
 
 Legs are four separate closed shapes drawn behind the torso outline, straight
 and columnar with no knee bend:
 
-| leg | x span | y span | width |
+| leg | width | height | placement |
 |---|---|---|---|
-| near fore | 68 → 86 | 88 → 116 | 18 |
-| far fore | 60 → 74 | 92 → 114 | 14 |
-| near hind | 94 → 110 | 92 → 116 | 16 |
-| far hind | 88 → 100 | 96 → 114 | 12 |
+| near fore | 18 | 28 | under the shoulder, frontmost |
+| far fore | 14 | 26 | behind and slightly forward of the near fore |
+| near hind | 16 | 24 | under the hip |
+| far hind | 12 | 22 | behind and slightly forward of the near hind |
+
+Every foot terminates on the ground line; the far legs are inset so all four
+read as separate columns in flat black.
 
 **The forelegs are longer than the hind legs** (28 vs. 24 units) — this is what
 lifts the shoulder above the hip and is a required, checkable trait.
 
 ## 3. Required features — minimum sizes
 
-| feature | min size (viewBox units) | position |
+| feature | min size (viewBox units) | placement |
 |---|---|---|
-| **Head + neck column height** | ≥ **66 tall** (y 8 → 76) | x 42–74 |
-| Neck length along its centerline | ≥ 58 | (56,24) → (70,74) |
-| Neck width | 14 top, ≤ 22 base — **must taper ≥ 6 units** | — |
-| Torso | ≥ 40 long × ≥ 34 deep | x 68–106, y 62–96 |
-| Each of 4 legs | ≥ 12 wide × ≥ 22 tall; near legs ≥ 16 × 26 | y 88–116 |
+| **Head + neck column height** | ≥ **66 tall** | top band down to the shoulder |
+| Neck length along its centerline | ≥ 58 | throat to chest |
+| Neck width | ≤ 16 top, ≤ 22 base — **must taper ≥ 6 units** | — |
+| Torso | ≥ 40 long × ≥ 34 deep | shoulder to hip, right of the neck |
+| Each of 4 legs | ≥ 12 wide × ≥ 22 tall; near legs ≥ 16 × 26 | body down to the ground line |
 | Foreleg−hindleg length difference | ≥ 4 units, forelegs longer | — |
 | Shoulder above hip | ≥ 10 units | — |
-| Head with nasal crest | ≥ 22 long × ≥ 18 deep including crest | x 42–64, y 8–26 |
-| Tail | ≤ 26 long (a **maximum**, not a minimum) | x 104–118 |
-| Each countable leaf | ≥ 18 long × ≥ 12 wide | x 76–118, y 10–46 |
+| Head with nasal crest | ≥ 22 long × ≥ 18 deep including crest | top of the neck column |
+| Tail | ≤ 26 long (a **maximum**, not a minimum) | behind the hip |
+| Each countable leaf | ≥ 18 long × ≥ 12 wide | upper right, clear of head and neck |
 
 ## 4. Countable elements
 
@@ -93,10 +95,12 @@ Also `movePrompt`: "Reach for four leafy snacks." And `fact`: "Its long neck
 reached the highest leaves!"
 
 - Required count: **exactly 4** leaves. Not three, not a bushy cluster.
-- The leaves hang in the **upper right quadrant, x 76 → 118, y 10 → 46** — up
-  where the head has reached. They must **not** overlap the head (x 42–64) and
-  must not touch the neck outline.
-- Leaf centers: **(84, 16), (100, 14), (92, 30), (108, 32)**.
+- The leaves hang in the **upper right quadrant** — up where the head has
+  reached, on the far side of the neck from the face. They must **not** overlap
+  the head and must not touch the neck outline.
+- Arrange the four in a **loose diamond** (one high, two at mid height, one
+  lower), long axis of each leaf roughly vertical. A tight 2×2 grid does not fit
+  the quadrant once the ≥ 8-unit gaps are honoured.
 - Each leaf: a closed pointed-oval shape **≥ 18 long × ≥ 12 wide**, on a short
   stem.
 - Clear gap between adjacent leaf outlines: **≥ 8 units**.
@@ -109,21 +113,22 @@ reached the highest leaves!"
 ## 5. Stance and framing
 
 - Ground line: **y = 116**. All four feet terminate on it.
-- Stroke width **3**; every coordinate and control point must satisfy
-  **7.5 ≤ x ≤ 120.5** and **7.5 ≤ y ≤ 120.5**. The crest apex at y = 8 renders
-  its stroke down to 6.5 — inside the frame with 6.5 units to spare.
-- Occupancy: ≥ 80% of frame height. **A render whose ink stops below y = 14 at
-  the top fails**; the animal must reach the top band.
-- The vertical mass sits **left of center** (neck x 42–74) and the body mass
-  **right of center** (torso x 68–106) — the silhouette is an off-balance L,
-  which no other asset in the roster is.
+- Stroke width **3**; every path point and control point must satisfy
+  **7.5 ≤ x ≤ 120.5** and **7.5 ≤ y ≤ 120.5**. The crest apex is the topmost
+  shape in the file — place it so the outline **plus its stroke half-width**
+  clears the margin.
+- Occupancy: ≥ 80% of frame height. **A render whose ink does not reach the top
+  band fails**; the animal must climb into it.
+- The vertical mass sits **left of center** (the neck) and the body mass **right
+  of center** (the torso) — the silhouette is an off-balance L, which no other
+  asset in the roster is.
 
 ## 6. Color plan
 
 | role | fill |
 |---|---|
 | Neck, head, torso, tail, all four legs | `#3F8F72` (reserved) |
-| Belly / throat patch (x 46–100, y 88–96 and neck front y 30–70, 6 units wide) | `#FFF4D5` cream |
+| Belly / throat patch — the underside from chest to hip, plus a narrow ~6-unit strip down the **front** edge of the neck | `#FFF4D5` cream |
 | Four leaves | `#F5C55A` gold |
 | Eye white | `#FFF4D5` |
 | Pupil | `#503B32` |
@@ -138,19 +143,19 @@ broke round 1.
 Brachiosaurus is the **big-eyed gentle giant** — the largest, roundest eye in
 the set, on the smallest head, with a soft open mouth reaching for a leaf.
 
-- Eye: a **full circle, diameter 12**, centered ≈ **(56, 17)** — the largest eye
-  in the roster, deliberately oversized for the small skull so the face reads as
+- Eye: a **full circle, diameter 12**, filling most of the small skull — the
+  largest eye in the roster, deliberately oversized so the face reads as
   friendly at 96 px from a distance.
-- Iris/pupil: `r = 3.5` circle set **high and forward** at (55, 15), plus a
-  single `r = 1.5` cream highlight at (53, 13) — the only highlight dot allowed
-  in the four-species set.
+- Iris/pupil: `r = 3.5` circle set **high and forward** in the eye, plus a
+  single `r = 1.5` cream highlight above and ahead of it — the only highlight
+  dot allowed in the four-species set.
 - Lid: none. The eye is fully open and round — the opposite of stego's cut lid
   and ankylo's squint.
-- Mouth: a **small open oval, 8 wide × 6 tall**, at the snout tip ≈ (44, 20),
-  angled up toward the leaves. Not an arc, not a line — an open reaching mouth.
-- Crest: the domed nasal bump above and behind the eye (y 8–14) is part of the
-  head outline and doubles as the face's signature.
-- Nostril: one 2-unit dot at (46, 15), high on the crest.
+- Mouth: a **small open oval, 8 wide × 6 tall**, at the snout tip, angled **up
+  toward the leaves**. Not an arc, not a line — an open reaching mouth.
+- Crest: the domed nasal bump above and behind the eye is part of the head
+  outline and doubles as the face's signature.
+- Nostril: one 2-unit dot high on the crest, ahead of the eye.
 
 Differentiators: the only perfectly circular eye, the largest eye (12 vs. stego
 9, ankylo 8), the only cream highlight dot, and the only open-oval mouth.
@@ -165,14 +170,15 @@ Round-1 failures for this species, to be corrected explicitly:
   comes from a uniform-width neck on a small round body; brachi is corrected
   with a long tapering neck on a heavy torso carried by four thick pillar legs.
 - **The body outline was the same path as plesi's with numeric jitter.**
-  Forbidden: any shared start point (plesi begins nowhere near this asset's
-  crest apex at (56, 8)), any shared neck-base notch, any shared closing curve.
-  These two files must not share three consecutive control points.
+  Forbidden: any shared start point (this asset's outline begins at the crest
+  apex, which plesi has no counterpart for), any shared neck-base notch, any
+  shared closing curve. These two files must not share three consecutive control
+  points.
 - **Divergence contract with plesi — all four must hold:**
-  1. brachi is **vertical** (height 108 > width 100); plesi is **horizontal**
-     (width ≥ 112 > height ≤ 74).
-  2. brachi has **four legs with feet on a ground line at y = 116**; plesi has
-     **no legs and no ground contact at all**.
+  1. brachi is **vertical** (height ≈ 107 > width ≈ 100); plesi is **horizontal**
+     (width ≥ 106, height ≤ 74).
+  2. brachi has **four legs with feet on the ground line**; plesi has **no legs
+     and no ground contact at all**.
   3. brachi's neck is **straight-ish and rising**; plesi's neck is a **double-
      curve S laid over the water**.
   4. brachi is green `#3F8F72` on land with gold leaves; plesi is blue `#55B7D9`
@@ -194,10 +200,11 @@ Round-1 failures for this species, to be corrected explicitly:
    reviewer must not confuse them at 96 px, and must not be able to overlay one
    silhouette on the other. **Pass/fail.**
 3. Flat-black side-by-side against `iguano.svg`: brachi's neck column is ≥ 66
-   units and its head is above y = 26; iguano's head sits below mid-frame and it
-   shows a forelimb and hand. Distinguishable at 96 px. **Pass/fail.**
-4. Measure the head+neck column: top of ink ≤ y 14, base of neck ≥ y 74;
-   column height **≥ 66 units (≥ 52% of frame)**. **Pass/fail.**
+   units and its head sits in the top quarter of the frame; iguano's head sits
+   below mid-frame and it shows a forelimb and hand. Distinguishable at 96 px.
+   **Pass/fail.**
+4. Measure the head+neck column: ink reaches the top band and the neck base sits
+   at the shoulder; column height **≥ 66 units (≥ 52% of frame)**. **Pass/fail.**
 5. Measure neck width at three points: ≤ 22 at the base, ≤ 18 mid, ≤ 16 at the
    top, monotonically decreasing upward. **Pass/fail.**
 6. Neck width ÷ torso depth **≤ 0.6**. **Pass/fail.**
@@ -205,7 +212,7 @@ Round-1 failures for this species, to be corrected explicitly:
    between leaves **≥ 8 units**, none cropped, none overlapping the head or
    neck. **Pass/fail.**
 8. Count legs in the flat-black render: exactly **4**, each ≥ 22 tall, all
-   terminating on y = 116. **Pass/fail.**
+   terminating on the ground line. **Pass/fail.**
 9. Forelegs are longer than hind legs by ≥ 4 units and the shoulder sits ≥ 10
    units above the hip. **Pass/fail.**
 10. Tail length **≤ 26 units** and ≤ 40% of neck length. **Pass/fail.**

@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#A9D66E" d="M17 94c1-19 12-31 29-35 2-17 12-29 26-31 14-2 26 8 25 20-1 10-9 17-20 16l-2 17c13 6 20 16 18 27-2 8-11 13-22 13H42c-17 0-26-10-25-27Z"/><path fill="#78B94B" d="M27 91c11-9 24-11 36-5-3 13-14 20-31 18Z" stroke="none"/><path fill="#F5C55A" d="m59 88 10-23 7 22Z"/><path fill="#FFF4D5" d="M70 36c10-4 18 3 15 11-3 7-12 8-16 3Z"/><circle fill="#503B32" cx="81" cy="40" r="3" stroke="none"/><path fill="none" d="M72 48c4 3 7 3 10 0"/><path fill="#A9D66E" d="M35 108v10h13v-11m23 0v11h13v-12"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <g stroke="#503B32" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#E8C15A" opacity="0.72" d="M86 77 C94 74 101 80 103 90 L102 104 L113 108 L111 114 L91 114 C87 111 85 105 86 98 Z"/>
+    <path fill="#E8C15A" opacity="0.72" d="M51 59 C47 64 46 71 46 78 L41 86 C39 89 42 92 45 92 L51 88 L56 80 L57 68 Z"/>
+    <path fill="#E8C15A" d="M24 39 L24 48 C24 53 29 56 36 56 L43 45 C46 42 48 40 51 38 C58 32 67 30 79 35 L86 40 L118 65 L116 72 L88 63 L91 78 C94 88 91 96 86 101 L96 108 L94 114 L72 114 C66 110 65 104 68 97 L69 87 C60 88 51 85 46 79 L42 58 L35 56 L26 53 Z"/>
+    <path fill="#FFF4D5" d="M44 64 C51 60 61 62 69 69 C76 76 79 83 76 90 C65 92 54 87 49 79 Z"/>
+    <path fill="#E8C15A" d="M52 57 C47 58 43 66 41 74 L37 85 L33 94 L39 103 L44 99 L44 91 L48 82 L55 73 L61 63 Z"/>
+    <path fill="#E8C15A" d="M40 91 L44 98 L41 108 L28 110 L26 106 L36 103 L25 103 L24 99 L36 97 L24 96 L24 92 L35 93 Z"/>
+    <path fill="#F5C55A" d="M33 96 L29 89 L24 78 L27 75 L36 87 L40 96 Z"/>
+    <path fill="#FFF4D5" d="M27 41 C30 38 34 38 36 41 C34 45 30 46 27 43 Z"/>
+    <ellipse fill="#503B32" stroke="none" cx="30.5" cy="42" rx="1.25" ry="2.25"/>
+    <path fill="none" stroke-width="3" d="M24.5 39 H38"/>
+    <circle fill="#503B32" stroke="none" cx="26.5" cy="47" r="1.25"/>
+    <path fill="none" d="M24.5 51 H40.5 Q43 51 43 54"/>
+  </g>
+</svg>

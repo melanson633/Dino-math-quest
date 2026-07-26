@@ -33,8 +33,8 @@ tall skinny one and this ratio alone separates it from trex.
 Stance: **standing tall, near-upright.** Spine (hip → shoulder) rises at
 **≈ 45° from horizontal** — the steepest of the four (spino 8°, trex 15°,
 raptor 35° in the opposite, nose-down sense). **The entire head sits at or above
-the hip line (y ≤ 64).** No other biped in the roster carries its head fully
-above its hips.
+the hip line.** No other biped in the roster carries its head fully above its
+hips.
 
 Proportions, stated so they cannot converge with the other three bipeds:
 
@@ -50,60 +50,56 @@ Proportions, stated so they cannot converge with the other three bipeds:
 
 Ordered walk of the body outline, clockwise from the snout tip:
 
-1. Snout tip **(104, 52)** — short, blunt, deep, 5-unit corner radius. The
-   muzzle front is a **short vertical face**, y 46 → 58.
-2. Straight up the blunt muzzle front to **(104, 44)**, then back along a
-   **short flat skull roof** to **(72, 34)**. Skull roof length only 32 units.
-3. **HORN A (rear horn)** leaves the roofline at base **x 68 → 84 (16 wide)**
-   and rises **outward and back** to a **blunt rounded tip at (70, 14)** —
-   height **20 units**, tip radius **4**.
-4. **The roofline dips back down between the horns** to **(86, 44)** — a
-   **10-unit dip below both horn bases**. This dip is what makes them read as
-   two separate horns rather than one crest.
-5. **HORN B (front horn)** rises from base **x 88 → 102 (14 wide)** outward and
-   forward to a **blunt rounded tip at (100, 16)** — height **20 units**.
-6. **Horn tip separation: 30 units** (from x 70 to x 100). Both tips are clear
-   of any other outline by ≥ 8 units of background.
-7. From the rear of the skull **(68, 42)**, the neck runs **down and back** to
-   the shoulder **(56, 52)** — 18 units of visible neck, curving.
-8. Back line falls steeply rearward: **(56, 52) → (48, 58) → hip (40, 68)**.
-   Rise 16 over run 16 ≈ **45°**.
-9. **Tail top edge climbs from the hip**: **(40, 68) → (32, 54) → (26, 38) →
-   blunt tip (22, 26)**. The tail **rises 42 units above the hip** and ends
-   pointing up and back.
-10. Tail underside back down: **(24, 30) → (34, 54) → (46, 82)**. Base depth 16,
-    tip depth 4. A thin rising whip.
-11. Belly, tight and high: **(46, 82) → (58, 90) → chest (68, 82)**.
-12. Chest rises to the throat **(70, 70)**, then the underside of the short jaw
-    runs forward: **(72, 66) → (88, 64) → (104, 58)**, closing at the snout tip.
-    **Jaw depth at the hinge = 66 − 42 = 24.**
-13. **Near leg — long and slender:** hip **(52, 64)** → knee forward to
-    **(64, 92)** → shin back and down to the ankle **(56, 110)** → foot forward
-    to the toes **(70, 118)**. **Thigh 20 wide, shin only 10 wide.**
-14. **Far leg** drawn as a separate closed shape behind, inset 9 units rearward,
-    2 units narrower.
-15. **Stub arms:** two very short closed shapes at the chest, x 68 → 82,
-    y 72 → 86 (see Section 3).
+1. Snout tip — short, blunt, deep, ~5-unit corner radius. The muzzle front is a
+   **short vertical face**.
+2. Straight up the blunt muzzle front, then back along a **short flat skull
+   roof**. Skull roof length only ~32 units.
+3. **HORN B (front horn)** rises from the front of the roofline **outward and
+   forward** to a **blunt rounded tip** — height **≥ 20 units**, base **≥ 14
+   wide**, tip radius **≥ 4**.
+4. **The roofline dips back down between the horns** — a dip **≥ 10 units below
+   the lower horn base**. This dip is what makes them read as two separate horns
+   rather than one crest.
+5. **HORN A (rear horn)** rises from the rear of the roofline **outward and
+   back** to a matching blunt rounded tip, same height and base minimums.
+6. **Horn tips sit ≥ 24 units apart**, and both are clear of any other outline by
+   ≥ 8 units of background.
+7. From the rear of the skull the neck runs **down and back** to the shoulder —
+   ~18 units of visible neck, curving.
+8. Back line falls steeply rearward from shoulder to hip at **≈ 45°**.
+9. **Tail top edge climbs from the hip** to a blunt tip, **rising ≥ 34 units
+   above the hip** and ending pointing up and back.
+10. Tail underside returns down to the belly. Base depth ~16, tip depth ~4. A
+    thin rising whip.
+11. Belly, tight and high, forward to the chest.
+12. Chest rises to the throat, then the underside of the short jaw runs forward,
+    closing at the snout tip. Jaw depth at the hinge ≈ 24.
+13. **Near leg — long and slender:** hip → knee forward → shin back and down to
+    the ankle → foot forward to the toes on the ground line. **Thigh ~20 wide,
+    shin only ~10 wide.**
+14. **Far leg** drawn as a separate closed shape behind, inset rearward and
+    slightly narrower.
+15. **Stub arms:** two very short closed shapes at the chest (see Section 3).
 
 **The horns break the head outline.** They are part of the head's closed path,
-not shapes stacked on top. Tracing the skull roof from x 104 to x 68 must go
-**up over horn B, down into the dip, up over horn A and down the back of the
-skull** — two peaks and a valley, all in one outline.
+not shapes stacked on top. Tracing the skull roof front to back must go **up over
+horn B, down into the dip, up over horn A and down the back of the skull** — two
+peaks and a valley, all in one outline.
 
 ## 3. Required features — minimum sizes
 
-| feature | min size (viewBox units) | position |
+| feature | min size (viewBox units) | placement |
 |---|---|---|
-| **Horn A and Horn B (each)** | **≥ 20 tall × ≥ 14 wide at the base**, blunt tip radius ≥ 4 | x 68–84 and x 88–102, tips at y 14–16 |
-| **Roofline dip between the horns** | **≥ 10 units deep** below the lower horn base, **≥ 4 units wide** at its floor | x 84–88 |
-| **Horn tip separation** | **≥ 24 units** | x 70 ↔ x 100 |
-| **Square head** | **≥ 30 long × ≥ 30 deep** (aspect between 0.95 and 1.20) | x 72–104, y 32–64 |
-| Short muzzle | **≤ 18 long** from eye center to snout tip (a **maximum**) | x 90–104 |
-| Neck | ≥ 16 long, visible as neck | x 56–70, y 42–58 |
-| **Rising tail** | **≥ 40 long, tip ≥ 34 units ABOVE the hip**, base depth 14–18 | x 22–46, y 26–82 |
-| Each leg | thigh ≥ 18 wide, **shin ≤ 12 wide**, ≥ 52 units of vertical run | y 64–118 |
-| Each stub arm + hand | ≥ 18 long total, two rounded fingers ≥ 7 each | x 68–86, y 72–88 |
-| Foot pad + toes | ≥ 24 long, 3 toe bumps ≥ 8 each | y 112–118 |
+| **Horn A and Horn B (each)** | **≥ 20 tall × ≥ 14 wide at the base**, blunt tip radius ≥ 4 | one at each end of the skull roof, above and behind the eyes |
+| **Roofline dip between the horns** | **≥ 10 units deep** below the lower horn base, **≥ 4 units wide** at its floor | between the two horn bases |
+| **Horn tip separation** | **≥ 24 units** | tip to tip across the dip |
+| **Square head** | **≥ 30 long × ≥ 30 deep** (aspect between 0.95 and 1.20) | carried at or above the hip line |
+| Short muzzle | **≤ 18 long** from eye center to snout tip (a **maximum**) | front of the head |
+| Neck | ≥ 16 long, visible as neck | between the rear of the skull and the shoulder |
+| **Rising tail** | **≥ 40 long, tip ≥ 34 units ABOVE the hip**, base depth 14–18 | off the hip, climbing up and back |
+| Each leg | thigh ≥ 18 wide, **shin ≤ 12 wide**, ≥ 52 units of vertical run | under the hip, down to the ground line |
+| Each stub arm + hand | ≥ 18 long total, two rounded fingers ≥ 7 each | on the chest, well clear of the belly |
+| Foot pad + toes | ≥ 24 long, 3 toe bumps ≥ 8 each | on the ground line, pointing forward |
 
 Note the shin is specified as a **maximum** width and the muzzle as a **maximum**
 length. Both are anti-drift controls against trex.
@@ -121,8 +117,8 @@ two little horns over its eyes!"
 - The two horns are separated by a **roofline dip ≥ 10 units deep**, so a child
   at 96 px sees **two distinct peaks with a valley between them**. Horn tips are
   **≥ 24 units apart**.
-- Both horns sit **above and behind the eyes** — horn bases at x 68–102, eyes at
-  x 78–96 and y 48–56. "Two little horns over its eyes" is literal.
+- Both horns sit **above and behind the eyes**, their bases straddling the eye
+  pair. "Two little horns over its eyes" is literal.
 - A child must be able to land a fingertip on each horn independently: each
   horn's tappable area is ≥ 20 × 14 units.
 - The horns are filled `#F5C55A` gold against the `#EE8A9B` body, so they are
@@ -135,13 +131,12 @@ two little horns over its eyes!"
 
 - Ground line: **y = 118**. Both feet terminate on it. Nothing extends below.
 - Stroke width **3**, so every coordinate satisfies **7.5 ≤ x ≤ 120.5** and
-  **7.5 ≤ y ≤ 120.5**. Horn A's tip at y = 14 leaves 6.5 units after the stroke
-  and Horn B's at y = 16 leaves 8.5 — both safe. The tail tip at (22, 26) is
-  safe.
+  **7.5 ≤ y ≤ 120.5**. The two horn tips are the topmost points and the tail tip
+  is the most rearward — check all three with the stroke half-width included.
 - Occupancy: **≈ 70% of frame width** (the narrowest of the four bipeds),
   ≈ 84% of frame height.
 - Weight distribution: **at least 55% of the filled silhouette area lies above
-  y = 70.** Carno is top-heavy and upright; trex and spino are not.
+  the hip line.** Carno is top-heavy and upright; trex and spino are not.
 
 ## 6. Color plan
 
@@ -166,21 +161,19 @@ Carnotaurus is the **only three-quarter face in this set — two eyes visible** 
 and it is the proud, pleased one. Short square head, wide-set eyes tucked under
 the horn bases, a small satisfied bulldog smile.
 
-- Eyes: **two**, each an oval **10 wide × 9 tall**, tilted **15° outward**,
-  centered **(82, 52)** and **(96, 50)**. Centre-to-centre spacing **14 units**.
-  Two visible eyes is unique to carno among these four and is instantly
-  readable in colour.
+- Eyes: **two**, each an oval **10 wide × 9 tall**, tilted **15° outward**, set
+  side by side under the horn bases with **14 units** centre to centre. Two
+  visible eyes is unique to carno among these four and is instantly readable in
+  colour.
 - Lid: a **lower-lid arc** under each eye, cutting the bottom 25% — the
   "pleased, cheeks-up" expression. Carno is the only species with a **lower**
   lid; spino has a heavy upper lid, trex a brow ridge, raptor no lid at all.
-- Pupils: `r = 3.5` circles, both looking slightly forward and down, at
-  (83, 53) and (97, 51).
-- **Mouth: a short upturned bulldog smile, 16 units wide**, from (88, 62)
-  dipping to (96, 64) and rising to (104, 60), with a **small round dimple dot
-  (2.5 units) at each corner** — (87, 61) and (105, 59). The dimples are
-  carno-only. **No teeth. No open jaw.**
-- Nostril: two small 2-unit dots at (101, 55) and (103, 53) — paired nostrils on
-  the blunt front face, only possible because carno faces three-quarter.
+- Pupils: `r = 3.5` circles, both looking slightly forward and down.
+- **Mouth: a short upturned bulldog smile, ≥ 16 units wide**, dipping in the
+  middle and rising at both ends, with a **small round dimple dot (2.5 units) at
+  each corner**. The dimples are carno-only. **No teeth. No open jaw.**
+- Nostrils: two small 2-unit dots on the blunt front face, only possible because
+  carno faces three-quarter.
 - No cheek blush patch. The expression comes from the lower lids, the dimples
   and the upturned mouth.
 
@@ -252,8 +245,8 @@ The specific round-1 failures for this species, to be corrected:
     units**. **Pass/fail.**
 11. Shin width is **≤ 12 units** on both legs; each leg has ≥ 52 units of
     vertical run. **Pass/fail.**
-12. L:H ratio is **≤ 0.90**; ≥ 55% of filled area lies above y = 70; the whole
-    head lies at or above the hip line. **Pass/fail.**
+12. L:H ratio is **≤ 0.90**; ≥ 55% of filled area lies above the hip line; the
+    whole head lies at or above the hip line. **Pass/fail.**
 13. Every Section 3 feature meets its minimum, and the muzzle and shin meet
     their stated maxima. **Pass/fail.**
 14. Exactly **two** gold `#F5C55A` shapes exist in the file, and they are the

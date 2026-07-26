@@ -1,1 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#F39A49" d="M8 88 38 72c3-22 17-42 40-47 21-5 35 7 31 23-3 13-14 20-27 20l21 13-8 14-25-13c-5 20-19 31-39 29-17-2-24-9-23-23Z"/><path fill="#F5C55A" d="M38 76c12 3 22 1 31-7-1 16-10 26-25 27Z" stroke="none"/><path fill="#FFF4D5" d="M76 34c15-3 23 8 16 19-5 8-18 7-22-3Z"/><circle fill="#503B32" cx="88" cy="40" r="3" stroke="none"/><path fill="none" d="M78 49c4 3 8 3 12 0"/><path fill="#F39A49" d="m65 69 14 4-4 6-9-2m-23 14-3 24h15l6-17m9-7-1 24h15"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" stroke="#503B32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Six quiet-roar puffs: two staggered rows of three, spaced so 3 units of
+       background survive the 3-unit stroke and each puff stays countable. -->
+  <path fill="#FFF4D5" d="M20.5 17 C20.5 13 23.5 11 26.5 13 C27.5 9 31.5 9 31.5 14 C34.5 13 35.5 16 33.5 19 C29.5 21 23.5 21 20.5 17 Z"/>
+  <path fill="#FFF4D5" d="M40.5 17 C40.5 13 43.5 11 46.5 13 C47.5 9 51.5 9 51.5 14 C54.5 13 55.5 16 53.5 19 C49.5 21 43.5 21 40.5 17 Z"/>
+  <path fill="#FFF4D5" d="M60.5 17 C60.5 13 63.5 11 66.5 13 C67.5 9 71.5 9 71.5 14 C74.5 13 75.5 16 73.5 19 C69.5 21 63.5 21 60.5 17 Z"/>
+  <path fill="#FFF4D5" d="M10.5 34 C10.5 30 13.5 28 16.5 30 C17.5 26 21.5 26 21.5 31 C24.5 30 25.5 33 23.5 36 C19.5 38 13.5 38 10.5 34 Z"/>
+  <path fill="#FFF4D5" d="M30.5 34 C30.5 30 33.5 28 36.5 30 C37.5 26 41.5 26 41.5 31 C44.5 30 45.5 33 43.5 36 C39.5 38 33.5 38 30.5 34 Z"/>
+  <path fill="#FFF4D5" d="M50.5 34 C50.5 30 53.5 28 56.5 30 C57.5 26 61.5 26 61.5 31 C64.5 30 65.5 33 63.5 36 C59.5 38 53.5 38 50.5 34 Z"/>
+
+  <!-- Far leg, short and heavy. -->
+  <path fill="#C0553F" d="M43 76 C40 84 40 94 43 101 L39 110 C37 114 40 118 45 118 L67 118 C71 118 73 115 70 112 C68 110 65 109 62 109 L64 94 C67 85 64 78 57 74 Z"/>
+
+  <!-- One independently authored body outline: massive skull and equally massive tail. -->
+  <path fill="#C0553F" d="M117 43 C117 38 113 35 108 34 C98 31 85 31 76 36 C72 38 70 42 68 47 C63 49 57 52 50 55 C39 56 29 58 19 62 C11 65 8 68 9 72 C10 76 15 77 22 78 C31 80 40 84 48 87 C55 90 63 91 69 88 C75 85 78 81 80 76 C87 75 96 74 105 72 C113 70 117 66 118 60 Z"/>
+
+  <!-- Near leg with a broad thigh, thick shin, and three rounded toe bumps. -->
+  <path fill="#C0553F" d="M56 78 C54 86 56 94 58 99 L55 108 C54 111 52 113 54 116 C56 119 62 119 67 117 C71 120 77 119 80 116 C84 119 91 118 92 114 C92 111 87 109 82 109 L82 96 C83 87 78 80 70 77 Z"/>
+
+  <!-- Two small arms, each ending in exactly two broad rounded fingers. -->
+  <path fill="#C0553F" d="M76 65 C80 66 83 70 85 75 L93 81 C96 83 95 87 92 88 C89 89 87 85 84 84 C86 88 83 91 80 89 C77 86 77 82 76 79 C72 74 71 68 76 65 Z"/>
+  <path fill="#C0553F" d="M81 68 C85 69 88 73 89 78 L97 84 C100 86 99 90 96 91 C93 92 91 88 88 87 C90 91 87 94 84 92 C80 89 81 84 79 81 C76 76 77 70 81 68 Z"/>
+
+  <!-- Cream throat and belly identify T-Rex against the gold-bellied raptor. -->
+  <path fill="#FFF4D5" d="M76 70 C74 78 70 84 63 87 C58 89 53 88 49 86 C55 84 59 80 61 75 C65 72 70 70 76 70 Z"/>
+
+  <!-- Small eye on a giant skull, soft brow, open rounded quiet-roar mouth. -->
+  <ellipse fill="#FFF4D5" cx="84" cy="44" rx="4.5" ry="4"/>
+  <circle fill="#503B32" stroke="none" cx="85" cy="45" r="3"/>
+  <path fill="none" d="M75 41 Q84 34 94 39"/>
+  <path fill="#FFF4D5" d="M89 52 C89 47 94 45 101 45 L107 45 C113 45 116 49 115 54 C114 60 108 63 100 63 C93 63 89 59 89 52 Z"/>
+  <path fill="none" d="M97 60 Q102 55 107 60"/>
+  <circle fill="#503B32" stroke="none" cx="111" cy="40" r="3"/>
+  <ellipse fill="#FFF4D5" cx="82" cy="58" rx="7" ry="5"/>
+</svg>

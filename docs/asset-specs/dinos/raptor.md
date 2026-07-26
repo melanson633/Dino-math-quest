@@ -8,7 +8,7 @@ silhouette_class: "small lean biped, forward pitch, long horizontal tail"
 body_fill: "#F39A49"
 accent_fills: ["#F5C55A"]
 nearest_neighbors: [trex, spino]
-countable: { element: footprints, count: 10 }
+countable: { element: footprints, count: 8 }
 ---
 
 # Velociraptor — asset spec
@@ -24,12 +24,12 @@ forward, with a stick-straight tail held out level behind it and a big hooked
 claw lifted off the ground**. Small, low, long, leaning. Those four words are
 the contract.
 
-Overall bounding box: **x 6 → 124, y 48 → 120**. Width ≈ 118, height ≈ 72.
+Overall bounding box: **x 9 → 118, y 46 → 118**. Width ≈ 109, height ≈ 72.
 **Aspect ratio L:H ≈ 1.64 — the widest and by far the shortest of the four
-bipeds** (trex 1.28, spino 1.04, carno 0.85). The top 40% of the frame
-(y 6 → 46) is **empty**, and that emptiness is a required feature: no other
-biped in the roster leaves it empty. If a reviewer sees the sprite touching the
-top of the frame, it is not the raptor.
+bipeds** (trex 1.28, spino 1.04, carno 0.85). **The top 40% of the frame is
+empty**, and that emptiness is a required feature: no other biped in the roster
+leaves it empty. If a reviewer sees the sprite touching the top of the frame, it
+is not the raptor.
 
 Stance: **running biped, hips higher than shoulders, head carried low and
 forward.** Spine pitch (hip → shoulder line) is **≈ 35° from horizontal, nose
@@ -50,31 +50,31 @@ Proportions, stated so they cannot converge with the other three bipeds:
 
 Ordered walk of the body outline, clockwise from the snout tip:
 
-1. Snout tip **(124, 62)** — small and rounded, 3-unit radius.
-2. Top of the muzzle back and slightly up to the brow **(112, 56)**.
-3. Over the small domed skull to the back of the head **(98, 56)**. Head box is
-   x 96–124, y 56–72.
-4. Short down-curving neck: **(96, 58) → (88, 62) → shoulder (80, 70)**. The
-   neck curves **downward and forward** — the head hangs below the shoulder.
-   This is the forward-pitch read.
-5. **Back line climbs steeply rearward** from the shoulder **(80, 70) → (66, 60)
-   → hip (54, 50)**. Rise 20 over run 26 ≈ **35°**.
-6. **Tail: leaves the hip at (54, 50) and runs dead straight and level to the
-   tip (6, 54).** Top edge drops only 4 units over 48 units of length. This is a
+1. Snout tip — small and rounded, 3-unit radius.
+2. Top of the muzzle back and slightly **up** to the brow.
+3. Over the small domed skull to the back of the head. The skull is a low dome,
+   not a box and not a wedge.
+4. Short **down-curving** neck to the shoulder. The neck curves **downward and
+   forward — the head hangs below the shoulder.** This is the forward-pitch
+   read and it is the raptor's signature.
+5. **Back line climbs steeply rearward** from the shoulder to the hip, a
+   straight run at roughly **35°**. The hip is the highest point of the body.
+6. **Tail: leaves the hip and runs dead straight and level to the tip.** Its top
+   edge falls **≤ 6 units** over the tail's whole length. This is a
    ruler-straight horizontal bar, not a droop and not a curve.
-7. Tail underside back: **(6, 58) → (30, 62) → (54, 64)**. Base depth 14, tip
-   depth 4.
-8. Belly, shallow and tucked: **(54, 64) → (68, 78) → chest (82, 76)**. The
-   belly is high and tight — no sag. Raptor is lean.
-9. Chest up to the throat **(86, 72)**, then the underside of the jaw runs
-   forward: **(86, 72) → (106, 70) → (124, 66)**, closing at the snout tip.
-10. **Near leg (the one carrying the claw), a deep folded Z**: hip **(60, 60)**
-    → knee forward and down to **(74, 88)** → shin back to the ankle
-    **(60, 106)** → foot forward to the toes **(80, 120)**. The leg's total
-    vertical run is 60 units and it crosses the body's own width twice — a leg
-    that is obviously folded and springy, not a straight stub.
-11. **Far leg** drawn as a separate closed shape behind the body, inset 10 units
-    rearward, same Z fold, 3 units narrower.
+7. Tail underside back to the hip, tapering evenly: base depth **14**, tip depth
+   **≤ 5**.
+8. Belly, shallow and tucked, forward to the chest. The belly is **high and
+   tight — no sag.** Raptor is lean.
+9. Chest up to the throat, then the underside of the jaw runs forward and
+   slightly down, closing at the snout tip.
+10. **Near leg (the one carrying the claw), a deep folded Z**: hip → knee
+    **forward and down** → shin back to the ankle → foot **forward** to the
+    toes. The knee sits ahead of the hip and the ankle sits behind the knee, so
+    the leg crosses the body's own width twice — obviously folded and springy,
+    not a straight stub.
+11. **Far leg** drawn as a separate closed shape behind the body, inset ~10
+    units rearward, same Z fold, ~3 units narrower.
 12. Two small arms drawn as separate closed shapes tucked at the chest
     (see Section 3).
 
@@ -84,15 +84,15 @@ against open background**, not as a notch cut into the foot.
 
 ## 3. Required features — minimum sizes
 
-| feature | min size (viewBox units) | position |
+| feature | min size (viewBox units) | placement |
 |---|---|---|
-| **Sickle claw** | **≥ 22 long × ≥ 8 thick**, crescent, tip lifted **≥ 14 units clear of the ground line** | arcs from (66, 108) up-forward to a blunt tip at (84, 96) |
-| **Straight level tail** | **≥ 46 long**, top edge falling **≤ 6 units** over its whole length | x 6–54, y 50–64 |
-| Head | ≥ 26 long × ≥ 14 deep | x 96–124 |
-| Torso | ≥ 24 long × ≥ 20 deep | x 54–82 |
-| Each leg | ≥ 12 wide at the thigh, **≥ 56 units of vertical run** hip to toe | y 58–120 |
-| Each foot | ≥ 18 long | y 112–120 |
-| Each arm + hand | ≥ 20 long total, two rounded fingers ≥ 7 each | x 78–98, y 74–92 |
+| **Sickle claw** | **≥ 22 long × ≥ 8 thick**, crescent, tip lifted **≥ 14 units clear of the ground line** | on the near foot, arcing **up and forward** to a blunt tip well above the toes |
+| **Straight level tail** | **≥ 46 long**, top edge falling **≤ 6 units** over its whole length | hip to the rear of the frame, held level |
+| Head | ≥ 26 long × ≥ 14 deep | front of the frame, hanging **below** the shoulder |
+| Torso | ≥ 24 long × ≥ 20 deep | between shoulder and hip, above the leg fold |
+| Each leg | ≥ 12 wide at the thigh, **≥ 56 units of vertical run** hip to toe | hip down to the ground line |
+| Each foot | ≥ 18 long | on the ground line |
+| Each arm + hand | ≥ 20 long total, two rounded fingers ≥ 7 each | tucked at the chest, clear of the belly and of the near leg |
 
 The sickle claw is the single most-failed item in this file. **Round 1 delivered
 a ~10-unit angular notch at the toe. At 96 px that is 7 screen pixels and no
@@ -110,20 +110,21 @@ Source: `dinos.ts` → `raptor.practice.countPrompt` = **"Count by twos to ten."
 Also `movePrompt`: "Take quick steps: two, four, six." and `chant`:
 "Ve-lo-ci-rap-tor, quick little steps."
 
-- Required count: **exactly 10** footprints, arranged in **exactly 5 pairs**, so
-  a child counting 2-4-6-8-10 lands one number per pair.
-- Each footprint: **≥ 12 wide × ≥ 9 tall**, a rounded three-toed pad, its own
+- Required count: **exactly 8** footprints, arranged in **exactly 4 pairs**, so
+  a child counting 2-4-6-8 lands one number per pair.
+- Each footprint: **≥ 11 wide × ≥ 9 tall**, a rounded three-toed pad, its own
   closed path.
 - **Within a pair**, the gap between the two prints is **3–5 units**. **Between
   pairs**, the gap is **≥ 10 units**. The two spacings must differ by at least
   a factor of 2 so the pairing is unambiguous at 96 px. A child must see five
   clusters, not ten scattered dots.
-- Layout, a receding trail behind the running raptor:
-  - **Near row**, y centers ≈ **114**: pairs at x centers **(12, 26)** and
-    **(42, 56)** — 2 pairs, 4 prints.
-  - **Far row**, y centers ≈ **100**: pairs at x centers **(14, 28)**,
-    **(46, 60)** and **(78, 92)** — 3 pairs, 6 prints.
-- Total 10. The far row sits behind the tail; the near row sits under it. No
+- Layout, a receding trail behind the running raptor — **two rows**:
+  - **Near row**, along the ground line: **1 pair, 2 prints.** The body occupies
+    the ground from x 55 to x 105, so only the left ~43 units are usable.
+  - **Far row**, a short distance above and further back: **3 pairs, 6 prints.**
+  - Within each row the pairs march evenly left to right; the two rows are
+    offset horizontally from each other so no print sits directly above another.
+- Total 8. The far row sits behind the tail; the near row sits under it. No
   print may touch the tail, a leg, or the sickle claw — **minimum 4 units of
   clear background** between any print and any body path.
 - Footprints are filled `#F5C55A` with the shared stroke, and are **excluded
@@ -135,15 +136,19 @@ must survive a 96 px screenshot check.
 
 ## 5. Stance and framing
 
-- Ground line: **y = 120**. Both feet terminate on it. Nothing extends below.
-- Stroke width **3**, so every coordinate satisfies **7.5 ≤ x ≤ 120.5** and
-  **7.5 ≤ y ≤ 120.5**. The snout tip at x = 124 and the tail tip at x = 6 both
-  violate this: **pull the snout in to x = 118 and the tail tip out only to
-  x = 9** when authoring. Bounding box then reads x 9 → 118.
+- Ground line: **y = 118**. Both feet terminate on it. Nothing extends below.
+  (The ground line sits at 118, not 120, so the foot outline **plus its 1.5-unit
+  stroke half-width** still lands inside the 120.5 envelope below.)
+- Stroke width **3**, so every path point satisfies **7.5 ≤ x ≤ 120.5** and
+  **7.5 ≤ y ≤ 120.5**. The snout tip and the tail tip are the two extremes that
+  set the width — place them so the outline **plus its stroke half-width** clears
+  the margin, not just the point itself. The raptor is the widest sprite in the
+  roster and will run into this rule at both ends; the answer is a slightly
+  shorter snout and tail, never a clipped stroke.
 - Occupancy: ≈ 85% of frame width, **≈ 56% of frame height**. Low occupancy is
   intentional and is checked.
 - Weight distribution: **at least 85% of the filled silhouette area lies below
-  y = 48.** The upper third of the frame is empty.
+  the hip line.** The upper third of the frame is empty.
 
 ## 6. Color plan
 
@@ -169,20 +174,21 @@ may be relaxed.
 Velociraptor has the **biggest, brightest, most awake eye relative to its head**
 in the roster — a quick, curious little animal.
 
-- Eye: a **full circle, 13 units across**, centered **(108, 62)**. On a 28-unit
-  head that is **46% of head length** — by far the largest eye:head ratio of the
-  twelve (trex is 19%).
+- Eye: a **full circle, 13 units across**, set in the middle of the skull. On a
+  28-unit head that is **46% of head length** — by far the largest eye:head
+  ratio of the twelve (trex is 19%).
 - Lid: **none.** The eye is fully open and perfectly round. Raptor is the only
   species with no lid line, and that alone identifies the face.
-- Pupil: `r = 4` circle at (109, 62), plus a single **3-unit cream highlight
-  dot** at the upper-left of the pupil. The highlight is raptor-only.
-- Brow: a short 8-unit arc floating 3 units above the eye, tilted 15° up at the
+- Pupil: `r = 4` circle centered in the eye, plus a single **3-unit cream
+  highlight dot** at the upper-left of the pupil. The highlight is raptor-only.
+- Brow: a short 8-unit arc floating ~3 units above the eye, tilted 15° up at the
   front — reads as bright and eager rather than fierce.
-- **Mouth: a tiny closed V, 10 units wide**, from (114, 68) dipping to (119, 70)
-  and back to (124, 67). It is the smallest mouth in the roster, deliberately
-  paired with the largest eye. **No teeth. No open jaw. No smile arc.**
-- Nostril: one 2-unit dot at (120, 63).
-- Two small cheek freckles, 2 units each, at (104, 68) and (100, 70) — raptor
+- **Mouth: a tiny closed V, 10 units wide**, on the lower jaw line ahead of the
+  eye, dipping at its middle. It is the smallest mouth in the roster,
+  deliberately paired with the largest eye. **No teeth. No open jaw. No smile
+  arc.**
+- Nostril: one 2-unit dot near the snout tip, above the mouth.
+- Two small cheek freckles, 2 units each, set behind and below the eye — raptor
   only.
 
 Differentiators against the other three bipeds: only lidless perfectly round
@@ -236,11 +242,12 @@ The specific round-1 failures for this species, to be corrected:
 6. Measure the tail: **≥ 46 long**, top edge falls **≤ 6 units** across its
    length. **Pass/fail.**
 7. Measure standing height: **≤ 76 units**. At least 85% of filled area lies
-   below y = 48. **Pass/fail.**
+   below the hip line. **Pass/fail.**
 8. Measure spine pitch, hip to shoulder: **≥ 30° nose-down**. **Pass/fail.**
-9. Count the footprints: exactly **10**, in exactly **5** visually unambiguous
-   pairs; within-pair gap 3–5 units, between-pair gap ≥ 10 units; each print
-   ≥ 12 × 9 units. **Pass/fail.**
+9. Count the footprints: exactly **8**, in exactly **4** visually unambiguous
+   pairs; within-pair gap 3–5 units, between-pair gap ≥ 10 units — both measured
+   fill-edge to fill-edge, since the post-stroke reading does not fit the 113-unit
+   envelope; each print ≥ 11 × 9 units. **Pass/fail.**
 10. Every Section 3 feature meets its stated minimum size. **Pass/fail.**
 11. The file contains **no `#FFF4D5` fill on the belly** and **no `#C0553F`
     anywhere**. Belly is `#F5C55A`. **Pass/fail.**
