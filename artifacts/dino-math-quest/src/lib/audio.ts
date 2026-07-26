@@ -72,9 +72,11 @@ export function playCorrect() {
 function playCorrectFallback() {
   const ctx = getContext();
   if (isMuted) return;
-  setTimeout(() => playTone(523.25, 'sine', 0.2), 0);    // C5
-  setTimeout(() => playTone(659.25, 'sine', 0.2), 100);  // E5
-  setTimeout(() => playTone(783.99, 'sine', 0.4), 200);  // G5
+  // Celebratory C5→E5→G5 arpeggio using Web Audio currentTime for tight scheduling
+  const t = ctx.currentTime;
+  playToneAt(523.25, 'sine', 0.2, t);
+  playToneAt(659.25, 'sine', 0.2, t + 0.10);
+  playToneAt(783.99, 'sine', 0.4, t + 0.20);
 }
 
 export function playWrong() {
@@ -84,29 +86,55 @@ export function playWrong() {
 
 function playWrongFallback() {
   if (isMuted) return;
-  playTone(200, 'sine', 0.3, 0.2);
+  // Gentle descending "oops" — softer than a single low drone
+  const ctx = getContext();
+  const t = ctx.currentTime;
+  playToneAt(220, 'triangle', 0.2, t);
+  playToneAt(175, 'triangle', 0.25, t + 0.18);
 }
 
 export function playUnlockDino() {
+  // Try new cheerful dino roar first, then the voiced clip, then oscillator
+  if (playReviewedAudioAsset('dino-happy-roar', () => {
+    if (!playReviewedAudioAsset('tri-new-friend', playUnlockDinoFallback)) {
+      playUnlockDinoFallback();
+    }
+  })) return;
   if (playReviewedAudioAsset('tri-new-friend', playUnlockDinoFallback)) return;
   playUnlockDinoFallback();
 }
 
 function playUnlockDinoFallback() {
   if (isMuted) return;
-  setTimeout(() => playTone(440, 'square', 0.15), 0);
-  setTimeout(() => playTone(554.37, 'square', 0.15), 150);
-  setTimeout(() => playTone(659.25, 'square', 0.15), 300);
-  setTimeout(() => playTone(880, 'square', 0.4), 450);
+  const ctx = getContext();
+  const t = ctx.currentTime;
+  playToneAt(440,    'square', 0.15, t);
+  playToneAt(554.37, 'square', 0.15, t + 0.15);
+  playToneAt(659.25, 'square', 0.15, t + 0.30);
+  playToneAt(880,    'square', 0.4,  t + 0.45);
 }
 
 export function playUnlockBiome() {
   if (isMuted) return;
-  setTimeout(() => playTone(523.25, 'triangle', 0.15), 0);
-  setTimeout(() => playTone(659.25, 'triangle', 0.15), 150);
-  setTimeout(() => playTone(783.99, 'triangle', 0.15), 300);
-  setTimeout(() => playTone(659.25, 'triangle', 0.15), 450);
-  setTimeout(() => playTone(1046.50, 'triangle', 0.6), 600);
+  const ctx = getContext();
+  const t = ctx.currentTime;
+  playToneAt(523.25,  'triangle', 0.15, t);
+  playToneAt(659.25,  'triangle', 0.15, t + 0.15);
+  playToneAt(783.99,  'triangle', 0.15, t + 0.30);
+  playToneAt(659.25,  'triangle', 0.15, t + 0.45);
+  playToneAt(1046.50, 'triangle', 0.6,  t + 0.60);
+}
+
+/** Jungle win fanfare — played on biome clear or long streak. */
+export function playBiomeComplete() {
+  if (playReviewedAudioAsset('jungle-win-fanfare', playUnlockBiome)) return;
+  playUnlockBiome();
+}
+
+/** Shimmering sparkle win — richer than sparkle-short, used for word streaks. */
+export function playSparkleWin() {
+  if (playReviewedAudioAsset('magical-sparkle-success', playTinySongFallback)) return;
+  playTinySongFallback();
 }
 
 export function playTap() {
@@ -121,23 +149,29 @@ export function playRhythmCue() {
 
 function playRhythmCueFallback() {
   if (isMuted) return;
-  [0, 180, 360].forEach((delay, index) => {
-    setTimeout(() => playTone(index === 2 ? 660 : 520, 'triangle', 0.12, 0.08), delay);
+  const ctx = getContext();
+  const t = ctx.currentTime;
+  [0, 0.18, 0.36].forEach((offset, index) => {
+    playToneAt(index === 2 ? 660 : 520, 'triangle', 0.12, t + offset, 0.08);
   });
 }
 
 export function playWordRhythm(beatCount: number) {
   if (isMuted) return;
   const count = Math.max(1, Math.min(4, beatCount));
+  const ctx = getContext();
+  const t = ctx.currentTime;
   Array.from({ length: count }).forEach((_, index) => {
-    setTimeout(() => playTone(index === count - 1 ? 660 : 520, 'triangle', 0.14, 0.08), index * 210);
+    playToneAt(index === count - 1 ? 660 : 520, 'triangle', 0.14, t + index * 0.21, 0.08);
   });
 }
 
 export function playPhonicsCue() {
   if (isMuted) return;
-  setTimeout(() => playTone(392, 'sine', 0.12, 0.06), 0);
-  setTimeout(() => playTone(523.25, 'sine', 0.16, 0.06), 140);
+  const ctx = getContext();
+  const t = ctx.currentTime;
+  playToneAt(392,    'sine', 0.12, t,        0.06);
+  playToneAt(523.25, 'sine', 0.16, t + 0.14, 0.06);
 }
 
 export function playTinySong() {
@@ -147,9 +181,32 @@ export function playTinySong() {
 
 function playTinySongFallback() {
   if (isMuted) return;
+  const ctx = getContext();
+  const t = ctx.currentTime;
   [392, 440, 523.25, 440, 523.25, 659.25].forEach((freq, index) => {
-    setTimeout(() => playTone(freq, 'sine', 0.18, 0.07), index * 160);
+    playToneAt(freq, 'sine', 0.18, t + index * 0.16, 0.07);
   });
+}
+
+/** Schedule a tone using AudioContext time offsets for drift-free timing. */
+function playToneAt(freq: number, type: OscillatorType, duration: number, startTime: number, vol = 0.1) {
+  if (isMuted) return;
+  const ctx = getContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, startTime);
+
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(vol, startTime + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(startTime);
+  osc.stop(startTime + duration);
 }
 
 function playReviewedAudioAsset(id: string, onPlaybackFailure: () => void): boolean {

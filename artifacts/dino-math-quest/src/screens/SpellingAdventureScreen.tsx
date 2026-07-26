@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { dinoIslandContent, SpellingWordContent, WORD_FAMILIES, WordFamilyContent } from '../content/dinoIslandContent';
-import { playCorrect, playTap } from '../lib/audio';
+import { playCorrect, playPhonicsCue, playTap, playWordRhythm } from '../lib/audio';
 import { shuffle } from '../lib/puzzles';
+import { getApiUrl } from '../lib/api';
 
 /* ─── types & constants ─────────────────────────────────────── */
 
@@ -14,6 +15,47 @@ const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 /** Letters offered per round. Grows if a word has more distinct letters. */
 const TRAY_SIZE = 12;
 const MODES: SpellingMode[] = ['letter-build', 'word-family', 'first-sound'];
+
+/* ─── TTS helper ────────────────────────────────────────────── */
+
+function useSpeakWord(muted: boolean) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const speakWord = useCallback(
+    async (text: string) => {
+      if (muted || !text) return;
+      try {
+        const url = getApiUrl('tts');
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+        if (!response.ok) return;
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+
+        // Stop any currently playing audio
+        if (audioRef.current) {
+          audioRef.current.pause();
+          URL.revokeObjectURL(audioRef.current.src);
+        }
+
+        const audio = new Audio(objectUrl);
+        audioRef.current = audio;
+        audio.addEventListener('ended', () => URL.revokeObjectURL(objectUrl), { once: true });
+        await audio.play().catch(() => {
+          URL.revokeObjectURL(objectUrl);
+        });
+      } catch {
+        // Silently fail — oscillator fallbacks remain active
+      }
+    },
+    [muted],
+  );
+
+  return speakWord;
+}
 
 /* ─── letter button ─────────────────────────────────────────── */
 
@@ -114,20 +156,23 @@ function LetterBuildRound({
     if (word.word.startsWith(nextBuilt)) {
       if (nextBuilt === word.word) {
         playCorrect();
+        // Rhythmic beat reinforces word length / syllable awareness
+        playWordRhythm(word.word.length);
         setMessage(`${word.sayPrompt}!`);
         // Trigger stamp animation
         setStampComplete(true);
-        // Pulse phonics badge on correct letter
+        // Pulse phonics badge on word complete
         setPhoncisPulse(true);
         setTimeout(() => setPhoncisPulse(false), 500);
       } else {
         setMessage('Keep going!');
-        // Pulse on correct letter tap
+        // Pulse + phonics cue on each correct letter tap
         const nextLetterIdx = nextBuilt.length - 1;
         const expectedLetter = word.word[nextLetterIdx];
         if (letter === expectedLetter) {
           setPhoncisPulse(true);
           setTimeout(() => setPhoncisPulse(false), 500);
+          playPhonicsCue();
         }
       }
       return;
@@ -409,6 +454,28 @@ export function SpellingAdventureScreen() {
   const currentWord = currentWords[wordIndex % currentWords.length];
   const currentFamily = WORD_FAMILIES[familyIndex % Math.max(1, WORD_FAMILIES.length)];
 
+  const effectiveMode: SpellingMode = WORD_FAMILIES.length === 0 && currentMode === 'word-family'
+    ? 'letter-build'
+    : currentMode;
+
+  const isMuted = state.muteAudio;
+  const speakWord = useSpeakWord(isMuted);
+
+  // Auto-play word pronunciation when a new word appears in letter-build mode.
+  // Speaks the actual target word so children hear the correct pronunciation.
+  // Debounced to avoid double-play on fast navigation.
+  const autoPlayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (effectiveMode !== 'letter-build') return;
+    if (autoPlayTimerRef.current) clearTimeout(autoPlayTimerRef.current);
+    autoPlayTimerRef.current = setTimeout(() => {
+      void speakWord(currentWord.word);
+    }, 400);
+    return () => {
+      if (autoPlayTimerRef.current) clearTimeout(autoPlayTimerRef.current);
+    };
+  }, [currentWord, effectiveMode, speakWord]);
+
   const advanceToNextRound = useCallback(() => {
     playTap();
     setRoundNumber((r) => r + 1);
@@ -427,10 +494,6 @@ export function SpellingAdventureScreen() {
     recordSpellingResult(false);
   }, [recordSpellingResult]);
 
-  const effectiveMode: SpellingMode = WORD_FAMILIES.length === 0 && currentMode === 'word-family'
-    ? 'letter-build'
-    : currentMode;
-
   return (
     <div className="absolute inset-0 overflow-y-auto bg-gradient-to-b from-sky-100 via-emerald-50 to-amber-100 px-4 pb-4 pt-20 sm:px-5 sm:pb-5 sm:pt-24">
       <div className="mx-auto flex max-w-2xl flex-col gap-3 sm:gap-4">
@@ -442,6 +505,16 @@ export function SpellingAdventureScreen() {
               <>
                 <span className="text-6xl leading-none sm:text-7xl" aria-hidden="true">{currentWord.icon}</span>
                 <h1 className="text-xl font-black leading-tight text-slate-800 sm:text-2xl">{currentWord.clue}</h1>
+                {!isMuted && (
+                  <button
+                    type="button"
+                    aria-label="Hear the word"
+                    onClick={() => void speakWord(currentWord.word)}
+                    className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1.5 text-sm font-black text-sky-700 shadow-inner transition-all hover:bg-sky-200 active:scale-95"
+                  >
+                    🔊 Hear it
+                  </button>
+                )}
               </>
             )}
             {effectiveMode !== 'letter-build' && (

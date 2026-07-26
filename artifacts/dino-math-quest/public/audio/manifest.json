@@ -1,5 +1,51 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-25T07:26:00.108Z",
-  "assets": []
+  "generated_at": "2026-07-26T00:00:00.000Z",
+  "assets": [
+    {
+      "id": "tri-great-counting",
+      "src": "/audio/generated/tri-great-counting.mp3",
+      "approved": true
+    },
+    {
+      "id": "tri-one-more-try",
+      "src": "/audio/generated/tri-one-more-try.mp3",
+      "approved": true
+    },
+    {
+      "id": "tri-new-friend",
+      "src": "/audio/generated/tri-new-friend.mp3",
+      "approved": true
+    },
+    {
+      "id": "dino-soft-stomp",
+      "src": "/audio/generated/dino-soft-stomp.mp3",
+      "approved": true
+    },
+    {
+      "id": "sparkle-short",
+      "src": "/audio/generated/sparkle-short.mp3",
+      "approved": true
+    },
+    {
+      "id": "dino-happy-roar",
+      "src": "/audio/generated/dino-happy-roar.mp3",
+      "approved": true
+    },
+    {
+      "id": "magical-sparkle-success",
+      "src": "/audio/generated/magical-sparkle-success.mp3",
+      "approved": true
+    },
+    {
+      "id": "jungle-win-fanfare",
+      "src": "/audio/generated/jungle-win-fanfare.mp3",
+      "approved": true
+    },
+    {
+      "id": "letter-tap-magic",
+      "src": "/audio/generated/letter-tap-magic.mp3",
+      "approved": true
+    }
+  ]
 }
