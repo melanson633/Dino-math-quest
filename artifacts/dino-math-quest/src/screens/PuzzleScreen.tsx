@@ -29,7 +29,7 @@ function sceneDinoArt(id: string): string {
 
 function SceneToken({ art, gone = false }: { art: string; gone?: boolean }) {
   return (
-    <span data-testid="math-scene-item" className="relative inline-flex h-14 w-14 items-center justify-center">
+    <span data-testid="math-scene-item" className="relative inline-flex h-14 w-14 items-center justify-center md:h-20 md:w-20">
       <img
         src={publicAssetUrl(art)}
         alt=""
@@ -51,7 +51,7 @@ function TokenRow({ count, art, goneFrom = count, label }: {
   count: number; art: string; goneFrom?: number; label: string;
 }) {
   return (
-    <div data-testid="math-token-row" aria-label={label} className="flex max-w-[420px] flex-wrap justify-center gap-2">
+    <div data-testid="math-token-row" aria-label={label} className="flex max-w-[420px] flex-wrap justify-center gap-2 md:max-w-[560px]">
       {Array.from({ length: count }).map((_, i) => (
         <SceneToken key={i} art={art} gone={i >= goneFrom} />
       ))}
@@ -143,7 +143,7 @@ function MathVisualScene({ puzzle, primaryArt, secondaryArt }: {
         <p className="mb-3 text-center text-xl font-black uppercase tracking-wide text-emerald-700">
           Fill to 10 🪣
         </p>
-        <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto max-w-[300px]" />
+        <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto w-full max-w-[300px] md:max-w-[380px]" />
       </div>
     );
   }
@@ -161,7 +161,7 @@ function MathVisualScene({ puzzle, primaryArt, secondaryArt }: {
           <p className="text-xl font-black uppercase tracking-wide text-emerald-800">
             <span className="text-emerald-500">●</span> {a} &nbsp;+&nbsp; <span className="text-sky-500">●</span> {b}
           </p>
-          <TenFrame filled={a} secondaryFilled={b} theme="green" className="mx-auto max-w-[300px]" />
+          <TenFrame filled={a} secondaryFilled={b} theme="green" className="mx-auto w-full max-w-[300px] md:max-w-[380px]" />
         </div>
       );
     }
@@ -197,7 +197,7 @@ function MathVisualScene({ puzzle, primaryArt, secondaryArt }: {
           <p className="text-xl font-black uppercase tracking-wide text-rose-600">
             {a} started — {b} went away
           </p>
-          <TenFrame filled={remaining} crossed={b} theme="rose" className="mx-auto max-w-[300px]" />
+          <TenFrame filled={remaining} crossed={b} theme="rose" className="mx-auto w-full max-w-[300px] md:max-w-[380px]" />
         </div>
       );
     }

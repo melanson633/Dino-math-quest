@@ -151,8 +151,13 @@ function LetterBuildRound({
       {/* Letter build boxes */}
       <div className="rounded-[28px] border-4 border-white bg-white/90 p-3 shadow-xl sm:p-4">
         <div
-          className="mb-3 grid gap-2"
-          style={{ gridTemplateColumns: `repeat(${wordColumns}, minmax(0, 1fr))` }}
+          className="mx-auto mb-3 grid w-full gap-2"
+          /* Cap slot size so short words don't stretch into giant empty
+             squares on tablet — each slot tops out around 112px. */
+          style={{
+            gridTemplateColumns: `repeat(${wordColumns}, minmax(0, 1fr))`,
+            maxWidth: `${wordColumns * 120}px`
+          }}
         >
           {word.word.split('').map((_, index) => (
             <motion.div
