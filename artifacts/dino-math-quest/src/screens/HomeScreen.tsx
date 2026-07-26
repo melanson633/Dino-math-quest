@@ -99,8 +99,9 @@ export function HomeScreen() {
           <TriDino className="h-20 w-20" />
         </motion.div>
 
-        {/* Title overlay */}
-        <div className="absolute top-3 left-0 right-0 flex justify-center">
+        {/* Title overlay — sits below the floating TopBar buttons on narrow
+            phones, where a top-3 pill used to slide under the Mute button. */}
+        <div className="absolute top-20 sm:top-3 left-0 right-0 flex justify-center">
           <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white drop-shadow-md tracking-tight">
               🏝️ Dino Island

@@ -26,6 +26,8 @@ interface GameState {
   lastUnlockedDinoId: string | null;
   /** A dino unlock that a same-answer biome unlock pushed to second place. */
   pendingDinoReward: boolean;
+  /** Spelling's silent difficulty band. Persisted so an earned level survives restarts. */
+  spellingBand: PuzzleDifficulty;
   adultSettings: AdultSettings;
 }
 
@@ -39,6 +41,7 @@ const defaultState: GameState = {
   selectedLearningAreaId: 'math',
   lastUnlockedDinoId: null,
   pendingDinoReward: false,
+  spellingBand: 'support',
   adultSettings: {
     mathPace: 'balanced',
     speechSupport: 'steady',
@@ -66,6 +69,7 @@ interface GameContextType {
   startLearningArea: (learningAreaId: LearningAreaId) => void;
   goToScreen: (screen: ScreenType) => void;
   answerPuzzle: (isCorrect: boolean) => void;
+  recordSpellingResult: (isCorrect: boolean) => void;
   toggleMute: () => void;
   updateAdultSettings: (settings: Partial<AdultSettings>) => void;
   resetGame: () => void;
@@ -83,6 +87,13 @@ const KNOWN_SCREENS: ScreenType[] = [
 ];
 
 const VALID_DINO_IDS = new Set(DINOS.map((d) => d.id));
+
+const SPELLING_BANDS: PuzzleDifficulty[] = ['support', 'steady', 'stretch'];
+
+function stepSpellingBand(current: PuzzleDifficulty, direction: -1 | 1): PuzzleDifficulty {
+  const index = SPELLING_BANDS.indexOf(current);
+  return SPELLING_BANDS[Math.min(SPELLING_BANDS.length - 1, Math.max(0, index + direction))];
+}
 
 /**
  * Persisted state is untrusted input: an older build, a hand edit, or a partial
@@ -117,6 +128,9 @@ function sanitizePersistedState(parsed: Partial<GameState>): GameState {
     merged.totalCorrect = 0;
   }
   merged.muteAudio = merged.muteAudio === true;
+  if (!SPELLING_BANDS.includes(merged.spellingBand)) {
+    merged.spellingBand = defaultState.spellingBand;
+  }
   // Only the biome-unlock screen hands the queued reveal on, and reopening the
   // app never lands there, so a persisted flag would have no one to consume it.
   merged.pendingDinoReward = merged.pendingDinoReward === true && merged.currentScreen === 'biome-unlock';
@@ -157,6 +171,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const correctStreakRef = useRef(0);
   const missStreakRef = useRef(0);
+  const spellingStreakRef = useRef(0);
+  const spellingMissRef = useRef(0);
   const pendingCelebrationRef = useRef(false);
 
   // Track previous biome/screen to avoid restarting music on every state change
@@ -284,6 +300,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const resetGame = () => {
     correctStreakRef.current = 0;
     missStreakRef.current = 0;
+    spellingStreakRef.current = 0;
+    spellingMissRef.current = 0;
     // The session counters are what the adult panel reads. Leaving them set
     // carried the pre-reset tally into the fresh game.
     sessionStartTimeRef.current = Date.now();
@@ -304,6 +322,68 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }
     }));
     setPuzzle(null);
+  };
+
+  /**
+   * One correct answer's effect on the shared collection: total, biome and
+   * dino unlocks, reveal-screen routing. Shared by math (origin 'puzzle') and
+   * spelling (origin 'spelling') so every area's wins earn the same rewards.
+   * The caller owns answer sounds, streaks and difficulty.
+   */
+  const applyCorrectProgress = (s: GameState, origin: 'puzzle' | 'spelling'): GameState => {
+    const stayed = s.currentScreen === origin;
+    const newTotal = s.totalCorrect + 1;
+    let newBiome = s.currentBiome;
+    let rewardScreen: ScreenType = origin;
+    const newUnlocked = [...s.unlockedDinos];
+    let lastUnlockedDinoId = s.lastUnlockedDinoId;
+    let pendingDinoReward = false;
+
+    // Check biome unlock
+    const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
+    if (nextBiomeIndex < BIOMES.length && newTotal >= BIOMES[nextBiomeIndex].threshold) {
+      newBiome = nextBiomeIndex;
+      rewardScreen = 'biome-unlock';
+      if (stayed) playUnlockBiome();
+    }
+
+    // Check dino unlock
+    const newDino = DINOS.find(d => d.unlockAt === newTotal);
+    if (newDino && !newUnlocked.includes(newDino.id)) {
+      newUnlocked.push(newDino.id);
+      lastUnlockedDinoId = newDino.id;
+      if (rewardScreen === 'biome-unlock') {
+        // Both unlocks land on the same answer (totals 15, 30 and 45). The
+        // biome screen goes first because it reframes where you are; the
+        // dino reveal is queued so it still happens instead of being
+        // dropped, which silently cost raptor, plesiosaurus and t-rex
+        // their reveal screen and their unlock sound.
+        pendingDinoReward = stayed;
+      } else {
+        rewardScreen = 'dino-reward';
+        if (stayed) playUnlockDino();
+      }
+    }
+
+    // Celebrate every 5 correct — but only when the player stays on the
+    // puzzle screen to see it. The overlay used to be flagged here and
+    // consumed by an effect on the next render, so a flag raised while
+    // navigating to a reward screen survived and fired later over an
+    // unrelated puzzle. An unlock reveal is the celebration for those
+    // answers already.
+    if (origin === 'puzzle' && newTotal % 5 === 0 && stayed && rewardScreen === 'puzzle') {
+      pendingCelebrationRef.current = true;
+    }
+
+    return {
+      ...s,
+      totalCorrect: newTotal,
+      currentBiome: newBiome,
+      unlockedDinos: newUnlocked,
+      currentScreen: stayed ? rewardScreen : s.currentScreen,
+      lastUnlockedDinoId,
+      pendingDinoReward
+    };
   };
 
   const answerPuzzle = (isCorrect: boolean) => {
@@ -328,61 +408,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     playCorrect();
 
     setTimeout(() => {
-      setState(s => {
-        const stayedInPuzzle = s.currentScreen === 'puzzle';
-        const newTotal = s.totalCorrect + 1;
-        let newBiome = s.currentBiome;
-        let rewardScreen: ScreenType = 'puzzle';
-        const newUnlocked = [...s.unlockedDinos];
-        let lastUnlockedDinoId = s.lastUnlockedDinoId;
-        let pendingDinoReward = false;
-
-        // Check biome unlock
-        const nextBiomeIndex = (s.currentBiome + 1) as 0 | 1 | 2 | 3;
-        if (nextBiomeIndex < BIOMES.length && newTotal >= BIOMES[nextBiomeIndex].threshold) {
-          newBiome = nextBiomeIndex;
-          rewardScreen = 'biome-unlock';
-          if (stayedInPuzzle) playUnlockBiome();
-        }
-
-        // Check dino unlock
-        const newDino = DINOS.find(d => d.unlockAt === newTotal);
-        if (newDino && !newUnlocked.includes(newDino.id)) {
-          newUnlocked.push(newDino.id);
-          lastUnlockedDinoId = newDino.id;
-          if (rewardScreen === 'biome-unlock') {
-            // Both unlocks land on the same answer (totals 15, 30 and 45). The
-            // biome screen goes first because it reframes where you are; the
-            // dino reveal is queued so it still happens instead of being
-            // dropped, which silently cost raptor, plesiosaurus and t-rex
-            // their reveal screen and their unlock sound.
-            pendingDinoReward = stayedInPuzzle;
-          } else {
-            rewardScreen = 'dino-reward';
-            if (stayedInPuzzle) playUnlockDino();
-          }
-        }
-
-        // Celebrate every 5 correct — but only when the player stays on the
-        // puzzle screen to see it. The overlay used to be flagged here and
-        // consumed by an effect on the next render, so a flag raised while
-        // navigating to a reward screen survived and fired later over an
-        // unrelated puzzle. An unlock reveal is the celebration for those
-        // answers already.
-        if (newTotal % 5 === 0 && stayedInPuzzle && rewardScreen === 'puzzle') {
-          pendingCelebrationRef.current = true;
-        }
-
-        return {
-          ...s,
-          totalCorrect: newTotal,
-          currentBiome: newBiome,
-          unlockedDinos: newUnlocked,
-          currentScreen: stayedInPuzzle ? rewardScreen : s.currentScreen,
-          lastUnlockedDinoId,
-          pendingDinoReward
-        };
-      });
+      setState(s => applyCorrectProgress(s, 'puzzle'));
 
       setSessionStats(prev => ({
         ...prev,
@@ -396,13 +422,51 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     }, 900);
   };
 
+  /**
+   * Spelling's answer bookkeeping. Same silent, streak-triggered ramp shape as
+   * math, but with its own counters so the two areas never bleed into each
+   * other's difficulty: three straight wins step the band up, two straight
+   * misses ease it down, and nothing on screen announces either. Wins also
+   * bank collection progress, so Words play earns dinos and biomes too.
+   */
+  const recordSpellingResult = (isCorrect: boolean) => {
+    sessionQuestionsRef.current += 1;
+    if (isCorrect) sessionCorrectRef.current += 1;
+    setSessionStats(prev => ({
+      ...prev,
+      questionsAnswered: sessionQuestionsRef.current,
+      correct: sessionCorrectRef.current
+    }));
+
+    if (!isCorrect) {
+      spellingStreakRef.current = 0;
+      spellingMissRef.current += 1;
+      playWrong();
+      if (spellingMissRef.current >= 2) {
+        spellingMissRef.current = 0;
+        setState(s => ({ ...s, spellingBand: stepSpellingBand(s.spellingBand, -1) }));
+      }
+      return;
+    }
+
+    spellingStreakRef.current += 1;
+    spellingMissRef.current = 0;
+    const stepUp = spellingStreakRef.current >= 3;
+    if (stepUp) spellingStreakRef.current = 0;
+
+    setState(s => ({
+      ...applyCorrectProgress(s, 'spelling'),
+      spellingBand: stepUp ? stepSpellingBand(s.spellingBand, 1) : s.spellingBand
+    }));
+  };
+
   return (
     <GameContext.Provider value={{
       state, puzzle, settingsOpen,
       celebrationPending, sessionStats,
       openSettings, closeSettings,
       selectCompanion, startLearningArea,
-      startGame, goToScreen, answerPuzzle,
+      startGame, goToScreen, answerPuzzle, recordSpellingResult,
       toggleMute, updateAdultSettings, resetGame, newPuzzle,
       clearCelebration, showPendingDinoReward
     }}>
