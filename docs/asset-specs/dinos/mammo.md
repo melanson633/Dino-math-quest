@@ -61,9 +61,13 @@ fill at reduced opacity.
 - Body length nose-to-rump is **≥ 68 units**; body height from the hump apex down
   to the belly is **≥ 62 units** — a bulky, near-square mass.
 - The trunk tip hangs **below the knee line**.
-- The gap between the two front feet and the two rear feet, measured foot-edge to
-  foot-edge along the ground line, is **≥ 26 units** of empty ground, so four
-  separate feet are visible.
+- Leg separation is measured against the **rendered outer stroke edges**, not
+  just the path coordinates. Every adjacent pair must retain **≥ 6 units of open
+  background after both 3-unit strokes are applied** (equivalent to a ≥ 9-unit
+  fill-edge gap), including the rear pair. The front pair may use a depth
+  offset, but **≥ 9 units of the far-front column must remain unobscured after
+  the near-front stroke is applied**. All four columns and pads must remain
+  individually visible.
 
 ## 3. Required features
 
@@ -118,9 +122,9 @@ one, never three.
 - **Minimum margin from every frame edge: 6 units**, to the outer edge of the
   stroke. No path coordinate outside x 8–120 or y 8–120. The forward tusk tip is
   the tightest point — verify it and its stroke.
-- The trunk hangs in open space; keep **≥ 8 units** of background between the
-  trunk's rear edge and the near front leg so the trunk is not read as a fifth
-  leg.
+- The trunk hangs in open space; keep **≥ 8 units of open background measured
+  between the rendered outer stroke edges** of the trunk and the near front leg
+  so the trunk is not read as a fifth leg.
 - Body axis is **level**: the back slopes down from hump apex to rump, but the
   belly line is horizontal within 4 units.
 
@@ -192,12 +196,14 @@ failures are forbidden:
    mammo out of the three with no label. **PASS/FAIL**
 3. Exactly **four** legs are present, each ≥ 14 units wide and ≥ 30 units tall,
    with four separate foot pads touching y = 114. **PASS/FAIL**
-4. Total empty ground between the front foot group and the rear foot group along
-   y = 114 is ≥ 26 units. **PASS/FAIL**
+4. In the flat-black render, all four leg columns and pads remain individually
+   visible: every adjacent pair, including the rear pair, has ≥ 6 units of
+   post-stroke background between them, and ≥ 9 units of the far-front column
+   remains clear after the near-front stroke is applied. **PASS/FAIL**
 5. A trunk is present: ≥ 44 units long, 10–13 units wide throughout, tip hanging
    below the knee line. **PASS/FAIL**
-6. ≥ 8 units of background separate the trunk from the near front leg.
-   **PASS/FAIL**
+6. ≥ 8 units of post-stroke background separate the trunk from the near front
+   leg. **PASS/FAIL**
 7. Exactly **two** tusks, mirrored: same arc direction and taper, length
    difference ≤ 8 units, each ≥ 32 units of arc and ≥ 7 units thick at base, one
    on each side of the trunk. **PASS/FAIL**
