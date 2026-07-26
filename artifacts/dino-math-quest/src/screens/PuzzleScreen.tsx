@@ -468,6 +468,23 @@ export function PuzzleScreen() {
     [isCorrect, wrongIds, answerPuzzle]
   );
 
+  // Hoisted above the early return so this hook is always called unconditionally.
+  const nextDino = getNextDino(state.totalCorrect);
+  const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
+  const answersRemaining = nextDino ? Math.max(0, nextDino.unlockAt - state.totalCorrect) : 0;
+  const nextBiome = nextDino
+    ? (BIOMES.find((b) => b.threshold === nextDino.unlockAt) ?? null)
+    : null;
+
+  // Show checkpoint banner when player is close (≤5) to the next milestone.
+  useEffect(() => {
+    if (nextDino && answersRemaining > 0 && answersRemaining <= 5) {
+      setShowCheckpoint(true);
+    } else {
+      setShowCheckpoint(false);
+    }
+  }, [nextDino, answersRemaining]);
+
   if (!puzzle) {
     return (
       <div
@@ -481,7 +498,6 @@ export function PuzzleScreen() {
 
   const tokenKind = TOKEN_KINDS[state.currentBiome] ?? 'dino';
   const subtractKind = SUBTRACT_KINDS[state.currentBiome] ?? 'egg';
-  const nextDino = getNextDino(state.totalCorrect);
 
   // Biome companion dino — changes per biome, not based on unlock progress.
   const companionDino = DINOS.find((d) => d.id === biome.companionDinoId) ?? null;
@@ -496,24 +512,8 @@ export function PuzzleScreen() {
       ? unlockedDinos[stableHash(puzzleKey) % unlockedDinos.length]
       : undefined;
 
-  const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
   // Past the last unlock there is nothing left to fill toward, so the bar reads full.
   const progressSpan = Math.max(1, (nextDino?.unlockAt ?? 0) - previousUnlockAt);
-  const answersRemaining = nextDino ? Math.max(0, nextDino.unlockAt - state.totalCorrect) : 0;
-
-  // Next biome to unlock — shown alongside the dino in CheckpointBanner when they coincide.
-  const nextBiome = nextDino
-    ? (BIOMES.find((b) => b.threshold === nextDino.unlockAt) ?? null)
-    : null;
-
-  // Show checkpoint banner when player is close (≤5) to the next milestone.
-  useEffect(() => {
-    if (nextDino && answersRemaining > 0 && answersRemaining <= 5) {
-      setShowCheckpoint(true);
-    } else {
-      setShowCheckpoint(false);
-    }
-  }, [nextDino, answersRemaining]);
 
   const isWordProblem = puzzle.type === 'word-problem';
 
