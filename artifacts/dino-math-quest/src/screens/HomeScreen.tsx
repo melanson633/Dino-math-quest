@@ -148,21 +148,6 @@ export function HomeScreen() {
             );
           })}
 
-          {/* Speech teaser card (locked) */}
-          <div className="flex flex-col overflow-hidden rounded-3xl shadow-md border-2 border-slate-200 opacity-60 cursor-default col-span-2">
-            <div className="bg-rose-300 flex items-center justify-center py-4 gap-3">
-              <span className="text-4xl">🔒</span>
-              <span className="text-4xl">🎵</span>
-            </div>
-            <div className="bg-slate-50 flex flex-col gap-1 px-3 py-3">
-              <p className="text-lg font-extrabold leading-tight text-slate-500">
-                Speech Songs
-              </p>
-              <p className="text-xs font-semibold leading-snug text-slate-400">
-                Coming soon — stay tuned!
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
