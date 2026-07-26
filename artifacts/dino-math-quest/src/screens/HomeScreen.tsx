@@ -111,12 +111,15 @@ export function HomeScreen() {
       </div>
 
       {/* ── Cards Section ─────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-emerald-100 to-amber-100 px-4 pb-6 pt-4">
-        <p className="text-center text-base font-bold text-slate-600 mb-4">
+      <div className="flex flex-1 flex-col overflow-y-auto bg-gradient-to-b from-emerald-100 to-amber-100 px-4 pb-6 pt-4">
+        {/* my-auto centers the block in leftover height on tall screens but
+            collapses to normal flow when content overflows on short ones */}
+        <div className="my-auto">
+        <p className="text-center text-base font-bold text-slate-600 mb-4 md:text-lg">
           Where do you want to go?
         </p>
 
-        <div className="mx-auto grid w-full max-w-lg grid-cols-2 gap-3">
+        <div className="mx-auto grid w-full max-w-lg grid-cols-2 gap-3 md:max-w-xl md:gap-4">
           {/* Playable area cards */}
           {playableAreas.map((area) => {
             const colors = AREA_COLORS[area.id] ?? { header: 'bg-slate-500', card: 'bg-slate-50', text: 'text-slate-800' };
@@ -163,6 +166,7 @@ export function HomeScreen() {
               </p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

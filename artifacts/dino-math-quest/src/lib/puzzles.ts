@@ -47,7 +47,7 @@ const MATH_MISSIONS: Record<PuzzleType, PuzzleMission> = {
   'missing-number': { icon: '🦶', title: 'Number Path', cue: 'Find the missing step.' },
   compare: { icon: '🌋', title: 'Big Pile', cue: 'Pick the pile with more.' },
   shapes: { icon: '💎', title: 'Shape Hunt', cue: 'Find the matching shape.' },
-  'fill-to-ten': { icon: '🪣', title: 'Fill the Frame', cue: 'How many more to reach ten?' },
+  'fill-to-ten': { icon: '🌟', title: 'Fill the Frame', cue: 'How many more to reach ten?' },
   'word-problem': { icon: '📖', title: 'Dino Story', cue: 'Listen to the story, then count!' }
 };
 

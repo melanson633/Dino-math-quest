@@ -113,7 +113,7 @@ export function TopBar() {
         <button
           data-testid="button-dinoden"
           onClick={() => goToScreen('dinoden')}
-          className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform"
+          className="w-16 h-16 rounded-full bg-white/70 backdrop-blur border-2 border-white/80 flex items-center justify-center shadow-lg active:scale-95 transition-transform"
           aria-label="Dino Den"
         >
           <img src={publicAssetUrl('/dinos/stego.svg')} alt="" draggable={false} className="h-10 w-10" />
@@ -147,7 +147,7 @@ export function TopBar() {
         <button
           data-testid="button-settings"
           onClick={openSettings}
-          className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform text-white"
+          className="w-16 h-16 rounded-full bg-white/70 backdrop-blur border-2 border-white/80 flex items-center justify-center shadow-lg active:scale-95 transition-transform text-slate-500"
           aria-label="Settings"
         >
           <Settings size={28} />

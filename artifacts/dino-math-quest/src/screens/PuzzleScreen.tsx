@@ -141,7 +141,7 @@ function MathVisualScene({ puzzle, primaryArt, secondaryArt }: {
         className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-6 py-6 shadow-inner"
       >
         <p className="mb-3 text-center text-xl font-black uppercase tracking-wide text-emerald-700">
-          Fill to 10 🪣
+          Fill to 10 🌟
         </p>
         <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto w-full max-w-[300px] md:max-w-[380px]" />
       </div>
