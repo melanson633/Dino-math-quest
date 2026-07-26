@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useGame } from '../context/GameContext';
 import { BIOMES, biomeBackground } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
+import type { Dino } from '../lib/dinos';
 import { DinoArt } from '../components/DinoArt';
 import { publicAssetUrl } from '../lib/assets';
 import { playTap } from '../lib/audio';
@@ -16,11 +17,20 @@ type SceneTokenKind = 'dino' | 'shell' | 'volcano' | 'snow' | 'egg' | 'wave' | '
 const TOKEN_KINDS: SceneTokenKind[] = ['dino', 'shell', 'volcano', 'snow'];
 const SUBTRACT_KINDS: SceneTokenKind[] = ['egg', 'wave', 'flame', 'crystal'];
 
-function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boolean }) {
+type TokenDino = Pick<Dino, 'name' | 'emoji' | 'art'>;
+
+function SceneToken({ kind, faded = false, tokenDino }: { kind: SceneTokenKind; faded?: boolean; tokenDino?: TokenDino }) {
   const baseClass = faded ? 'opacity-25 grayscale' : 'opacity-100';
   const wrapperClass = 'relative inline-flex h-12 w-14 items-center justify-center';
 
   if (kind === 'dino') {
+    if (tokenDino) {
+      return (
+        <span data-testid="math-scene-item" className={`${wrapperClass} ${baseClass}`}>
+          <DinoArt dino={tokenDino} decorative className="h-10 w-10 object-contain" />
+        </span>
+      );
+    }
     return (
       <span data-testid="math-scene-item" className={wrapperClass}>
         <span className={`relative h-9 w-12 rounded-[55%_45%_48%_52%] bg-emerald-300 shadow-inner ring-2 ring-emerald-700/15 ${baseClass}`}>
@@ -86,20 +96,20 @@ function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boo
   );
 }
 
-function TokenRow({ count, kind, fadedFrom = count, label }: {
-  count: number; kind: SceneTokenKind; fadedFrom?: number; label: string;
+function TokenRow({ count, kind, fadedFrom = count, label, tokenDino }: {
+  count: number; kind: SceneTokenKind; fadedFrom?: number; label: string; tokenDino?: TokenDino;
 }) {
   return (
     <div data-testid="math-token-row" aria-label={label} className="flex max-w-[340px] flex-wrap justify-center gap-2">
       {Array.from({ length: count }).map((_, i) => (
-        <SceneToken key={i} kind={kind} faded={i >= fadedFrom} />
+        <SceneToken key={i} kind={kind} faded={i >= fadedFrom} tokenDino={tokenDino} />
       ))}
     </div>
   );
 }
 
 /** Counting shown in groups of 5 for easier subitising */
-function GroupedCounting({ count, kind }: { count: number; kind: SceneTokenKind }) {
+function GroupedCounting({ count, kind, tokenDino }: { count: number; kind: SceneTokenKind; tokenDino?: TokenDino }) {
   const groups: number[] = [];
   let remaining = count;
   while (remaining > 0) { groups.push(Math.min(5, remaining)); remaining -= 5; }
@@ -107,18 +117,18 @@ function GroupedCounting({ count, kind }: { count: number; kind: SceneTokenKind 
     <div className="flex flex-wrap justify-center gap-2">
       {groups.map((size, gi) => (
         <div key={gi} className="flex gap-1 rounded-2xl bg-white/40 px-2 py-1.5">
-          {Array.from({ length: size }).map((_, i) => <SceneToken key={i} kind={kind} />)}
+          {Array.from({ length: size }).map((_, i) => <SceneToken key={i} kind={kind} tokenDino={tokenDino} />)}
         </div>
       ))}
     </div>
   );
 }
 
-function CompareGroup({ count, kind, label }: { count: number; kind: SceneTokenKind; label: string }) {
+function CompareGroup({ count, kind, label, tokenDino }: { count: number; kind: SceneTokenKind; label: string; tokenDino?: TokenDino }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col items-center gap-2 rounded-3xl bg-white/25 px-3 py-3 shadow-inner">
       <p className="text-4xl font-black leading-none text-white drop-shadow sm:text-5xl">{label}</p>
-      <TokenRow count={count} kind={kind} label={`${count} island items`} />
+      <TokenRow count={count} kind={kind} label={`${count} island items`} tokenDino={tokenDino} />
     </div>
   );
 }
@@ -153,8 +163,8 @@ function NumberPath({ display }: { display: string }) {
   );
 }
 
-function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
-  puzzle: Puzzle; tokenKind: SceneTokenKind; subtractKind: SceneTokenKind;
+function MathVisualScene({ puzzle, tokenKind, subtractKind, tokenDino }: {
+  puzzle: Puzzle; tokenKind: SceneTokenKind; subtractKind: SceneTokenKind; tokenDino?: TokenDino;
 }) {
   if (puzzle.type === 'missing-number') return <NumberPath display={puzzle.display} />;
 
@@ -167,7 +177,7 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
         aria-label={`Dino Island counting scene with ${count} items`}
         className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <GroupedCounting count={count} kind={tokenKind} />
+        <GroupedCounting count={count} kind={tokenKind} tokenDino={tokenDino} />
       </div>
     );
   }
@@ -210,7 +220,7 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
         aria-label="Dino Island two-group counting scene"
         className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <TokenRow count={a} kind={tokenKind} label={`${a} items in the first group`} />
+        <TokenRow count={a} kind={tokenKind} label={`${a} items in the first group`} tokenDino={tokenDino} />
         <span className="rounded-full bg-white/85 px-3 py-1 text-2xl font-black text-emerald-800 shadow-sm">+</span>
         <TokenRow count={b} kind={subtractKind} label={`${b} items in the second group`} />
       </div>
@@ -242,7 +252,7 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-xs font-black uppercase tracking-wide text-emerald-700">started with</span>
-          <TokenRow count={a} kind={tokenKind} label={`${a} items to start`} />
+          <TokenRow count={a} kind={tokenKind} label={`${a} items to start`} tokenDino={tokenDino} />
         </div>
         <div className="flex flex-col items-center gap-2 rounded-2xl bg-rose-100/70 px-5 py-3">
           <span className="text-xs font-black uppercase tracking-wide text-rose-600">gone 🌫️</span>
@@ -257,7 +267,7 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
       <div data-testid="math-visual-scene" aria-label="Dino Island compare scene" className="w-full max-w-lg">
         <div className="mb-2 text-2xl font-black text-white/95 drop-shadow sm:text-3xl">Which pile has more?</div>
         <div className="flex w-full items-stretch justify-center gap-3">
-          <CompareGroup count={puzzle.operands[0]} kind={tokenKind} label={puzzle.operands[0].toString()} />
+          <CompareGroup count={puzzle.operands[0]} kind={tokenKind} label={puzzle.operands[0].toString()} tokenDino={tokenDino} />
           <CompareGroup count={puzzle.operands[1]} kind={subtractKind} label={puzzle.operands[1].toString()} />
         </div>
       </div>
@@ -372,6 +382,13 @@ function getNextDino(totalCorrect: number) {
   return DINOS.find((dino) => dino.unlockAt > totalCorrect) ?? null;
 }
 
+/** Stable numeric hash of a string, suitable for picking a list index. */
+function stableHash(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 const BUTTON_PASTEL_BASE = [
   'bg-blue-100  text-blue-900  border-blue-300  shadow-[0_5px_0_0_#93c5fd]  active:shadow-none active:translate-y-[5px]',
   'bg-amber-100 text-amber-900 border-amber-300 shadow-[0_5px_0_0_#fcd34d] active:shadow-none active:translate-y-[5px]',
@@ -461,6 +478,18 @@ export function PuzzleScreen() {
   const tokenKind = TOKEN_KINDS[state.currentBiome] ?? 'dino';
   const subtractKind = SUBTRACT_KINDS[state.currentBiome] ?? 'egg';
   const nextDino = getNextDino(state.totalCorrect);
+
+  // Most recently unlocked dino — shown as a companion throughout gameplay.
+  const unlockedDinos = DINOS.filter((d) => d.unlockAt <= state.totalCorrect);
+  const companionDino = unlockedDinos.length > 0 ? unlockedDinos[unlockedDinos.length - 1] : null;
+
+  // Stable per-puzzle dino for counting tokens — rotates through unlocked collection.
+  const puzzleKey = puzzle.prompt + puzzle.type;
+  const tokenDino: TokenDino | undefined =
+    unlockedDinos.length > 0
+      ? unlockedDinos[stableHash(puzzleKey) % unlockedDinos.length]
+      : undefined;
+
   const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
   // Past the last unlock there is nothing left to fill toward, so the bar reads
   // full. It used to point at the final dino and sit at 0% forever.
@@ -486,8 +515,12 @@ export function PuzzleScreen() {
         {/* Speech bubble prompt + home button */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-1 items-start gap-3">
-            {/* Mini Tri head */}
-            <span className="flex-shrink-0 text-4xl leading-none mt-1" aria-hidden="true">🦕</span>
+            {/* Companion dino — most recently unlocked */}
+            {companionDino ? (
+              <DinoArt dino={companionDino} decorative className="flex-shrink-0 h-14 w-14 object-contain mt-1 drop-shadow-md" />
+            ) : (
+              <span className="flex-shrink-0 text-4xl leading-none mt-1" aria-hidden="true">🦕</span>
+            )}
             {/* Bubble */}
             <div className="relative flex-1 rounded-3xl rounded-tl-sm bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
               {/* Triangle pointer */}
@@ -524,7 +557,7 @@ export function PuzzleScreen() {
               {puzzle.display}
             </div>
           )}
-          <MathVisualScene puzzle={puzzle} tokenKind={tokenKind} subtractKind={subtractKind} />
+          <MathVisualScene puzzle={puzzle} tokenKind={tokenKind} subtractKind={subtractKind} tokenDino={tokenDino} />
         </motion.div>
 
         {/* Encouragement toast */}
@@ -586,8 +619,9 @@ export function PuzzleScreen() {
             <div className="flex flex-col items-center gap-1 text-white">
               {nextDino ? (
                 <>
-                  <DinoArt dino={nextDino} decorative className="h-8 w-8" />
-                  <p className="text-base font-black">{nextDino.name}</p>
+                  <DinoArt dino={nextDino} className="h-16 w-16 object-contain drop-shadow-md" />
+                  <p className="text-lg font-black text-white drop-shadow">{nextDino.name}</p>
+                  <p className="text-xs font-bold text-white/80 uppercase tracking-wide">Next friend!</p>
                 </>
               ) : (
                 <p className="text-base font-black">All {DINOS.length} friends found!</p>
