@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { Settings, Volume2, VolumeX, X } from 'lucide-react';
+import { Settings, X } from 'lucide-react';
 import { useGame } from '../context/GameContext';
+import { publicAssetUrl } from '../lib/assets';
 import type { PuzzleDifficulty } from '../lib/puzzles';
 
 const DIFFICULTY_LABELS: Record<PuzzleDifficulty, string> = {
@@ -83,7 +84,7 @@ function ParentOverlay({ onClose }: { onClose: () => void }) {
 }
 
 export function TopBar() {
-  const { state, goToScreen, toggleMute, openSettings } = useGame();
+  const { state, goToScreen, openSettings } = useGame();
   const [parentOverlayOpen, setParentOverlayOpen] = useState(false);
   const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -115,7 +116,7 @@ export function TopBar() {
           className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform"
           aria-label="Dino Den"
         >
-          <span className="text-3xl">🦕</span>
+          <img src={publicAssetUrl('/dinos/stego.svg')} alt="" draggable={false} className="h-10 w-10" />
         </button>
 
         {/* Score chip — long press opens parent overlay */}
@@ -141,25 +142,16 @@ export function TopBar() {
           </div>
         )}
 
-        {/* Mute + Settings */}
-        <div className="flex gap-2">
-          <button
-            data-testid="button-mute"
-            onClick={toggleMute}
-            className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform text-white"
-            aria-label={state.muteAudio ? 'Unmute' : 'Mute'}
-          >
-            {state.muteAudio ? <VolumeX size={28} /> : <Volume2 size={28} />}
-          </button>
-          <button
-            data-testid="button-settings"
-            onClick={openSettings}
-            className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform text-white"
-            aria-label="Settings"
-          >
-            <Settings size={28} />
-          </button>
-        </div>
+        {/* Settings — the sole sound control lives in the adult panel now;
+            the kid-facing mute button was a sound component out of scope */}
+        <button
+          data-testid="button-settings"
+          onClick={openSettings}
+          className="w-16 h-16 rounded-full bg-white/30 backdrop-blur border-2 border-white/50 flex items-center justify-center shadow-lg active:scale-95 transition-transform text-white"
+          aria-label="Settings"
+        >
+          <Settings size={28} />
+        </button>
       </div>
     </>
   );

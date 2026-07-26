@@ -9,97 +9,58 @@ import { playTap } from '../lib/audio';
 import type { Puzzle } from '../lib/puzzles';
 import { TenFrame } from '../components/TenFrame';
 
-/* ─── scene token types ─────────────────────────────────────── */
+/* ─── scene tokens ──────────────────────────────────────────── */
 
-type SceneTokenKind = 'dino' | 'shell' | 'volcano' | 'snow' | 'egg' | 'wave' | 'flame' | 'crystal';
+/**
+ * Counting tokens are the authored dino portraits from public/dinos, paired
+ * per biome: [main counting dino, second-group dino]. Real art reads far
+ * better than the abstract CSS blobs it replaced.
+ */
+const SCENE_DINO_IDS: [string, string][] = [
+  ['stego', 'ankylo'],  // jungle
+  ['plesi', 'ptero'],   // beach
+  ['trex', 'raptor'],   // volcano
+  ['mammo', 'spino'],   // ice cave
+];
 
-const TOKEN_KINDS: SceneTokenKind[] = ['dino', 'shell', 'volcano', 'snow'];
-const SUBTRACT_KINDS: SceneTokenKind[] = ['egg', 'wave', 'flame', 'crystal'];
+function sceneDinoArt(id: string): string {
+  return `/dinos/${id}.svg`;
+}
 
-function SceneToken({ kind, faded = false }: { kind: SceneTokenKind; faded?: boolean }) {
-  const baseClass = faded ? 'opacity-25 grayscale' : 'opacity-100';
-  const wrapperClass = 'relative inline-flex h-12 w-14 items-center justify-center';
-
-  if (kind === 'dino') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`relative h-9 w-12 rounded-[55%_45%_48%_52%] bg-emerald-300 shadow-inner ring-2 ring-emerald-700/15 ${baseClass}`}>
-          <span className="absolute -right-2 top-2 h-4 w-5 rounded-full bg-emerald-200" />
-          <span className="absolute -left-2 top-5 h-2 w-5 rotate-[-18deg] rounded-full bg-emerald-400" />
-          <span className="absolute left-3 top-1 h-2 w-2 rounded-full bg-emerald-700/70" />
-        </span>
-      </span>
-    );
-  }
-  if (kind === 'egg') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`h-10 w-8 rounded-[55%_55%_48%_48%] bg-stone-50 shadow-inner ring-2 ring-amber-200 ${baseClass}`} />
-      </span>
-    );
-  }
-  if (kind === 'shell') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`relative h-8 w-10 rounded-b-full rounded-t-[999px] bg-rose-200 shadow-inner ring-2 ring-rose-500/20 ${baseClass}`}>
-          <span className="absolute left-2 top-1 h-6 w-1 rounded-full bg-rose-400/45" />
-          <span className="absolute left-5 top-1 h-6 w-1 rounded-full bg-rose-400/45" />
-          <span className="absolute left-8 top-1 h-6 w-1 rounded-full bg-rose-400/45" />
-        </span>
-      </span>
-    );
-  }
-  if (kind === 'volcano') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`relative h-10 w-11 rounded-b-md bg-stone-500 shadow-inner ring-2 ring-stone-900/15 [clip-path:polygon(50%_0,100%_100%,0_100%)] ${baseClass}`}>
-          <span className="absolute left-[39%] top-2 h-2 w-3 rounded-full bg-orange-300" />
-        </span>
-      </span>
-    );
-  }
-  if (kind === 'wave') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`h-7 w-12 rounded-[999px_999px_35%_35%] bg-sky-300 shadow-inner ring-2 ring-sky-600/15 ${baseClass}`} />
-      </span>
-    );
-  }
-  if (kind === 'flame') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`h-10 w-8 rotate-45 rounded-[75%_15%_75%_15%] bg-orange-300 shadow-inner ring-2 ring-orange-700/15 ${baseClass}`} />
-      </span>
-    );
-  }
-  if (kind === 'crystal') {
-    return (
-      <span data-testid="math-scene-item" className={wrapperClass}>
-        <span className={`h-10 w-8 rotate-45 rounded-md bg-cyan-200 shadow-inner ring-2 ring-cyan-700/15 ${baseClass}`} />
-      </span>
-    );
-  }
+function SceneToken({ art, gone = false }: { art: string; gone?: boolean }) {
   return (
-    <span data-testid="math-scene-item" className={wrapperClass}>
-      <span className={`h-8 w-8 rounded-full bg-white/85 shadow-inner ring-2 ring-sky-200 ${baseClass}`} />
+    <span data-testid="math-scene-item" className="relative inline-flex h-14 w-14 items-center justify-center">
+      <img
+        src={publicAssetUrl(art)}
+        alt=""
+        draggable={false}
+        className={`h-full w-full ${gone ? 'opacity-40' : 'drop-shadow-sm'}`}
+      />
+      {/* "Gone" stays clearly visible — a bold cross over full-colour art,
+          not the near-invisible grey wash it used to be. */}
+      {gone && (
+        <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center text-4xl font-black text-rose-600 drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]">
+          ✕
+        </span>
+      )}
     </span>
   );
 }
 
-function TokenRow({ count, kind, fadedFrom = count, label }: {
-  count: number; kind: SceneTokenKind; fadedFrom?: number; label: string;
+function TokenRow({ count, art, goneFrom = count, label }: {
+  count: number; art: string; goneFrom?: number; label: string;
 }) {
   return (
-    <div data-testid="math-token-row" aria-label={label} className="flex max-w-[340px] flex-wrap justify-center gap-2">
+    <div data-testid="math-token-row" aria-label={label} className="flex max-w-[420px] flex-wrap justify-center gap-2">
       {Array.from({ length: count }).map((_, i) => (
-        <SceneToken key={i} kind={kind} faded={i >= fadedFrom} />
+        <SceneToken key={i} art={art} gone={i >= goneFrom} />
       ))}
     </div>
   );
 }
 
 /** Counting shown in groups of 5 for easier subitising */
-function GroupedCounting({ count, kind }: { count: number; kind: SceneTokenKind }) {
+function GroupedCounting({ count, art }: { count: number; art: string }) {
   const groups: number[] = [];
   let remaining = count;
   while (remaining > 0) { groups.push(Math.min(5, remaining)); remaining -= 5; }
@@ -107,18 +68,18 @@ function GroupedCounting({ count, kind }: { count: number; kind: SceneTokenKind 
     <div className="flex flex-wrap justify-center gap-2">
       {groups.map((size, gi) => (
         <div key={gi} className="flex gap-1 rounded-2xl bg-white/40 px-2 py-1.5">
-          {Array.from({ length: size }).map((_, i) => <SceneToken key={i} kind={kind} />)}
+          {Array.from({ length: size }).map((_, i) => <SceneToken key={i} art={art} />)}
         </div>
       ))}
     </div>
   );
 }
 
-function CompareGroup({ count, kind, label }: { count: number; kind: SceneTokenKind; label: string }) {
+function CompareGroup({ count, art, label }: { count: number; art: string; label: string }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col items-center gap-2 rounded-3xl bg-white/25 px-3 py-3 shadow-inner">
       <p className="text-4xl font-black leading-none text-white drop-shadow sm:text-5xl">{label}</p>
-      <TokenRow count={count} kind={kind} label={`${count} island items`} />
+      <TokenRow count={count} art={art} label={`${count} island items`} />
     </div>
   );
 }
@@ -153,8 +114,8 @@ function NumberPath({ display }: { display: string }) {
   );
 }
 
-function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
-  puzzle: Puzzle; tokenKind: SceneTokenKind; subtractKind: SceneTokenKind;
+function MathVisualScene({ puzzle, primaryArt, secondaryArt }: {
+  puzzle: Puzzle; primaryArt: string; secondaryArt: string;
 }) {
   if (puzzle.type === 'missing-number') return <NumberPath display={puzzle.display} />;
 
@@ -167,7 +128,7 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
         aria-label={`Dino Island counting scene with ${count} items`}
         className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <GroupedCounting count={count} kind={tokenKind} />
+        <GroupedCounting count={count} art={primaryArt} />
       </div>
     );
   }
@@ -179,10 +140,10 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
         aria-label={`Ten frame showing ${puzzle.filledCount} filled cells`}
         className="w-full max-w-lg rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-6 py-6 shadow-inner"
       >
-        <p className="mb-3 text-center text-sm font-black uppercase tracking-wide text-emerald-700">
+        <p className="mb-3 text-center text-xl font-black uppercase tracking-wide text-emerald-700">
           Fill to 10 🪣
         </p>
-        <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto max-w-[240px]" />
+        <TenFrame filled={puzzle.filledCount} theme="green" className="mx-auto max-w-[300px]" />
       </div>
     );
   }
@@ -197,10 +158,10 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
           aria-label="Dino Island ten-frame addition scene"
           className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
         >
-          <p className="text-sm font-black uppercase tracking-wide text-emerald-700">
-            <span className="text-emerald-600">●</span> {a} &nbsp;+&nbsp; <span className="text-sky-500">●</span> {b}
+          <p className="text-xl font-black uppercase tracking-wide text-emerald-800">
+            <span className="text-emerald-500">●</span> {a} &nbsp;+&nbsp; <span className="text-sky-500">●</span> {b}
           </p>
-          <TenFrame filled={a} secondaryFilled={b} theme="green" className="mx-auto max-w-[260px]" />
+          <TenFrame filled={a} secondaryFilled={b} theme="green" className="mx-auto max-w-[300px]" />
         </div>
       );
     }
@@ -210,9 +171,15 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
         aria-label="Dino Island two-group counting scene"
         className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <TokenRow count={a} kind={tokenKind} label={`${a} items in the first group`} />
-        <span className="rounded-full bg-white/85 px-3 py-1 text-2xl font-black text-emerald-800 shadow-sm">+</span>
-        <TokenRow count={b} kind={subtractKind} label={`${b} items in the second group`} />
+        <div className="flex items-center gap-3">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-3xl font-black text-emerald-800 shadow-sm">{a}</span>
+          <TokenRow count={a} art={primaryArt} label={`${a} items in the first group`} />
+        </div>
+        <span className="rounded-full bg-white/90 px-4 py-1 text-3xl font-black text-emerald-800 shadow-sm">+</span>
+        <div className="flex items-center gap-3">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-3xl font-black text-sky-700 shadow-sm">{b}</span>
+          <TokenRow count={b} art={secondaryArt} label={`${b} items in the second group`} />
+        </div>
       </div>
     );
   }
@@ -227,27 +194,27 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
           aria-label="Dino Island ten-frame subtraction scene"
           className="flex w-full max-w-lg flex-col items-center gap-3 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
         >
-          <p className="text-sm font-black uppercase tracking-wide text-rose-600">
+          <p className="text-xl font-black uppercase tracking-wide text-rose-600">
             {a} started — {b} went away
           </p>
-          <TenFrame filled={remaining} crossed={b} theme="rose" className="mx-auto max-w-[260px]" />
+          <TenFrame filled={remaining} crossed={b} theme="rose" className="mx-auto max-w-[300px]" />
         </div>
       );
     }
+    // One group of `a` with the last `b` crossed out. Showing "started" and
+    // "gone" as two separate rows put a + b dinos on screen for an a − b
+    // question — the child had more to count than the story contained.
     return (
       <div
         data-testid="math-visual-scene"
         aria-label="Dino Island taking-away scene"
         className="flex w-full max-w-lg flex-col items-center gap-4 rounded-[2rem] bg-gradient-to-b from-lime-100/95 to-emerald-200/90 px-5 py-5 shadow-inner"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs font-black uppercase tracking-wide text-emerald-700">started with</span>
-          <TokenRow count={a} kind={tokenKind} label={`${a} items to start`} />
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <span className="rounded-full bg-white/90 px-4 py-1.5 text-lg font-black uppercase tracking-wide text-emerald-800 shadow-sm">{a} started</span>
+          <span className="rounded-full bg-rose-200/90 px-4 py-1.5 text-lg font-black uppercase tracking-wide text-rose-700 shadow-sm">{b} went away ✕</span>
         </div>
-        <div className="flex flex-col items-center gap-2 rounded-2xl bg-rose-100/70 px-5 py-3">
-          <span className="text-xs font-black uppercase tracking-wide text-rose-600">gone 🌫️</span>
-          <TokenRow count={b} kind={subtractKind} fadedFrom={0} label={`${b} items taken away`} />
-        </div>
+        <TokenRow count={a} art={primaryArt} goneFrom={a - b} label={`${a} items, ${b} crossed out`} />
       </div>
     );
   }
@@ -255,10 +222,12 @@ function MathVisualScene({ puzzle, tokenKind, subtractKind }: {
   if (puzzle.type === 'compare' && puzzle.operands) {
     return (
       <div data-testid="math-visual-scene" aria-label="Dino Island compare scene" className="w-full max-w-lg">
-        <div className="mb-2 text-2xl font-black text-white/95 drop-shadow sm:text-3xl">Which pile has more?</div>
+        <div className="mb-2 flex justify-center">
+          <span className="rounded-full bg-slate-900/35 px-5 py-2 text-2xl font-black text-white backdrop-blur-sm sm:text-3xl">Which pile has more?</span>
+        </div>
         <div className="flex w-full items-stretch justify-center gap-3">
-          <CompareGroup count={puzzle.operands[0]} kind={tokenKind} label={puzzle.operands[0].toString()} />
-          <CompareGroup count={puzzle.operands[1]} kind={subtractKind} label={puzzle.operands[1].toString()} />
+          <CompareGroup count={puzzle.operands[0]} art={primaryArt} label={puzzle.operands[0].toString()} />
+          <CompareGroup count={puzzle.operands[1]} art={secondaryArt} label={puzzle.operands[1].toString()} />
         </div>
       </div>
     );
@@ -382,7 +351,13 @@ const BUTTON_PASTEL_BASE = [
 
 export function PuzzleScreen() {
   const { state, puzzle, answerPuzzle, goToScreen, celebrationPending, clearCelebration, newPuzzle } = useGame();
-  const biome = BIOMES[state.currentBiome];
+  // The scenery tours every world: after each 6 correct answers the backdrop
+  // moves on, so a long session keeps changing view instead of sitting in the
+  // jungle. Collection unlocks still key off state.currentBiome.
+  const sceneBiomeIndex = Math.floor(state.totalCorrect / 6) % BIOMES.length;
+  const biome = BIOMES[sceneBiomeIndex];
+  const [primaryDinoId, secondaryDinoId] = SCENE_DINO_IDS[sceneBiomeIndex] ?? SCENE_DINO_IDS[0];
+  const speakerDino = DINOS.find((d) => d.id === primaryDinoId);
 
   // Puzzles are generated on navigation, not persisted. Reopening the app on
   // this screen therefore arrived with none, and the loading dino below bounced
@@ -458,8 +433,6 @@ export function PuzzleScreen() {
     );
   }
 
-  const tokenKind = TOKEN_KINDS[state.currentBiome] ?? 'dino';
-  const subtractKind = SUBTRACT_KINDS[state.currentBiome] ?? 'egg';
   const nextDino = getNextDino(state.totalCorrect);
   const previousUnlockAt = [...DINOS].reverse().find((dino) => dino.unlockAt <= state.totalCorrect)?.unlockAt ?? 0;
   // Past the last unlock there is nothing left to fill toward, so the bar reads
@@ -481,13 +454,13 @@ export function PuzzleScreen() {
       {showConfetti && <ConfettiBurst count={20} />}
       {showCelebration && <CelebrationOverlay onDone={handleCelebrationDone} />}
 
-      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 px-4 pb-4 sm:px-5">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 pb-4 sm:px-5">
 
         {/* Speech bubble prompt + home button */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-1 items-start gap-3">
-            {/* Mini Tri head */}
-            <span className="flex-shrink-0 text-4xl leading-none mt-1" aria-hidden="true">🦕</span>
+            {/* The scene's dino asks the question — real art, not an emoji */}
+            <DinoArt dino={speakerDino} decorative className="mt-1 h-14 w-14 flex-shrink-0 drop-shadow-md" />
             {/* Bubble */}
             <div className="relative flex-1 rounded-3xl rounded-tl-sm bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
               {/* Triangle pointer */}
@@ -510,66 +483,74 @@ export function PuzzleScreen() {
           </button>
         </div>
 
-        {/* Visual scene */}
-        <motion.div
-          key={puzzle.prompt + puzzle.type}
-          initial={{ scale: 0.88, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', bounce: 0.35, duration: 0.45 }}
-          className="flex flex-col items-center gap-3 text-white"
-        >
-          {/* Equation display for non-word-problem math */}
-          {(puzzle.type === 'addition' || puzzle.type === 'subtraction' || puzzle.type === 'fill-to-ten') && (
-            <div className="text-[3.5rem] font-bold leading-none tracking-wide drop-shadow-lg sm:text-[4.5rem]">
-              {puzzle.display}
-            </div>
-          )}
-          <MathVisualScene puzzle={puzzle} tokenKind={tokenKind} subtractKind={subtractKind} />
-        </motion.div>
+        {/* Scene + answers: stacked on phones, side by side on iPad so the
+            whole puzzle fits without scrolling. */}
+        <div className="flex flex-1 flex-col gap-4 md:flex-row md:items-center md:gap-6">
 
-        {/* Encouragement toast */}
-        <div className="min-h-[44px]">
-          <AnimatePresence>
-            {showEncouragement && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="pointer-events-none text-center"
-              >
-                <span className="inline-block rounded-full bg-yellow-300 px-5 py-2 text-xl font-black text-yellow-950 shadow-lg">
-                  Good try. Pick one more! ⭐
-                </span>
-              </motion.div>
+          {/* Visual scene */}
+          <motion.div
+            key={puzzle.prompt + puzzle.type}
+            initial={{ scale: 0.88, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', bounce: 0.35, duration: 0.45 }}
+            className="flex flex-col items-center gap-3 text-white md:flex-1"
+          >
+            {/* Equation display for non-word-problem math — on a dark chip so
+                it stays readable over the light beach and ice backdrops */}
+            {(puzzle.type === 'addition' || puzzle.type === 'subtraction' || puzzle.type === 'fill-to-ten') && (
+              <div className="rounded-[2rem] bg-slate-900/30 px-8 py-2 text-[3.5rem] font-bold leading-none tracking-wide backdrop-blur-sm sm:text-[4.5rem]">
+                {puzzle.display}
+              </div>
             )}
-          </AnimatePresence>
-        </div>
+            <MathVisualScene puzzle={puzzle} primaryArt={sceneDinoArt(primaryDinoId)} secondaryArt={sceneDinoArt(secondaryDinoId)} />
+          </motion.div>
 
-        {/* Answer buttons — pill shapes, pastel tints */}
-        <div className="grid w-full grid-cols-3 gap-2 sm:gap-3">
-          {puzzle.options.map((opt, idx) => {
-            const isWrong = wrongIds.has(opt.id);
-            const isThisCorrect = isCorrect && opt.isCorrect;
+          <div className="flex flex-col gap-2 md:w-60 md:flex-shrink-0">
+            {/* Encouragement toast */}
+            <div className="min-h-[44px]">
+              <AnimatePresence>
+                {showEncouragement && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="pointer-events-none text-center"
+                  >
+                    <span className="inline-block rounded-full bg-yellow-300 px-5 py-2 text-xl font-black text-yellow-950 shadow-lg">
+                      Good try. Pick one more! ⭐
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-            let btnClass = `${BUTTON_PASTEL_BASE[idx % 3]} border-4 transition-all`;
-            if (isWrong) btnClass = 'bg-slate-200 text-slate-400 border-4 border-slate-200 opacity-50 cursor-not-allowed shadow-none';
-            if (isThisCorrect) btnClass = 'bg-green-400 text-white border-4 border-green-300 shadow-[0_5px_0_0_#16a34a] scale-105';
+            {/* Answer buttons — pill shapes, pastel tints */}
+            <div className="grid w-full grid-cols-3 gap-2 sm:gap-3 md:grid-cols-1">
+              {puzzle.options.map((opt, idx) => {
+                const isWrong = wrongIds.has(opt.id);
+                const isThisCorrect = isCorrect && opt.isCorrect;
 
-            return (
-              <motion.button
-                key={opt.id}
-                data-testid={`button-answer-${opt.id}`}
-                animate={shakingId === opt.id ? { x: [-12, 12, -8, 8, -4, 4, 0] } : {}}
-                transition={{ duration: 0.4 }}
-                onClick={() => handleSelect(opt.id, opt.isCorrect)}
-                disabled={isWrong || isCorrect}
-                className={`flex min-h-[80px] w-full items-center justify-center rounded-full text-3xl font-black sm:min-h-[108px] sm:text-5xl ${btnClass}`}
-              >
-                {opt.label}
-                {isThisCorrect && ' ✨'}
-              </motion.button>
-            );
-          })}
+                let btnClass = `${BUTTON_PASTEL_BASE[idx % 3]} border-4 transition-all`;
+                if (isWrong) btnClass = 'bg-slate-200 text-slate-400 border-4 border-slate-200 opacity-50 cursor-not-allowed shadow-none';
+                if (isThisCorrect) btnClass = 'bg-green-400 text-white border-4 border-green-300 shadow-[0_5px_0_0_#16a34a] scale-105';
+
+                return (
+                  <motion.button
+                    key={opt.id}
+                    data-testid={`button-answer-${opt.id}`}
+                    animate={shakingId === opt.id ? { x: [-12, 12, -8, 8, -4, 4, 0] } : {}}
+                    transition={{ duration: 0.4 }}
+                    onClick={() => handleSelect(opt.id, opt.isCorrect)}
+                    disabled={isWrong || isCorrect}
+                    className={`flex min-h-[80px] w-full items-center justify-center rounded-full text-3xl font-black sm:min-h-[96px] sm:text-5xl ${btnClass}`}
+                  >
+                    {opt.label}
+                    {isThisCorrect && ' ✨'}
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 

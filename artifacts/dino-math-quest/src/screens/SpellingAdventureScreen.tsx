@@ -9,7 +9,6 @@ import { shuffle } from '../lib/puzzles';
 
 type SpellingMode = 'letter-build' | 'word-family' | 'first-sound';
 
-const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
 const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 /** Letters offered per round. Grows if a word has more distinct letters. */
 const TRAY_SIZE = 12;
@@ -32,11 +31,10 @@ function LetterButton({
   correct?: boolean;
   wrong?: boolean;
 }) {
-  const isVowel = VOWELS.has(letter.toUpperCase());
-
-  let base = isVowel
-    ? 'bg-amber-200 text-amber-900 border-amber-300 shadow-[0_4px_0_0_#f59e0b]'
-    : 'bg-slate-200 text-slate-800 border-slate-300 shadow-[0_4px_0_0_#94a3b8]';
+  // Every key looks the same on purpose. Vowels used to be amber, and a tray
+  // with a single vowel read as "this one is the answer" (or a stuck-selected
+  // key) instead of a colour scheme.
+  let base = 'bg-white text-slate-800 border-slate-200 shadow-[0_4px_0_0_#cbd5e1]';
 
   if (correct) base = 'bg-green-400 text-white border-green-300 shadow-[0_4px_0_0_#16a34a] scale-110';
   if (wrong)   base = 'bg-red-300 text-white border-red-200 opacity-60 shadow-none';
@@ -60,13 +58,14 @@ function LetterButton({
 /* ─── phonics badge ─────────────────────────────────────────── */
 
 function PhonicsBadge({ sound, pulse }: { sound: string; pulse: boolean }) {
+  // Text-only: the speaker glyph promised audio the app does not play.
   return (
     <motion.div
       animate={pulse ? { scale: [1, 1.25, 1] } : {}}
       transition={{ duration: 0.4 }}
-      className="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1.5 text-sm font-black text-violet-700 shadow-inner"
+      className="inline-flex items-center rounded-full bg-violet-100 px-6 py-2.5 text-2xl font-black text-violet-700 shadow-inner"
     >
-      🔊 {sound}
+      {sound}
     </motion.div>
   );
 }
@@ -176,8 +175,8 @@ function LetterBuildRound({
         <p className="min-h-7 text-center text-lg font-black text-slate-700 sm:text-xl">{message}</p>
       </div>
 
-      {/* Letter keyboard */}
-      <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 sm:gap-2.5">
+      {/* Letter keyboard — 6 columns on tablet keeps 12 letters in two even rows */}
+      <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 sm:gap-2.5">
         {choices.map((letter) => (
           <LetterButton
             key={letter}
@@ -188,16 +187,24 @@ function LetterBuildRound({
         ))}
       </div>
 
-      {/* Next button */}
-      <button
-        type="button"
-        onClick={onComplete}
-        disabled={!complete}
-        data-testid="button-spelling-next"
-        className="w-full rounded-3xl bg-emerald-500 px-5 py-4 text-xl font-black text-white shadow-lg disabled:bg-slate-300"
-      >
-        Next Word 🌟
-      </button>
+      {/* Next button pops in only once the word is built — a permanent greyed
+          bar just read as something broken. Reserve its height so the layout
+          doesn't jump. */}
+      <div className="min-h-[64px]">
+        {complete && (
+          <motion.button
+            type="button"
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', bounce: 0.5, duration: 0.4 }}
+            onClick={onComplete}
+            data-testid="button-spelling-next"
+            className="w-full rounded-3xl bg-emerald-500 px-5 py-4 text-2xl font-black text-white shadow-lg active:scale-95"
+          >
+            Next Word 🌟
+          </motion.button>
+        )}
+      </div>
     </div>
   );
 }
@@ -370,9 +377,7 @@ function FirstSoundRound({
                 state === 'correct' ? 'border-green-300 bg-green-400 text-white shadow-[0_6px_0_0_#16a34a] scale-105' :
                 state === 'wrong'   ? 'border-red-200 bg-red-300 text-white opacity-60' :
                 state === 'reveal'  ? 'border-green-200 bg-green-100 text-green-700' :
-                VOWELS.has(letter)
-                  ? 'border-amber-300 bg-amber-100 text-amber-900 shadow-[0_6px_0_0_#f59e0b]'
-                  : 'border-slate-300 bg-slate-100 text-slate-800 shadow-[0_6px_0_0_#94a3b8]'
+                'border-slate-200 bg-white text-slate-800 shadow-[0_6px_0_0_#cbd5e1]'
               }`}
             >
               {letter}

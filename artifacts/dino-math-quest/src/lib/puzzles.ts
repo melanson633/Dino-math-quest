@@ -114,7 +114,7 @@ function numberOptions(correct: number, max = 20): PuzzleOption[] {
 
 const ADD_WORD_PROBLEMS = [
   (a: number, b: number) => `Tri found ${a} eggs 🥚. Then ${b} more hatched. How many now?`,
-  (a: number, b: number) => `${a} dinos were playing 🦕. ${b} more joined the fun! How many total?`,
+  (a: number, b: number) => `${a} dinos 🦕 were playing. ${b} more joined the fun! How many total?`,
   (a: number, b: number) => `Tri picked ${a} berries 🫐. Then found ${b} more. How many berries?`,
   (a: number, b: number) => `${a} shells on the beach 🐚. The tide brought ${b} more. Count them all!`,
   (a: number, b: number) => `Tri had ${a} friends 🦕. ${b} new friends came to play. How many friends now?`,
@@ -124,7 +124,7 @@ const SUB_WORD_PROBLEMS = [
   (a: number, b: number) => `Tri had ${a} berries 🫐. Ate ${b} for a snack. How many left?`,
   (a: number, b: number) => `${a} eggs were in the nest 🥚. ${b} hatched and hopped away. How many remain?`,
   (a: number, b: number) => `${a} shells on the sand 🐚. A wave took ${b} away. How many are left?`,
-  (a: number, b: number) => `Tri had ${a} friends playing 🦕. ${b} went home for dinner. How many still here?`,
+  (a: number, b: number) => `Tri had ${a} dino friends 🦕. ${b} went home for dinner. How many still here?`,
 ];
 
 function generateAddition(difficulty: PuzzleDifficulty): Puzzle {
