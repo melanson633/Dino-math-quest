@@ -1,1 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#55B7D9" d="M18 89c0-17 15-28 39-28h9c-1-16 3-32 14-38 10-5 21 2 20 13-1 10-9 15-18 12l-1 21c15 4 25 14 25 28 0 12-11 19-28 19H46c-18 0-28-11-28-27Z"/><path fill="#A9D66E" d="M30 88c10-10 22-12 36-8-5 13-17 20-34 17Z" stroke="none"/><path fill="#FFF4D5" d="M80 29c8-5 15 1 13 8-2 7-11 8-15 4Z"/><circle fill="#503B32" cx="90" cy="32" r="3" stroke="none"/><path fill="none" d="M82 40c3 3 7 3 9 0"/><path fill="none" d="M21 104c8-6 17-6 25 0m47 0c7-6 14-6 20 0"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" stroke="#503B32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Exactly seven cream wave crests across one inset band, behind the swimmer. -->
+  <path fill="#FFF4D5" d="M11 109
+    Q18.5 93 26 109
+    Q33.5 93 41 109
+    Q48.5 93 56 109
+    Q63.5 93 71 109
+    Q78.5 93 86 109
+    Q93.5 93 101 109
+    Q108.5 93 116 109
+    L116 117 Q63.5 119 11 117 Z"/>
+
+  <!-- Far paddles sit behind the hull. -->
+  <path fill="#55B7D9" d="M66 65 Q58 67 48 75 Q41 81 45 87
+    Q53 90 67 77 Q73 70 66 65 Z"/>
+  <path fill="#55B7D9" d="M94 65 Q102 67 112 75 Q119 81 115 87
+    Q107 90 93 77 Q87 70 94 65 Z"/>
+
+  <!-- Snout-first animal outline: shallow S-neck flowing continuously into a lens hull and stub tail. -->
+  <path fill="#55B7D9" d="M10 39
+    Q17 31 29 30 L34 31
+    Q46 33 49 42
+    Q52 49 48 57
+    Q45 64 53 69
+    Q65 57 83 57
+    Q101 57 109 65
+    Q115 67 118 72
+    Q114 77 106 77
+    Q99 89 82 91
+    Q64 93 50 82
+    Q41 73 37 63
+    Q34 55 39 48
+    Q41 43 35 40
+    Q25 38 10 44 Z"/>
+
+  <!-- Cream streamlined underside. -->
+  <path fill="#FFF4D5" d="M39 48 Q34 56 38 65 Q42 78 51 85
+    Q66 95 84 91 Q98 89 106 77
+    Q95 83 80 83 Q62 83 53 76
+    Q45 69 45 60 Q45 53 49 47
+    Q45 45 39 48 Z"/>
+
+  <!-- Near paddles are broad, filled teardrops, never leg-like. -->
+  <path fill="#55B7D9" d="M68 78 Q60 82 52 93 Q47 101 53 107
+    Q62 108 72 91 Q78 82 68 78 Z"/>
+  <path fill="#55B7D9" d="M91 79 Q101 83 109 94 Q115 102 109 107
+    Q100 107 87 90 Q81 82 91 79 Z"/>
+
+  <!-- Sleek almond eye, vertical pupil, lid, nostril, and long closed jawline. -->
+  <path fill="#FFF4D5" d="M17 34 Q24 29 31 34 Q24 39 17 34 Z"/>
+  <ellipse cx="24" cy="34" rx="1.5" ry="2.5" fill="#503B32" stroke="none"/>
+  <path d="M17 34 Q24 29 31 34" fill="none"/>
+  <circle cx="14" cy="37" r="2" fill="#503B32" stroke="none"/>
+  <path d="M10 44 L27 42 Q29 42 29 40" fill="none"/>
+</svg>

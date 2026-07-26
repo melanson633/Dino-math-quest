@@ -1,1 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><g stroke="#503B32" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"><path fill="#F39A49" d="M7 88 39 75c3-14 12-25 24-29 10-3 19 1 22 9l20 2-17 10c-4 13-15 21-29 22l-7 20H39l3-18-13 14H17l13-19Z"/><path fill="#F5C55A" d="M49 74c7 5 15 7 24 4-4 8-12 11-23 9Z" stroke="none"/><path fill="#FFF4D5" d="M76 49c11-3 17 5 12 13-4 6-13 5-16-1Z"/><circle fill="#503B32" cx="84" cy="53" r="3" stroke="none"/><path fill="none" d="M77 60c3 3 7 3 9 0"/><path fill="#F39A49" d="m47 87-4 22h12l6-14 8 8 8-5-14-15"/><path fill="none" d="m40 108 11 0m9-7 6-9 6 3"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" stroke="#503B32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Far-row footprint pairs, high and behind the level tail. -->
+  <path fill="#F5C55A" d="M8 50 C8 47 10 44 13 46 C14 43 17 44 17 47 C20 45 20 49 18 52 C15 54 10 54 8 50 Z"/>
+  <path fill="#F5C55A" d="M23 50 C23 47 25 44 28 46 C29 43 32 44 32 47 C35 45 35 49 33 52 C30 54 25 54 23 50 Z"/>
+  <path fill="#F5C55A" d="M46 50 C46 47 48 44 51 46 C52 43 55 44 55 47 C58 45 58 49 56 52 C53 54 48 54 46 50 Z"/>
+  <path fill="#F5C55A" d="M61 50 C61 47 63 44 66 46 C67 43 70 44 70 47 C73 45 73 49 71 52 C68 54 63 54 61 50 Z"/>
+  <path fill="#F5C55A" d="M84 50 C84 47 86 44 89 46 C90 43 93 44 93 47 C96 45 96 49 94 52 C91 54 86 54 84 50 Z"/>
+  <path fill="#F5C55A" d="M99 50 C99 47 101 44 104 46 C105 43 108 44 108 47 C111 45 111 49 109 52 C106 54 101 54 99 50 Z"/>
+
+  <!-- Near-row footprint pairs along the ground, clear of both legs. -->
+  <path fill="#F5C55A" d="M8 114 C8 111 10 108 13 110 C14 107 17 108 17 111 C20 109 20 113 18 116 C15 118 10 118 8 114 Z"/>
+  <path fill="#F5C55A" d="M23 114 C23 111 25 108 28 110 C29 107 32 108 32 111 C35 109 35 113 33 116 C30 118 25 118 23 114 Z"/>
+  <path fill="#F5C55A" d="M45 114 C45 111 47 108 50 110 C51 107 54 108 54 111 C57 109 57 113 55 116 C52 118 47 118 45 114 Z"/>
+  <path fill="#F5C55A" d="M60 114 C60 111 62 108 65 110 C66 107 69 108 69 111 C72 109 72 113 70 116 C67 118 62 118 60 114 Z"/>
+
+  <!-- Compact head, steep straight back climb, and ruler-level tail in one lean outline. -->
+  <path fill="#F39A49" d="M118 73 C116 68 109 66 102 66 C96 65 92 67 89 71 C86 72 84 72 81 72 L61 58 C48 57 34 57 21 58 C13 58 8 59 8 62 C8 66 14 67 21 67 C34 68 48 70 60 72 C66 75 73 79 80 82 C85 84 90 84 94 82 L112 82 C117 81 120 78 118 73 Z"/>
+
+  <!-- Far folded running leg. -->
+  <path fill="#F39A49" d="M65 67 C69 74 68 81 62 87 L54 94 C51 98 54 102 59 102 L70 99 L79 108 L91 110 C96 111 97 116 92 118 L79 118 C75 118 72 115 69 111 L61 106 C55 103 49 99 49 94 C49 89 54 84 57 80 C59 75 58 69 59 66 Z"/>
+
+  <!-- Near folded leg with a large convex, lifted comma claw built into its outline. -->
+  <path fill="#F39A49" d="M57 65 C61 72 68 79 75 84 C79 87 79 92 75 96 L69 102 C66 106 70 110 76 111 L82 112 C86 111 88 107 91 103 C95 97 100 93 104 94 C108 95 109 99 106 102 C103 105 99 106 96 108 C92 111 94 115 90 117 C86 119 81 118 77 117 L76 118 C69 118 65 114 65 109 C65 104 69 99 72 95 L67 88 C62 82 55 77 52 70 Z"/>
+
+  <!-- Cream overlay makes the silhouette hook easy to find without changing its outline. -->
+  <path fill="#FFF4D5" d="M82 112 C86 111 88 107 91 103 C95 97 100 93 104 94 C108 95 109 99 106 102 C103 105 99 106 96 108 C92 111 94 115 90 117 C86 119 83 116 82 112 Z"/>
+
+  <!-- Gold throat and inner-leg patch. -->
+  <path fill="#F5C55A" d="M89 73 C88 78 85 81 80 82 C75 80 70 76 66 72 C74 72 82 73 89 73 Z"/>
+  <path fill="#F5C55A" d="M58 73 C62 79 67 84 71 87 L63 93 C59 88 55 83 53 78 Z"/>
+
+  <!-- Two tucked arms with two broad fingers each. -->
+  <path fill="#F39A49" d="M84 75 C88 77 89 81 88 85 L94 91 C97 94 95 97 92 97 C89 97 88 93 86 91 C86 95 82 96 80 93 C78 90 81 87 79 84 C77 79 80 76 84 75 Z"/>
+  <path fill="#F39A49" d="M88 76 C92 78 93 82 92 86 L98 92 C101 95 99 98 96 98 C93 98 92 94 90 92 C90 96 86 97 84 94 C82 91 85 88 83 85 C81 80 84 77 88 76 Z"/>
+
+  <!-- Lidless bright eye, highlight, eager brow, tiny V mouth, nostril, freckles. -->
+  <circle fill="#FFF4D5" cx="103" cy="73" r="6.5"/>
+  <circle fill="#503B32" stroke="none" cx="103" cy="73" r="4"/>
+  <circle fill="#FFF4D5" stroke="none" cx="101.5" cy="71.5" r="1.5"/>
+  <path fill="none" d="M98 64 L106 62"/>
+  <path fill="none" d="M106 79 L111 82 L116 78"/>
+  <circle fill="#503B32" stroke="none" cx="115" cy="72" r="2"/>
+  <circle fill="#503B32" stroke="none" cx="96" cy="80" r="2"/>
+  <circle fill="#503B32" stroke="none" cx="101" cy="82" r="2"/>
+</svg>
