@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { playCorrect, playWrong, playUnlockBiome, playUnlockDino, setMuted, startBgMusic, unlockAudioForGesture } from '../lib/audio';
+import { playCorrect, playWrong, playUnlockBiome, playUnlockDino, setMuted, stopAllAudio, unlockAudioForGesture } from '../lib/audio';
 import { BIOMES } from '../lib/biomes';
 import { DINOS } from '../lib/dinos';
 import { generatePuzzle, Puzzle, PuzzleDifficulty } from '../lib/puzzles';
@@ -175,10 +175,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const spellingMissRef = useRef(0);
   const pendingCelebrationRef = useRef(false);
 
-  // Track previous biome/screen to avoid restarting music on every state change
-  const prevBiomeRef = useRef<number>(-1);
-  const prevScreenRef = useRef<string>('');
-
   // Persist state
   useEffect(() => {
     localStorage.setItem('dino-math-quest-state', JSON.stringify(state));
@@ -188,19 +184,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setMuted(state.muteAudio);
   }, [state.muteAudio]);
-
-  // Only restart background music when biome or relevant screen changes
-  useEffect(() => {
-    const isGameScreen = ['home', 'puzzle', 'spelling', 'speech', 'music', 'adventure-preview', 'biome-unlock', 'dino-reward'].includes(state.currentScreen);
-    const biomeChanged = prevBiomeRef.current !== state.currentBiome;
-    const screenChangedToGame = isGameScreen && prevScreenRef.current !== state.currentScreen;
-
-    if (isGameScreen && (biomeChanged || screenChangedToGame || prevBiomeRef.current === -1)) {
-      startBgMusic(state.currentBiome);
-    }
-    prevBiomeRef.current = state.currentBiome;
-    prevScreenRef.current = state.currentScreen;
-  }, [state.currentBiome, state.currentScreen]);
 
   // Fire celebration when totalCorrect changes and we have a pending flag
   useEffect(() => {
@@ -266,6 +249,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const goToScreen = (screen: ScreenType) => {
+    stopAllAudio();
     setState(s => ({ ...s, currentScreen: screen }));
   };
 

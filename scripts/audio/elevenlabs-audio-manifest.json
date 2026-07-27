@@ -1,9 +1,9 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "notes": [
-    "Parent-reviewed source manifest for static Dino Island audio assets.",
-    "Set approved_for_generation true only after the text/prompt and voice choice are approved.",
-    "Set approved_for_gameplay true only after listening to the generated file."
+    "Offline-only Dino Quest audio source of truth.",
+    "Every item is short, scripted, and has a Web Audio fallback.",
+    "Generated with ElevenLabs on 2026-07-26 for this checked-in release candidate."
   ],
   "defaults": {
     "tts_model_id": "eleven_multilingual_v2",
@@ -13,93 +13,44 @@
     "voice_id_env": "ELEVENLABS_DINO_VOICE_ID"
   },
   "items": [
-    {
-      "id": "tri-great-counting",
-      "kind": "tts",
-      "text": "Great counting, Charlotte.",
-      "output_file": "tri-great-counting.mp3",
-      "use": "Correct Math Quest answer",
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "tri-one-more-try",
-      "kind": "tts",
-      "text": "Good try. One more dino try.",
-      "output_file": "tri-one-more-try.mp3",
-      "use": "Gentle retry",
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "tri-new-friend",
-      "kind": "tts",
-      "text": "A new dino friend is here.",
-      "output_file": "tri-new-friend.mp3",
-      "use": "Dino reward screen",
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "tri-say-it-with-me",
-      "kind": "tts",
-      "text": "Say it with me. La, la, lion.",
-      "output_file": "tri-say-it-with-me.mp3",
-      "use": "Speech prompt",
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "dino-soft-stomp",
-      "kind": "sound_effect",
-      "text": "Soft playful baby dinosaur stomp, warm and gentle, not scary.",
-      "output_file": "dino-soft-stomp.mp3",
-      "use": "Music or speech beat cue",
-      "duration_seconds": 1,
-      "prompt_influence": 0.35,
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "sparkle-short",
-      "kind": "sound_effect",
-      "text": "Short warm sparkle chime for a preschool learning game.",
-      "output_file": "sparkle-short.mp3",
-      "use": "Reward cue",
-      "duration_seconds": 1,
-      "prompt_influence": 0.4,
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "count-with-tri-song",
-      "kind": "music",
-      "prompt": "A calm, cheerful preschool counting song for a dinosaur island game. Gentle hand-clap rhythm, warm marimba and ukulele, simple call-and-response energy, no vocals, no busy drums, Montessori calm with a little Sesame Street fun.",
-      "output_file": "count-with-tri-song.mp3",
-      "use": "Short Math Quest counting celebration music bed",
-      "duration_seconds": 8,
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "wow-word-song",
-      "kind": "music",
-      "prompt": "A gentle preschool word-practice music cue for W sounds. Warm xylophone, soft claps, simple two-beat pauses for repeat-after-me moments, encouraging and playful, no vocals, not overstimulating.",
-      "output_file": "wow-word-song.mp3",
-      "use": "Optional Say It rhythm support for W focus moments",
-      "duration_seconds": 7,
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    },
-    {
-      "id": "lion-light-song",
-      "kind": "music",
-      "prompt": "A soft preschool word-practice music cue for L sounds. Light bells, gentle clap breaks, clear rhythmic space for la-la-lion repetition, positive and calm, no vocals, no startling sounds.",
-      "output_file": "lion-light-song.mp3",
-      "use": "Optional Say It rhythm support for L focus moments",
-      "duration_seconds": 7,
-      "approved_for_generation": false,
-      "approved_for_gameplay": false
-    }
+    { "id": "tap-soft", "kind": "sound_effect", "text": "One tiny warm wooden tap for a preschool learning game, soft and friendly, no click harshness.", "output_file": "tap-soft.mp3", "use": "Touch feedback", "duration_seconds": 1, "prompt_influence": 0.3, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "success-sparkle", "kind": "sound_effect", "text": "A very short warm sparkle chime for a preschool learning game, gentle marimba and a tiny twinkle, happy but not loud.", "output_file": "success-sparkle.mp3", "use": "Correct-answer celebration", "duration_seconds": 1, "prompt_influence": 0.35, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "try-again-leaf", "kind": "sound_effect", "text": "A tiny gentle leaf-rustle and warm rising bell for a preschool learning game, encouraging, never sad or buzzy.", "output_file": "try-again-leaf.mp3", "use": "Gentle retry cue", "duration_seconds": 1, "prompt_influence": 0.35, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "dino-three-beat", "kind": "sound_effect", "text": "Three soft playful baby dinosaur foot taps with a light wooden drum beat, warm, clear rhythm, not scary.", "output_file": "dino-three-beat.mp3", "use": "Speech and music rhythm cue", "duration_seconds": 1, "prompt_influence": 0.4, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "phonics-pop", "kind": "sound_effect", "text": "A tiny gentle two-note marimba pop for a preschool phonics game, warm and clear, no harsh click.", "output_file": "phonics-pop.mp3", "use": "Correct letter feedback", "duration_seconds": 1, "prompt_influence": 0.35, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "new-dino-friend", "kind": "tts", "text": "A new dino friend is here!", "output_file": "new-dino-friend.mp3", "use": "Dino unlock", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "biome-discovery", "kind": "tts", "text": "A new island is ready to explore!", "output_file": "biome-discovery.mp3", "use": "Biome unlock", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "island-play-song", "kind": "music", "prompt": "A seven-second calm, cheerful instrumental preschool discovery cue for a dinosaur island game. Gentle hand-clap rhythm, warm marimba, ukulele, one light sparkle, no vocals, no big drums, no long intro, Montessori calm with a little Sesame Street joy.", "output_file": "island-play-song.mp3", "use": "Optional Music Den one-shot", "duration_seconds": 7, "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-l-lion", "kind": "tts", "text": "Say it with Dino. La, la, lion.", "output_file": "speech-l-lion.mp3", "use": "Modeled L phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-w-wow", "kind": "tts", "text": "Say it with Dino. Wow, we won!", "output_file": "speech-w-wow.mp3", "use": "Modeled W phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-w-love", "kind": "tts", "text": "Say it with Dino. We love Dino.", "output_file": "speech-w-love.mp3", "use": "Modeled W and L phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-l-little", "kind": "tts", "text": "Say it with Dino. Little lion.", "output_file": "speech-l-little.mp3", "use": "Modeled L phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-w-walk", "kind": "tts", "text": "Say it with Dino. Max walks with me.", "output_file": "speech-w-walk.mp3", "use": "Modeled W phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "speech-max-name", "kind": "tts", "text": "Say it with Dino. Max says mama.", "output_file": "speech-max-name.mp3", "use": "Modeled family phrase", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-dino", "kind": "tts", "text": "Dino. Di-no.", "output_file": "word-dino.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-mama", "kind": "tts", "text": "Mama. Ma-ma.", "output_file": "word-mama.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-dada", "kind": "tts", "text": "Dada. Da-da.", "output_file": "word-dada.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-max", "kind": "tts", "text": "Max.", "output_file": "word-max.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-dog", "kind": "tts", "text": "Dog.", "output_file": "word-dog.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-we", "kind": "tts", "text": "We.", "output_file": "word-we.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-wow", "kind": "tts", "text": "Wow!", "output_file": "word-wow.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-home", "kind": "tts", "text": "Home.", "output_file": "word-home.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-love", "kind": "tts", "text": "Love.", "output_file": "word-love.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-lion", "kind": "tts", "text": "Lion. Li-on.", "output_file": "word-lion.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-walk", "kind": "tts", "text": "Walk.", "output_file": "word-walk.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-river", "kind": "tts", "text": "River. Ri-ver.", "output_file": "word-river.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-charlotte", "kind": "tts", "text": "Charlotte. Char-lotte.", "output_file": "word-charlotte.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-gracie", "kind": "tts", "text": "Gracie. Gra-cie.", "output_file": "word-gracie.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-count", "kind": "tts", "text": "Count.", "output_file": "word-count.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-beach", "kind": "tts", "text": "Beach.", "output_file": "word-beach.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-ocean", "kind": "tts", "text": "Ocean. O-cean.", "output_file": "word-ocean.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-shell", "kind": "tts", "text": "Shell.", "output_file": "word-shell.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-shark", "kind": "tts", "text": "Shark.", "output_file": "word-shark.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-plane", "kind": "tts", "text": "Plane.", "output_file": "word-plane.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-cloud", "kind": "tts", "text": "Cloud.", "output_file": "word-cloud.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-frog", "kind": "tts", "text": "Frog.", "output_file": "word-frog.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-bird", "kind": "tts", "text": "Bird.", "output_file": "word-bird.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-star", "kind": "tts", "text": "Star.", "output_file": "word-star.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true },
+    { "id": "word-cake", "kind": "tts", "text": "Cake.", "output_file": "word-cake.mp3", "use": "Spelling word model", "voice_id": "21m00Tcm4TlvDq8ikWAM", "approved_for_generation": true, "approved_for_gameplay": true }
   ]
 }

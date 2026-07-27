@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { publicAssetUrl } from '../lib/assets';
 import { dinoIslandContent, getCompanion, pickCompanionActionVariant } from '../content/dinoIslandContent';
-import { playCorrect, playRhythmCue, playTap } from '../lib/audio';
+import { playCorrect, playRhythmCue, playSpeechModel, playTap } from '../lib/audio';
 import { detectVoiceAttempt } from '../lib/voiceParticipation';
 
 export function SpeechAdventureScreen() {
@@ -35,6 +35,11 @@ export function SpeechAdventureScreen() {
     }
     setBeatTapped(true);
     setMessage(prompt.rhythm.join('  •  '));
+  };
+
+  const hearModel = () => {
+    playSpeechModel(prompt.id, prompt.rhythm.length);
+    setMessage('Listen, then try it with Dino.');
   };
 
   const markTry = () => {
@@ -137,10 +142,15 @@ export function SpeechAdventureScreen() {
           <p className="min-h-10 text-2xl font-black text-slate-700">{message}</p>
         </section>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <button type="button" onClick={() => goToScreen('home')} className="rounded-3xl bg-white px-4 py-4 text-lg font-black text-slate-700 shadow-lg">
             Home
           </button>
+          {!state.muteAudio && (
+            <button type="button" onClick={hearModel} data-testid="button-speech-hear-model" className="rounded-3xl bg-violet-100 px-4 py-4 text-lg font-black text-violet-800 shadow-lg">
+              Hear Dino
+            </button>
+          )}
           <button type="button" onClick={markTry} data-testid="button-speech-i-tried" className="rounded-3xl bg-pink-500 px-4 py-4 text-lg font-black text-white shadow-lg">
             I Said It
           </button>

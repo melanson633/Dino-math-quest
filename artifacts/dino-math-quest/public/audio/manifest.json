@@ -1,50 +1,278 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-07-26T00:00:00.000Z",
+  "schema_version": 2,
+  "generated_at": "2026-07-26T23:48:31.633Z",
   "assets": [
     {
-      "id": "tri-great-counting",
-      "src": "/audio/generated/tri-great-counting.mp3",
+      "id": "tap-soft",
+      "kind": "sound_effect",
+      "src": "/audio/generated/tap-soft.mp3",
+      "use": "Touch feedback",
       "approved": true
     },
     {
-      "id": "tri-one-more-try",
-      "src": "/audio/generated/tri-one-more-try.mp3",
+      "id": "success-sparkle",
+      "kind": "sound_effect",
+      "src": "/audio/generated/success-sparkle.mp3",
+      "use": "Correct-answer celebration",
       "approved": true
     },
     {
-      "id": "tri-new-friend",
-      "src": "/audio/generated/tri-new-friend.mp3",
+      "id": "try-again-leaf",
+      "kind": "sound_effect",
+      "src": "/audio/generated/try-again-leaf.mp3",
+      "use": "Gentle retry cue",
       "approved": true
     },
     {
-      "id": "dino-soft-stomp",
-      "src": "/audio/generated/dino-soft-stomp.mp3",
+      "id": "dino-three-beat",
+      "kind": "sound_effect",
+      "src": "/audio/generated/dino-three-beat.mp3",
+      "use": "Speech and music rhythm cue",
       "approved": true
     },
     {
-      "id": "sparkle-short",
-      "src": "/audio/generated/sparkle-short.mp3",
+      "id": "phonics-pop",
+      "kind": "sound_effect",
+      "src": "/audio/generated/phonics-pop.mp3",
+      "use": "Correct letter feedback",
       "approved": true
     },
     {
-      "id": "dino-happy-roar",
-      "src": "/audio/generated/dino-happy-roar.mp3",
+      "id": "new-dino-friend",
+      "kind": "tts",
+      "src": "/audio/generated/new-dino-friend.mp3",
+      "use": "Dino unlock",
       "approved": true
     },
     {
-      "id": "magical-sparkle-success",
-      "src": "/audio/generated/magical-sparkle-success.mp3",
+      "id": "biome-discovery",
+      "kind": "tts",
+      "src": "/audio/generated/biome-discovery.mp3",
+      "use": "Biome unlock",
       "approved": true
     },
     {
-      "id": "jungle-win-fanfare",
-      "src": "/audio/generated/jungle-win-fanfare.mp3",
+      "id": "island-play-song",
+      "kind": "music",
+      "src": "/audio/generated/island-play-song.mp3",
+      "use": "Optional Music Den one-shot",
       "approved": true
     },
     {
-      "id": "letter-tap-magic",
-      "src": "/audio/generated/letter-tap-magic.mp3",
+      "id": "speech-l-lion",
+      "kind": "tts",
+      "src": "/audio/generated/speech-l-lion.mp3",
+      "use": "Modeled L phrase",
+      "approved": true
+    },
+    {
+      "id": "speech-w-wow",
+      "kind": "tts",
+      "src": "/audio/generated/speech-w-wow.mp3",
+      "use": "Modeled W phrase",
+      "approved": true
+    },
+    {
+      "id": "speech-w-love",
+      "kind": "tts",
+      "src": "/audio/generated/speech-w-love.mp3",
+      "use": "Modeled W and L phrase",
+      "approved": true
+    },
+    {
+      "id": "speech-l-little",
+      "kind": "tts",
+      "src": "/audio/generated/speech-l-little.mp3",
+      "use": "Modeled L phrase",
+      "approved": true
+    },
+    {
+      "id": "speech-w-walk",
+      "kind": "tts",
+      "src": "/audio/generated/speech-w-walk.mp3",
+      "use": "Modeled W phrase",
+      "approved": true
+    },
+    {
+      "id": "speech-max-name",
+      "kind": "tts",
+      "src": "/audio/generated/speech-max-name.mp3",
+      "use": "Modeled family phrase",
+      "approved": true
+    },
+    {
+      "id": "word-dino",
+      "kind": "tts",
+      "src": "/audio/generated/word-dino.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-mama",
+      "kind": "tts",
+      "src": "/audio/generated/word-mama.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-dada",
+      "kind": "tts",
+      "src": "/audio/generated/word-dada.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-max",
+      "kind": "tts",
+      "src": "/audio/generated/word-max.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-dog",
+      "kind": "tts",
+      "src": "/audio/generated/word-dog.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-we",
+      "kind": "tts",
+      "src": "/audio/generated/word-we.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-wow",
+      "kind": "tts",
+      "src": "/audio/generated/word-wow.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-home",
+      "kind": "tts",
+      "src": "/audio/generated/word-home.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-love",
+      "kind": "tts",
+      "src": "/audio/generated/word-love.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-lion",
+      "kind": "tts",
+      "src": "/audio/generated/word-lion.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-walk",
+      "kind": "tts",
+      "src": "/audio/generated/word-walk.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-river",
+      "kind": "tts",
+      "src": "/audio/generated/word-river.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-charlotte",
+      "kind": "tts",
+      "src": "/audio/generated/word-charlotte.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-gracie",
+      "kind": "tts",
+      "src": "/audio/generated/word-gracie.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-count",
+      "kind": "tts",
+      "src": "/audio/generated/word-count.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-beach",
+      "kind": "tts",
+      "src": "/audio/generated/word-beach.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-ocean",
+      "kind": "tts",
+      "src": "/audio/generated/word-ocean.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-shell",
+      "kind": "tts",
+      "src": "/audio/generated/word-shell.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-shark",
+      "kind": "tts",
+      "src": "/audio/generated/word-shark.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-plane",
+      "kind": "tts",
+      "src": "/audio/generated/word-plane.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-cloud",
+      "kind": "tts",
+      "src": "/audio/generated/word-cloud.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-frog",
+      "kind": "tts",
+      "src": "/audio/generated/word-frog.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-bird",
+      "kind": "tts",
+      "src": "/audio/generated/word-bird.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-star",
+      "kind": "tts",
+      "src": "/audio/generated/word-star.mp3",
+      "use": "Spelling word model",
+      "approved": true
+    },
+    {
+      "id": "word-cake",
+      "kind": "tts",
+      "src": "/audio/generated/word-cake.mp3",
+      "use": "Spelling word model",
       "approved": true
     }
   ]

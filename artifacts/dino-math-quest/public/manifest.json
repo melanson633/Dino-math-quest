@@ -1,11 +1,11 @@
 {
   "name": "Dino Math Quest",
   "short_name": "DinoMath",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#3d8b37",
   "theme_color": "#3d8b37",
   "icons": [
-    { "src": "/favicon.svg", "sizes": "180x180", "type": "image/svg+xml" }
+    { "src": "favicon.svg", "sizes": "180x180", "type": "image/svg+xml" }
   ]
 }

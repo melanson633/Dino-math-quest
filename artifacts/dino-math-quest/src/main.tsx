@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { publicAssetUrl } from "./lib/assets";
 
 if ('serviceWorker' in navigator) {
   if (import.meta.env.DEV) {
@@ -10,7 +11,7 @@ if ('serviceWorker' in navigator) {
       });
     });
   } else {
-    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+    window.addEventListener('load', () => navigator.serviceWorker.register(publicAssetUrl('/sw.js')));
   }
 }
 
