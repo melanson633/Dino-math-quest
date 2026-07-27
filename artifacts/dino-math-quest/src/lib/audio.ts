@@ -11,6 +11,11 @@ let manifestRequest: Promise<void> | null = null;
 let narration: HTMLAudioElement | null = null;
 let narrationRequestId = 0;
 const activeAudio = new Set<HTMLAudioElement>();
+// Pausing an element whose play() promise is still pending rejects with
+// AbortError. That is an intentional stop, not a broken clip, so it must not
+// reach the tone fallback — stopAllAudio() clears `narration`, so the
+// exclusivity guards would no longer suppress the stray beep on the next screen.
+const intentionallyStopped = new WeakSet<HTMLAudioElement>();
 
 function getContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -34,6 +39,7 @@ export function setMuted(muted: boolean) {
 export function stopAllAudio() {
   narrationRequestId += 1;
   for (const audio of activeAudio) {
+    intentionallyStopped.add(audio);
     audio.pause();
     audio.currentTime = 0;
   }
@@ -91,6 +97,8 @@ function playReviewedAudioAsset(id: string, fallback: () => void, narrationChann
     if (handledFailure) return;
     handledFailure = true;
     finish();
+    // Real load, decode, and network errors still fall back to a local tone.
+    if (intentionallyStopped.has(audio)) return;
     fallback();
   };
   audio.addEventListener('ended', finish, { once: true });
@@ -125,28 +133,34 @@ export function playTap() {
   // A restored PWA may open directly on a game screen. This tap is its fresh,
   // iPad-safe audio unlock rather than relying on an earlier Home tap.
   unlockAudioForGesture();
-  if (!playReviewedAudioAsset('tap-soft', () => playTone(780, 0.055, 0.035))) playTone(780, 0.055, 0.035);
+  const tone = () => playTone(780, 0.055, 0.035);
+  if (!playReviewedAudioAsset('tap-soft', tone)) tone();
 }
 
 export function playCorrect() {
-  if (!playReviewedAudioAsset('success-sparkle', () => playFallback([523.25, 659.25, 783.99]))) playFallback([523.25, 659.25, 783.99]);
+  const melody = () => playFallback([523.25, 659.25, 783.99]);
+  if (!playReviewedAudioAsset('success-sparkle', melody)) melody();
 }
 
 /** A neutral lift, never a sad or "wrong" sound. */
 export function playWrong() {
-  if (!playReviewedAudioAsset('try-again-leaf', () => playFallback([392, 493.88], 0.035))) playFallback([392, 493.88], 0.035);
+  const melody = () => playFallback([392, 493.88], 0.035);
+  if (!playReviewedAudioAsset('try-again-leaf', melody)) melody();
 }
 
 export function playUnlockDino() {
-  if (!playReviewedAudioAsset('new-dino-friend', () => playFallback([440, 554.37, 659.25, 880]))) playFallback([440, 554.37, 659.25, 880]);
+  const melody = () => playFallback([440, 554.37, 659.25, 880]);
+  if (!playReviewedAudioAsset('new-dino-friend', melody)) melody();
 }
 
 export function playUnlockBiome() {
-  if (!playReviewedAudioAsset('biome-discovery', () => playFallback([523.25, 659.25, 783.99, 1046.5]))) playFallback([523.25, 659.25, 783.99, 1046.5]);
+  const melody = () => playFallback([523.25, 659.25, 783.99, 1046.5]);
+  if (!playReviewedAudioAsset('biome-discovery', melody)) melody();
 }
 
 export function playRhythmCue() {
-  if (!playReviewedAudioAsset('dino-three-beat', () => playFallback([523.25, 523.25, 659.25], 0.055))) playFallback([523.25, 523.25, 659.25], 0.055);
+  const melody = () => playFallback([523.25, 523.25, 659.25], 0.055);
+  if (!playReviewedAudioAsset('dino-three-beat', melody)) melody();
 }
 
 export function playWordRhythm(beatCount: number) {
@@ -155,11 +169,13 @@ export function playWordRhythm(beatCount: number) {
 }
 
 export function playPhonicsCue() {
-  if (!playReviewedAudioAsset('phonics-pop', () => playFallback([392, 523.25], 0.04))) playFallback([392, 523.25], 0.04);
+  const melody = () => playFallback([392, 523.25], 0.04);
+  if (!playReviewedAudioAsset('phonics-pop', melody)) melody();
 }
 
 export function playTinySong() {
-  if (!playReviewedAudioAsset('island-play-song', () => playFallback([392, 440, 523.25, 659.25], 0.05))) playFallback([392, 440, 523.25, 659.25], 0.05);
+  const melody = () => playFallback([392, 440, 523.25, 659.25], 0.05);
+  if (!playReviewedAudioAsset('island-play-song', melody)) melody();
 }
 
 function playNarrationAsset(id: string, fallback: () => void) {
