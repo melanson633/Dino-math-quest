@@ -532,7 +532,7 @@ export function PuzzleScreen() {
         <div className="flex items-start gap-2">
           {/* Bubble */}
           <div className="relative flex-1 min-w-0 rounded-3xl bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
-            <p className={`font-black leading-snug text-slate-800 ${isWordProblem ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
+            <p data-testid="math-mission" className={`font-black leading-snug text-slate-800 ${isWordProblem ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'}`}>
               {puzzle.prompt}
             </p>
           </div>

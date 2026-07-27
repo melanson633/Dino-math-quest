@@ -78,7 +78,7 @@ async function main(): Promise<void> {
     const outputPath = resolveOutputPath(options.outputDir, item);
     if (item.approved_for_generation) {
       if (options.dryRun) {
-        console.log(`[dry-run] would generate ${item.id} -> ${outputPath}`);
+        console.log(`[dry-run] ${await fileExists(outputPath) ? 'validated existing' : 'would generate'} ${item.id} -> ${outputPath}`);
       } else if (!options.force && (await fileExists(outputPath))) {
         console.log(`kept existing ${item.id} -> ${outputPath}`);
       } else {
@@ -90,6 +90,10 @@ async function main(): Promise<void> {
 
     if (item.approved_for_gameplay) {
       if (!(await fileExists(outputPath))) {
+        if (options.dryRun) {
+          console.log(`[dry-run] would expose ${item.id} after ${outputPath} is generated`);
+          continue;
+        }
         throw new Error(`Audio item ${item.id} is approved_for_gameplay but ${outputPath} does not exist.`);
       }
       publicAssets.push({
@@ -107,8 +111,12 @@ async function main(): Promise<void> {
     generated_at: new Date().toISOString(),
     assets: publicAssets,
   };
-  await writeFile(options.publicManifestPath, `${JSON.stringify(publicManifest, null, 2)}\n`, "utf8");
-  console.log(`wrote public audio manifest with ${publicAssets.length} approved gameplay asset(s)`);
+  if (options.dryRun) {
+    console.log(`dry run validated ${manifest.items.length} source audio item(s); public manifest was not changed`);
+  } else {
+    await writeFile(options.publicManifestPath, `${JSON.stringify(publicManifest, null, 2)}\n`, "utf8");
+    console.log(`wrote public audio manifest with ${publicAssets.length} approved gameplay asset(s)`);
+  }
 
   if (options.reviewReportPath) {
     await mkdir(path.dirname(options.reviewReportPath), { recursive: true });

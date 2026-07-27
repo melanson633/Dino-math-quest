@@ -1,302 +1,209 @@
 import { publicAssetUrl } from './assets';
 
+type ReviewedAudioAsset = { id: string; src: string; approved: boolean };
+type ReviewedAudioManifest = { assets: ReviewedAudioAsset[] };
+
 let audioCtx: AudioContext | null = null;
-let bgmOscillator: OscillatorNode | null = null;
-let bgmGain: GainNode | null = null;
 let isMuted = false;
 let hasUserGesture = false;
-let reviewedAudioManifest: ReviewedAudioManifest | null = null;
-let reviewedAudioManifestRequest: Promise<ReviewedAudioManifest | null> | null = null;
+let reviewedAssets = new Map<string, string>();
+let manifestRequest: Promise<void> | null = null;
+let narration: HTMLAudioElement | null = null;
+let narrationRequestId = 0;
+const activeAudio = new Set<HTMLAudioElement>();
+// Pausing an element whose play() promise is still pending rejects with
+// AbortError. That is an intentional stop, not a broken clip, so it must not
+// reach the tone fallback — stopAllAudio() clears `narration`, so the
+// exclusivity guards would no longer suppress the stray beep on the next screen.
+const intentionallyStopped = new WeakSet<HTMLAudioElement>();
 
-interface ReviewedAudioManifest {
-  assets: ReviewedAudioAsset[];
-}
-
-interface ReviewedAudioAsset {
-  id: string;
-  src: string;
-  approved: boolean;
-}
-
-const MAX_REVIEWED_AUDIO_ASSETS = 50;
-
-function getContext() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
+function getContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  if (!audioCtx) audioCtx = new (window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+  if (audioCtx.state === 'suspended') void audioCtx.resume();
   return audioCtx;
 }
 
+/** Call from the tap that begins an adventure; never from page load. */
 export function unlockAudioForGesture() {
   hasUserGesture = true;
-  if (isMuted) return;
-  getContext();
+  if (!isMuted) getContext();
   preloadReviewedAudioManifest();
 }
 
 export function setMuted(muted: boolean) {
   isMuted = muted;
-  if (bgmGain) {
-    bgmGain.gain.setTargetAtTime(muted ? 0 : 0.04, getContext().currentTime, 0.1);
+  if (muted) stopAllAudio();
+}
+
+export function stopAllAudio() {
+  narrationRequestId += 1;
+  for (const audio of activeAudio) {
+    intentionallyStopped.add(audio);
+    audio.pause();
+    audio.currentTime = 0;
   }
+  activeAudio.clear();
+  narration = null;
 }
 
-function playTone(freq: number, type: OscillatorType, duration: number, vol = 0.1) {
-  if (isMuted) return;
-  const ctx = getContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, ctx.currentTime);
-  
-  gain.gain.setValueAtTime(0, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + 0.05);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-  
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  
-  osc.start();
-  osc.stop(ctx.currentTime + duration);
+function playTone(freq: number, duration: number, volume = 0.06, offset = 0) {
+  if (isMuted || !hasUserGesture || narration) return;
+  const context = getContext();
+  if (!context) return;
+  const start = context.currentTime + offset;
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(freq, start);
+  gain.gain.setValueAtTime(0.001, start);
+  gain.gain.linearRampToValueAtTime(volume, start + 0.025);
+  gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(start);
+  oscillator.stop(start + duration + 0.02);
 }
 
-export function playCorrect() {
-  if (playReviewedAudioAsset('tri-great-counting', playCorrectFallback)) return;
-  playCorrectFallback();
+function playFallback(notes: number[], volume = 0.06) {
+  notes.forEach((note, index) => playTone(note, index === notes.length - 1 ? 0.24 : 0.12, volume, index * 0.12));
 }
 
-function playCorrectFallback() {
-  const ctx = getContext();
-  if (isMuted) return;
-  // Celebratory C5→E5→G5 arpeggio using Web Audio currentTime for tight scheduling
-  const t = ctx.currentTime;
-  playToneAt(523.25, 'sine', 0.2, t);
-  playToneAt(659.25, 'sine', 0.2, t + 0.10);
-  playToneAt(783.99, 'sine', 0.4, t + 0.20);
-}
-
-export function playWrong() {
-  if (playReviewedAudioAsset('tri-one-more-try', playWrongFallback)) return;
-  playWrongFallback();
-}
-
-function playWrongFallback() {
-  if (isMuted) return;
-  // Gentle descending "oops" — softer than a single low drone
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  playToneAt(220, 'triangle', 0.2, t);
-  playToneAt(175, 'triangle', 0.25, t + 0.18);
-}
-
-export function playUnlockDino() {
-  // Try new cheerful dino roar first, then the voiced clip, then oscillator
-  if (playReviewedAudioAsset('dino-happy-roar', () => {
-    if (!playReviewedAudioAsset('tri-new-friend', playUnlockDinoFallback)) {
-      playUnlockDinoFallback();
-    }
-  })) return;
-  if (playReviewedAudioAsset('tri-new-friend', playUnlockDinoFallback)) return;
-  playUnlockDinoFallback();
-}
-
-function playUnlockDinoFallback() {
-  if (isMuted) return;
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  playToneAt(440,    'square', 0.15, t);
-  playToneAt(554.37, 'square', 0.15, t + 0.15);
-  playToneAt(659.25, 'square', 0.15, t + 0.30);
-  playToneAt(880,    'square', 0.4,  t + 0.45);
-}
-
-export function playUnlockBiome() {
-  if (isMuted) return;
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  playToneAt(523.25,  'triangle', 0.15, t);
-  playToneAt(659.25,  'triangle', 0.15, t + 0.15);
-  playToneAt(783.99,  'triangle', 0.15, t + 0.30);
-  playToneAt(659.25,  'triangle', 0.15, t + 0.45);
-  playToneAt(1046.50, 'triangle', 0.6,  t + 0.60);
-}
-
-/** Jungle win fanfare — played on biome clear or long streak. */
-export function playBiomeComplete() {
-  if (playReviewedAudioAsset('jungle-win-fanfare', playUnlockBiome)) return;
-  playUnlockBiome();
-}
-
-/** Shimmering sparkle win — richer than sparkle-short, used for word streaks. */
-export function playSparkleWin() {
-  if (playReviewedAudioAsset('magical-sparkle-success', playTinySongFallback)) return;
-  playTinySongFallback();
-}
-
-export function playTap() {
-  if (isMuted) return;
-  playTone(800, 'sine', 0.05, 0.05);
-}
-
-export function playRhythmCue() {
-  if (playReviewedAudioAsset('dino-soft-stomp', playRhythmCueFallback)) return;
-  playRhythmCueFallback();
-}
-
-function playRhythmCueFallback() {
-  if (isMuted) return;
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  [0, 0.18, 0.36].forEach((offset, index) => {
-    playToneAt(index === 2 ? 660 : 520, 'triangle', 0.12, t + offset, 0.08);
-  });
-}
-
-export function playWordRhythm(beatCount: number) {
-  if (isMuted) return;
-  const count = Math.max(1, Math.min(4, beatCount));
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  Array.from({ length: count }).forEach((_, index) => {
-    playToneAt(index === count - 1 ? 660 : 520, 'triangle', 0.14, t + index * 0.21, 0.08);
-  });
-}
-
-export function playPhonicsCue() {
-  if (isMuted) return;
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  playToneAt(392,    'sine', 0.12, t,        0.06);
-  playToneAt(523.25, 'sine', 0.16, t + 0.14, 0.06);
-}
-
-export function playTinySong() {
-  if (playReviewedAudioAsset('sparkle-short', playTinySongFallback)) return;
-  playTinySongFallback();
-}
-
-function playTinySongFallback() {
-  if (isMuted) return;
-  const ctx = getContext();
-  const t = ctx.currentTime;
-  [392, 440, 523.25, 440, 523.25, 659.25].forEach((freq, index) => {
-    playToneAt(freq, 'sine', 0.18, t + index * 0.16, 0.07);
-  });
-}
-
-/** Schedule a tone using AudioContext time offsets for drift-free timing. */
-function playToneAt(freq: number, type: OscillatorType, duration: number, startTime: number, vol = 0.1) {
-  if (isMuted) return;
-  const ctx = getContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, startTime);
-
-  gain.gain.setValueAtTime(0, startTime);
-  gain.gain.linearRampToValueAtTime(vol, startTime + 0.05);
-  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start(startTime);
-  osc.stop(startTime + duration);
-}
-
-function playReviewedAudioAsset(id: string, onPlaybackFailure: () => void): boolean {
+function playReviewedAudioAsset(id: string, fallback: () => void, narrationChannel = false): boolean {
   if (isMuted || !hasUserGesture) return false;
-  if (!reviewedAudioManifest) {
+  const src = reviewedAssets.get(id);
+  if (!src) {
     preloadReviewedAudioManifest();
     return false;
   }
 
-  const asset = reviewedAudioManifest.assets.find((entry) => entry.id === id && entry.approved);
-  if (!asset) return false;
+  // Spoken models are deliberately exclusive: no beep, rhythm or prior model
+  // should compete with a word Charlotte is trying to hear and repeat.
+  if (!narrationChannel && narration) return true;
+  if (narrationChannel) stopAllAudio();
 
-  const audio = new Audio(publicAssetUrl(asset.src));
-  audio.volume = 0.72;
-  let didFallback = false;
-  const fallbackOnce = () => {
-    if (didFallback) return;
-    didFallback = true;
-    onPlaybackFailure();
+  const audio = new Audio(publicAssetUrl(src));
+  audio.preload = 'auto';
+  audio.volume = narrationChannel ? 0.8 : 0.58;
+  activeAudio.add(audio);
+  if (narrationChannel) narration = audio;
+
+  let handledFailure = false;
+  const finish = () => {
+    activeAudio.delete(audio);
+    if (narration === audio) narration = null;
   };
-  audio.addEventListener('error', fallbackOnce, { once: true });
-  void audio.play().catch(fallbackOnce);
+  const fail = () => {
+    if (handledFailure) return;
+    handledFailure = true;
+    finish();
+    // Real load, decode, and network errors still fall back to a local tone.
+    if (intentionallyStopped.has(audio)) return;
+    fallback();
+  };
+  audio.addEventListener('ended', finish, { once: true });
+  audio.addEventListener('error', fail, { once: true });
+  void audio.play().catch(fail);
   return true;
 }
 
-function preloadReviewedAudioManifest(): void {
-  if (reviewedAudioManifest || reviewedAudioManifestRequest) return;
-  reviewedAudioManifestRequest = fetch(publicAssetUrl('/audio/manifest.json'))
-    .then((response) => (response.ok ? response.json() : null))
-    .then((manifest: ReviewedAudioManifest | null) => {
-      reviewedAudioManifest = validateReviewedAudioManifest(manifest);
-      return reviewedAudioManifest;
+function preloadReviewedAudioManifest() {
+  if (manifestRequest || reviewedAssets.size > 0 || typeof window === 'undefined') return;
+  manifestRequest = fetch(publicAssetUrl('/audio/manifest.json'))
+    .then((response) => response.ok ? response.json() as Promise<ReviewedAudioManifest> : null)
+    .then((manifest) => {
+      const assets = Array.isArray(manifest?.assets) ? manifest.assets : [];
+      for (const asset of assets.slice(0, 48)) {
+        if (
+          asset?.approved === true &&
+          typeof asset.id === 'string' && /^[a-z0-9][a-z0-9-]*$/.test(asset.id) &&
+          typeof asset.src === 'string' && asset.src.startsWith('/audio/generated/') && asset.src.endsWith('.mp3') && !asset.src.includes('..')
+        ) {
+          reviewedAssets.set(asset.id, asset.src);
+          const preload = new Audio(publicAssetUrl(asset.src));
+          preload.preload = 'auto';
+        }
+      }
     })
-    .catch(() => null)
-    .finally(() => {
-      reviewedAudioManifestRequest = null;
-    });
+    .catch(() => undefined)
+    .finally(() => { manifestRequest = null; });
 }
 
-function validateReviewedAudioManifest(manifest: unknown): ReviewedAudioManifest | null {
-  if (!manifest || typeof manifest !== 'object') return null;
-  const assets = (manifest as ReviewedAudioManifest).assets;
-  if (!Array.isArray(assets)) return null;
+export function playTap() {
+  // A restored PWA may open directly on a game screen. This tap is its fresh,
+  // iPad-safe audio unlock rather than relying on an earlier Home tap.
+  unlockAudioForGesture();
+  const tone = () => playTone(780, 0.055, 0.035);
+  if (!playReviewedAudioAsset('tap-soft', tone)) tone();
+}
 
-  const validAssets = assets.filter((asset): asset is ReviewedAudioAsset => {
-    if (!asset || typeof asset !== 'object') return false;
-    if (asset.approved !== true) return false;
-    if (typeof asset.id !== 'string' || !/^[a-z0-9][a-z0-9-]*$/.test(asset.id)) return false;
-    if (typeof asset.src !== 'string' || !asset.src.startsWith('/audio/generated/') || !asset.src.endsWith('.mp3')) {
-      return false;
-    }
-    if (asset.src.includes('..')) return false;
-    return true;
+export function playCorrect() {
+  const melody = () => playFallback([523.25, 659.25, 783.99]);
+  if (!playReviewedAudioAsset('success-sparkle', melody)) melody();
+}
+
+/** A neutral lift, never a sad or "wrong" sound. */
+export function playWrong() {
+  const melody = () => playFallback([392, 493.88], 0.035);
+  if (!playReviewedAudioAsset('try-again-leaf', melody)) melody();
+}
+
+export function playUnlockDino() {
+  const melody = () => playFallback([440, 554.37, 659.25, 880]);
+  if (!playReviewedAudioAsset('new-dino-friend', melody)) melody();
+}
+
+export function playUnlockBiome() {
+  const melody = () => playFallback([523.25, 659.25, 783.99, 1046.5]);
+  if (!playReviewedAudioAsset('biome-discovery', melody)) melody();
+}
+
+export function playRhythmCue() {
+  const melody = () => playFallback([523.25, 523.25, 659.25], 0.055);
+  if (!playReviewedAudioAsset('dino-three-beat', melody)) melody();
+}
+
+export function playWordRhythm(beatCount: number) {
+  const count = Math.max(1, Math.min(4, beatCount));
+  playFallback(Array.from({ length: count }, (_, index) => index === count - 1 ? 659.25 : 523.25), 0.045);
+}
+
+export function playPhonicsCue() {
+  const melody = () => playFallback([392, 523.25], 0.04);
+  if (!playReviewedAudioAsset('phonics-pop', melody)) melody();
+}
+
+export function playTinySong() {
+  const melody = () => playFallback([392, 440, 523.25, 659.25], 0.05);
+  if (!playReviewedAudioAsset('island-play-song', melody)) melody();
+}
+
+function playNarrationAsset(id: string, fallback: () => void) {
+  const requestId = ++narrationRequestId;
+  if (playReviewedAudioAsset(id, fallback, true)) return;
+
+  // On a restored PWA session, the child's first Hear tap may race manifest
+  // loading. Wait for that one local request so the first model is the actual
+  // recorded word, not a tone. If loading fails, the local tone still answers.
+  const pendingManifest = manifestRequest;
+  if (!pendingManifest) {
+    fallback();
+    return;
+  }
+  void pendingManifest.then(() => {
+    if (requestId !== narrationRequestId || isMuted || !hasUserGesture) return;
+    if (!playReviewedAudioAsset(id, fallback, true)) fallback();
   });
-
-  return { assets: validAssets.slice(0, MAX_REVIEWED_AUDIO_ASSETS) };
 }
 
-export function startBgMusic(biomeIndex: number) {
-  if (!hasUserGesture) return;
-  const ctx = getContext();
-  if (bgmOscillator) {
-    bgmOscillator.stop();
-    bgmOscillator.disconnect();
-  }
-  if (bgmGain) {
-    bgmGain.disconnect();
-  }
-  
-  bgmOscillator = ctx.createOscillator();
-  bgmGain = ctx.createGain();
-  
-  // Different frequencies per biome — clamp so new biomes reuse the highest track
-  const freqs = [150, 180, 130, 220];
-  const MAX_TRACK_INDEX = freqs.length - 1;
-  const clampedIndex = Math.min(biomeIndex, MAX_TRACK_INDEX);
-  bgmOscillator.frequency.value = freqs[clampedIndex];
-  bgmOscillator.type = 'triangle';
-  
-  bgmGain.gain.value = isMuted ? 0 : 0.04;
-  
-  bgmOscillator.connect(bgmGain);
-  bgmGain.connect(ctx.destination);
-  bgmOscillator.start();
+/** An explicit "Hear it" tap only. Static clips make every spelling word work offline. */
+export function playWord(wordId: string, beatCount = 1) {
+  unlockAudioForGesture();
+  playNarrationAsset(`word-${wordId.toLowerCase()}`, () => playWordRhythm(beatCount));
 }
 
-export function stopBgMusic() {
-  if (bgmOscillator) {
-    bgmOscillator.stop();
-    bgmOscillator.disconnect();
-    bgmOscillator = null;
-  }
+/** An explicit model button; no microphone or pronunciation judgement is involved. */
+export function playSpeechModel(promptId: string, beatCount = 3) {
+  unlockAudioForGesture();
+  playNarrationAsset(`speech-${promptId}`, () => playWordRhythm(beatCount));
 }

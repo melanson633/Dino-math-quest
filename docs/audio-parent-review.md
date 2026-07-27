@@ -18,81 +18,32 @@ Guardrails: generated audio is optional, must stay static, and must never block 
 
 ## Review Items
 
-### tri-great-counting
-
-- Kind: tts
-- Use: Correct Math Quest answer
-- Output: artifacts\dino-math-quest\public\audio\generated\tri-great-counting.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Parent review:
-  - [ ] Text/prompt fits Charlotte and the app tone
-  - [ ] Voice/sound is warm, clear, and not overstimulating
-  - [ ] Approved to generate
-  - [ ] Approved for gameplay after listening
-
-```text
-Great counting, Charlotte.
-```
-
-### tri-one-more-try
-
-- Kind: tts
-- Use: Gentle retry
-- Output: artifacts\dino-math-quest\public\audio\generated\tri-one-more-try.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Parent review:
-  - [ ] Text/prompt fits Charlotte and the app tone
-  - [ ] Voice/sound is warm, clear, and not overstimulating
-  - [ ] Approved to generate
-  - [ ] Approved for gameplay after listening
-
-```text
-Good try. One more dino try.
-```
-
-### tri-new-friend
-
-- Kind: tts
-- Use: Dino reward screen
-- Output: artifacts\dino-math-quest\public\audio\generated\tri-new-friend.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Parent review:
-  - [ ] Text/prompt fits Charlotte and the app tone
-  - [ ] Voice/sound is warm, clear, and not overstimulating
-  - [ ] Approved to generate
-  - [ ] Approved for gameplay after listening
-
-```text
-A new dino friend is here.
-```
-
-### tri-say-it-with-me
-
-- Kind: tts
-- Use: Speech prompt
-- Output: artifacts\dino-math-quest\public\audio\generated\tri-say-it-with-me.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Parent review:
-  - [ ] Text/prompt fits Charlotte and the app tone
-  - [ ] Voice/sound is warm, clear, and not overstimulating
-  - [ ] Approved to generate
-  - [ ] Approved for gameplay after listening
-
-```text
-Say it with me. La, la, lion.
-```
-
-### dino-soft-stomp
+### tap-soft
 
 - Kind: sound_effect
-- Use: Music or speech beat cue
-- Output: artifacts\dino-math-quest\public\audio\generated\dino-soft-stomp.mp3
-- Generation approved: no
-- Gameplay approved: no
+- Use: Touch feedback
+- Output: artifacts\dino-math-quest\public\audio\generated\tap-soft.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Duration target: 1s
+- Prompt influence: 0.3
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+One tiny warm wooden tap for a preschool learning game, soft and friendly, no click harshness.
+```
+
+### success-sparkle
+
+- Kind: sound_effect
+- Use: Correct-answer celebration
+- Output: artifacts\dino-math-quest\public\audio\generated\success-sparkle.mp3
+- Generation approved: yes
+- Gameplay approved: yes
 - Duration target: 1s
 - Prompt influence: 0.35
 - Parent review:
@@ -102,16 +53,35 @@ Say it with me. La, la, lion.
   - [ ] Approved for gameplay after listening
 
 ```text
-Soft playful baby dinosaur stomp, warm and gentle, not scary.
+A very short warm sparkle chime for a preschool learning game, gentle marimba and a tiny twinkle, happy but not loud.
 ```
 
-### sparkle-short
+### try-again-leaf
 
 - Kind: sound_effect
-- Use: Reward cue
-- Output: artifacts\dino-math-quest\public\audio\generated\sparkle-short.mp3
-- Generation approved: no
-- Gameplay approved: no
+- Use: Gentle retry cue
+- Output: artifacts\dino-math-quest\public\audio\generated\try-again-leaf.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Duration target: 1s
+- Prompt influence: 0.35
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+A tiny gentle leaf-rustle and warm rising bell for a preschool learning game, encouraging, never sad or buzzy.
+```
+
+### dino-three-beat
+
+- Kind: sound_effect
+- Use: Speech and music rhythm cue
+- Output: artifacts\dino-math-quest\public\audio\generated\dino-three-beat.mp3
+- Generation approved: yes
+- Gameplay approved: yes
 - Duration target: 1s
 - Prompt influence: 0.4
 - Parent review:
@@ -121,17 +91,18 @@ Soft playful baby dinosaur stomp, warm and gentle, not scary.
   - [ ] Approved for gameplay after listening
 
 ```text
-Short warm sparkle chime for a preschool learning game.
+Three soft playful baby dinosaur foot taps with a light wooden drum beat, warm, clear rhythm, not scary.
 ```
 
-### count-with-tri-song
+### phonics-pop
 
-- Kind: music
-- Use: Short Math Quest counting celebration music bed
-- Output: artifacts\dino-math-quest\public\audio\generated\count-with-tri-song.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Duration target: 8s
+- Kind: sound_effect
+- Use: Correct letter feedback
+- Output: artifacts\dino-math-quest\public\audio\generated\phonics-pop.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Duration target: 1s
+- Prompt influence: 0.35
 - Parent review:
   - [ ] Text/prompt fits Charlotte and the app tone
   - [ ] Voice/sound is warm, clear, and not overstimulating
@@ -139,16 +110,50 @@ Short warm sparkle chime for a preschool learning game.
   - [ ] Approved for gameplay after listening
 
 ```text
-A calm, cheerful preschool counting song for a dinosaur island game. Gentle hand-clap rhythm, warm marimba and ukulele, simple call-and-response energy, no vocals, no busy drums, Montessori calm with a little Sesame Street fun.
+A tiny gentle two-note marimba pop for a preschool phonics game, warm and clear, no harsh click.
 ```
 
-### wow-word-song
+### new-dino-friend
+
+- Kind: tts
+- Use: Dino unlock
+- Output: artifacts\dino-math-quest\public\audio\generated\new-dino-friend.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+A new dino friend is here!
+```
+
+### biome-discovery
+
+- Kind: tts
+- Use: Biome unlock
+- Output: artifacts\dino-math-quest\public\audio\generated\biome-discovery.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+A new island is ready to explore!
+```
+
+### island-play-song
 
 - Kind: music
-- Use: Optional Say It rhythm support for W focus moments
-- Output: artifacts\dino-math-quest\public\audio\generated\wow-word-song.mp3
-- Generation approved: no
-- Gameplay approved: no
+- Use: Optional Music Den one-shot
+- Output: artifacts\dino-math-quest\public\audio\generated\island-play-song.mp3
+- Generation approved: yes
+- Gameplay approved: yes
 - Duration target: 7s
 - Parent review:
   - [ ] Text/prompt fits Charlotte and the app tone
@@ -157,17 +162,16 @@ A calm, cheerful preschool counting song for a dinosaur island game. Gentle hand
   - [ ] Approved for gameplay after listening
 
 ```text
-A gentle preschool word-practice music cue for W sounds. Warm xylophone, soft claps, simple two-beat pauses for repeat-after-me moments, encouraging and playful, no vocals, not overstimulating.
+A seven-second calm, cheerful instrumental preschool discovery cue for a dinosaur island game. Gentle hand-clap rhythm, warm marimba, ukulele, one light sparkle, no vocals, no big drums, no long intro, Montessori calm with a little Sesame Street joy.
 ```
 
-### lion-light-song
+### speech-l-lion
 
-- Kind: music
-- Use: Optional Say It rhythm support for L focus moments
-- Output: artifacts\dino-math-quest\public\audio\generated\lion-light-song.mp3
-- Generation approved: no
-- Gameplay approved: no
-- Duration target: 7s
+- Kind: tts
+- Use: Modeled L phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-l-lion.mp3
+- Generation approved: yes
+- Gameplay approved: yes
 - Parent review:
   - [ ] Text/prompt fits Charlotte and the app tone
   - [ ] Voice/sound is warm, clear, and not overstimulating
@@ -175,5 +179,515 @@ A gentle preschool word-practice music cue for W sounds. Warm xylophone, soft cl
   - [ ] Approved for gameplay after listening
 
 ```text
-A soft preschool word-practice music cue for L sounds. Light bells, gentle clap breaks, clear rhythmic space for la-la-lion repetition, positive and calm, no vocals, no startling sounds.
+Say it with Dino. La, la, lion.
+```
+
+### speech-w-wow
+
+- Kind: tts
+- Use: Modeled W phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-w-wow.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Say it with Dino. Wow, we won!
+```
+
+### speech-w-love
+
+- Kind: tts
+- Use: Modeled W and L phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-w-love.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Say it with Dino. We love Dino.
+```
+
+### speech-l-little
+
+- Kind: tts
+- Use: Modeled L phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-l-little.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Say it with Dino. Little lion.
+```
+
+### speech-w-walk
+
+- Kind: tts
+- Use: Modeled W phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-w-walk.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Say it with Dino. Max walks with me.
+```
+
+### speech-max-name
+
+- Kind: tts
+- Use: Modeled family phrase
+- Output: artifacts\dino-math-quest\public\audio\generated\speech-max-name.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Say it with Dino. Max says mama.
+```
+
+### word-dino
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-dino.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Dino. Di-no.
+```
+
+### word-mama
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-mama.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Mama. Ma-ma.
+```
+
+### word-dada
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-dada.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Dada. Da-da.
+```
+
+### word-max
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-max.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Max.
+```
+
+### word-dog
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-dog.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Dog.
+```
+
+### word-we
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-we.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+We.
+```
+
+### word-wow
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-wow.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Wow!
+```
+
+### word-home
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-home.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Home.
+```
+
+### word-love
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-love.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Love.
+```
+
+### word-lion
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-lion.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Lion. Li-on.
+```
+
+### word-walk
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-walk.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Walk.
+```
+
+### word-river
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-river.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+River. Ri-ver.
+```
+
+### word-charlotte
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-charlotte.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Charlotte. Char-lotte.
+```
+
+### word-gracie
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-gracie.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Gracie. Gra-cie.
+```
+
+### word-count
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-count.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Count.
+```
+
+### word-beach
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-beach.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Beach.
+```
+
+### word-ocean
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-ocean.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Ocean. O-cean.
+```
+
+### word-shell
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-shell.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Shell.
+```
+
+### word-shark
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-shark.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Shark.
+```
+
+### word-plane
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-plane.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Plane.
+```
+
+### word-cloud
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-cloud.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Cloud.
+```
+
+### word-frog
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-frog.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Frog.
+```
+
+### word-bird
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-bird.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Bird.
+```
+
+### word-star
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-star.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Star.
+```
+
+### word-cake
+
+- Kind: tts
+- Use: Spelling word model
+- Output: artifacts\dino-math-quest\public\audio\generated\word-cake.mp3
+- Generation approved: yes
+- Gameplay approved: yes
+- Parent review:
+  - [ ] Text/prompt fits Charlotte and the app tone
+  - [ ] Voice/sound is warm, clear, and not overstimulating
+  - [ ] Approved to generate
+  - [ ] Approved for gameplay after listening
+
+```text
+Cake.
 ```
