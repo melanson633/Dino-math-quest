@@ -86,9 +86,18 @@ function record(steps: StepResult[], name: string, status: StepStatus, notes: st
   steps.push({ name, status, notes: Array.isArray(notes) ? notes : [notes] });
 }
 
+let spellingWordsCache: SpellingWordContent[] | null = null;
+
+async function loadSpellingWords(): Promise<SpellingWordContent[]> {
+  if (!spellingWordsCache) {
+    const content = parse(await readFile(dinoIslandYamlPath, 'utf8')) as DinoIslandYaml;
+    spellingWordsCache = content.spellingWords ?? [];
+  }
+  return spellingWordsCache;
+}
+
 async function verifySpellingContent(steps: StepResult[]) {
-  const content = parse(await readFile(dinoIslandYamlPath, 'utf8')) as DinoIslandYaml;
-  const words = content.spellingWords ?? [];
+  const words = await loadSpellingWords();
   const failures: string[] = [];
   const warnings: string[] = [];
   const difficulties = new Set(words.map(word => word.difficulty));
@@ -507,37 +516,130 @@ async function verifySpelling(page: Page, steps: StepResult[]) {
       : 'The on-demand Hear it model was not visible.',
   );
   await checkObviousNextTap(page, steps, 'spelling', '[data-testid^="button-spelling-letter-"]');
+
+  // The target word is never printed on screen — only empty letter boxes — so it
+  // is identified from the visible clue card and confirmed against the tray.
+  const pageText = await visibleText(page);
+  const trayLetters = await page.locator('[data-testid^="button-spelling-letter-"]')
+    .evaluateAll(buttons => buttons.map(button => (button.textContent ?? '').trim()));
+  const candidates = (await loadSpellingWords()).filter(item =>
+    pageText.includes(item.clue)
+    && pageText.includes(item.icon)
+    && pageText.includes(item.sound)
+    && item.word.split('').every(letter => trayLetters.includes(letter)));
+
+  if (candidates.length !== 1) {
+    record(
+      steps,
+      'spelling word build',
+      'fail',
+      `Could not identify the visible target word; ${candidates.length} word-bank entries matched the clue card and letter tray.`,
+    );
+  } else {
+    const word = candidates[0].word;
+    for (const letter of word.split('')) {
+      await clickTestId(page, `button-spelling-letter-${letter}`);
+      await page.waitForTimeout(120);
+    }
+
+    const nextEnabled = !(await page.locator('[data-testid="button-spelling-next"]').isDisabled());
+    record(
+      steps,
+      'spelling word build',
+      nextEnabled ? 'pass' : 'fail',
+      nextEnabled ? `Built ${word}; Next Word became available.` : `Built ${word}, but Next Word stayed disabled.`,
+    );
+  }
+
   await checkNoHorizontalOverflow(page, steps, 'spelling');
   await checkTouchTargets(page, steps, 'spelling');
 }
 
-async function verifyOfflineAudioInteraction(page: Page, steps: StepResult[], requests: string[]) {
-  const requestStart = requests.length;
-  const hearWord = page.getByRole('button', { name: 'Hear the word' });
-  await hearWord.waitFor({ state: 'visible' });
-  await page.waitForTimeout(700);
-  await hearWord.click();
-  await page.waitForTimeout(700);
+// Records every element that actually starts playing, which the preload warm-up
+// loop does not. A network request is not a usable signal here: the clips are
+// already fetched on an earlier gesture, so a warm tap replays from memory and
+// emits nothing, while scanning every request the page ever made can never fail.
+// Source text, not a function: tsx compiles this file with esbuild's keepNames,
+// and the injected `__name` helper does not exist in the page.
+const recordAudioPlayback = `
+  (() => {
+    const played = [];
+    globalThis.__dinoPlayedAudio = played;
+    const nativePlay = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () {
+      played.push(this.currentSrc || this.src);
+      return nativePlay.apply(this, arguments);
+    };
+  })();
+`;
 
-  const interactionRequests = requests.slice(requestStart);
+async function playedAudioSrcs(page: Page): Promise<string[]> {
+  return page.evaluate(() => (globalThis as typeof globalThis & { __dinoPlayedAudio?: string[] }).__dinoPlayedAudio ?? []);
+}
+
+function recordOfflineAudioInteraction(
+  steps: StepResult[],
+  name: string,
+  control: string,
+  interactionRequests: string[],
+  playedDuringInteraction: string[],
+  expectedClip: RegExp,
+) {
   const unsafeRequests = interactionRequests.filter(url => /\/api\/tts|elevenlabs\.io/i.test(url));
-  const staticAudioRequest = requests.some(url => /\/audio\/(manifest\.json|generated\/.*\.mp3)/i.test(url));
+  const bundledPlayback = playedDuringInteraction.filter(src => expectedClip.test(src));
   record(
     steps,
-    'offline word-model audio',
-    unsafeRequests.length === 0 && staticAudioRequest ? 'pass' : 'fail',
+    name,
+    unsafeRequests.length === 0 && bundledPlayback.length > 0 ? 'pass' : 'fail',
     unsafeRequests.length > 0
       ? `Child audio interaction made live requests: ${unsafeRequests.join(', ')}.`
-      : staticAudioRequest
-        ? 'Hear it requested only bundled /audio/ manifest or generated MP3 content, with no live TTS request.'
-        : 'Hear it did not request a bundled audio resource during the interaction.',
+      : bundledPlayback.length > 0
+        ? `${control} played bundled ${bundledPlayback.map(src => src.split('/').pop()).join(', ')} with no live TTS request.`
+        : `${control} played no bundled generated clip matching ${expectedClip.source}; played: ${playedDuringInteraction.join(', ') || 'nothing'}.`,
   );
 }
 
-async function verifySpeech(page: Page, steps: StepResult[]) {
+async function verifyOfflineAudioInteraction(page: Page, steps: StepResult[], requests: string[]) {
+  const hearWord = page.getByRole('button', { name: 'Hear the word' });
+  await hearWord.waitFor({ state: 'visible' });
+  await page.waitForTimeout(700);
+  const requestStart = requests.length;
+  const playbackStart = (await playedAudioSrcs(page)).length;
+  await hearWord.click();
+  await page.waitForTimeout(700);
+
+  recordOfflineAudioInteraction(
+    steps,
+    'offline word-model audio',
+    'Hear it',
+    requests.slice(requestStart),
+    (await playedAudioSrcs(page)).slice(playbackStart),
+    /\/audio\/generated\/word-.*\.mp3$/i,
+  );
+}
+
+async function verifySpeech(page: Page, steps: StepResult[], requests: string[]) {
   await openScaffoldScreen(page, 'speech');
   await page.locator('[data-testid="button-speech-i-tried"]').waitFor({ state: 'visible' });
   await checkObviousNextTap(page, steps, 'speech', '[data-testid^="button-speech-beat-"], [data-testid="button-speech-i-tried"]');
+
+  // Hear Dino is the other child-facing spoken model, so it carries the same
+  // offline guarantee as spelling's Hear it.
+  const hearModel = page.locator('[data-testid="button-speech-hear-model"]');
+  await hearModel.waitFor({ state: 'visible' });
+  await page.waitForTimeout(700);
+  const modelRequestStart = requests.length;
+  const modelPlaybackStart = (await playedAudioSrcs(page)).length;
+  await hearModel.click();
+  await page.waitForTimeout(700);
+  recordOfflineAudioInteraction(
+    steps,
+    'offline speech-model audio',
+    'Hear Dino',
+    requests.slice(modelRequestStart),
+    (await playedAudioSrcs(page)).slice(modelPlaybackStart),
+    /\/audio\/generated\/speech-.*\.mp3$/i,
+  );
 
   const turnCue = page.locator('[data-testid="speech-turn-cue"]');
   const turnCueText = await turnCue.innerText();
@@ -825,6 +927,7 @@ async function runPlaytest(appUrl: string, headed: boolean): Promise<Report> {
     hasTouch: true,
     userAgent: 'DinoQuestChildPlaytest/1.0 iPad',
   });
+  await context.addInitScript({ content: recordAudioPlayback });
   const page = await context.newPage();
   page.on('pageerror', error => consoleErrors.push(error.message));
   page.on('console', message => {
@@ -842,7 +945,7 @@ async function runPlaytest(appUrl: string, headed: boolean): Promise<Report> {
   await verifyMath(page, steps);
   await verifySpelling(page, steps);
   await verifyOfflineAudioInteraction(page, steps, requests);
-  await verifySpeech(page, steps);
+  await verifySpeech(page, steps, requests);
   await verifyMusic(page, steps);
   await verifyDinoDen(page, steps);
   await verifyGrownUpControls(page, steps);
